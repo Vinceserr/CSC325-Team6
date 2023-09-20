@@ -2,7 +2,7 @@
 
 When it comes to optimizing elevator performance in diverse environments such as hotels, office buildings, and residential complexes, the right elevator control system is paramount. At our team, we specialize in crafting tailored elevator control software solutions to ensure an efficient and seamless experience for users.
 
-These are WSRPM models shows how we works for 100 floors hostel.
+This is WSRPM models shows how we works for a 100 floors hotel.
 
 ## **World Assumptions:**
 
@@ -12,7 +12,7 @@ These are WSRPM models shows how we works for 100 floors hostel.
 
 ## **User Requirements**
 
-- Trying to figure out how to send people to their floors in the least amount of trips.
+- Trying to figure out how to send people to their floors in the least times of trips.
 - User-friendly interface for select floor.
 - Run elevators safely and smoothly.
 
