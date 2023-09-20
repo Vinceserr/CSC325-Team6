@@ -1,3 +1,4 @@
 # CSC325-Team6
 This is the repository for Team 6!<br>
-Group Members: Vincent, Zuxin, Brian, Matthew
+Group Members: Vincent, Zuxin, Brian, Matthew<br>
+Meetings: Friday, Saturday, or Sunday mornings on Discord.
