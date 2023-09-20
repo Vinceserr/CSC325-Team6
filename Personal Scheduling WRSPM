@@ -1,6 +1,10 @@
 Personal Scheduling Application for Studying
 
-The application is a group project that is designed to properly schedule all the student's activities and look for the most suitable times to dedicate to studying. The users are first prompted with the option to log in or create an account and then they are able to access the program. The program allows the user to set an amount of time per week they would like to study for each of their courses. After that, they are then allowed to set all their events (classes, work, family time, etc.) into a calendar. After clicking a button that generates study times, based on user preferences, the program will allocate study time to places where the student has gaps in their schedule and if needed the user can then change around the study times to better suit their needs.
+The application is a group project that is designed to properly schedule all the student's activities and look for the most suitable times to dedicate to studying. 
+The users are first prompted with the option to log in or create an account and then they are able to access the program. The program allows the user to set an amount of time 
+per week they would like to study for each of their courses. After that, they are then allowed to set all their events (classes, work, family time, etc.) into a calendar. 
+After clicking a button that generates study times, based on user preferences, the program will allocate study time to places where the student has gaps in their schedule 
+and if needed the user can then change around the study times to better suit their needs.
 
 World Assumptions-
 Users have access to the internet and a computer.
