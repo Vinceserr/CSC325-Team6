@@ -19,9 +19,10 @@ Ability to create user preferences to allocate study times more effectively. (Be
 Ability to attach notes to certain events.
 
 Specifications and Interface Needs-
-Responsive and engaging GUI 
+Responsive and engaging GUI.
 User authentication and secure data storage.
 Integrating a calendar system to suit our needs.
+Allow the user to customize the GUI to their liking.
 
 Program-
 Developing an application and a GUI through Java and Java Scene Builder.
