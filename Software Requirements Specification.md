@@ -1,6 +1,6 @@
 # Software Requirements Specification for Personal Studying Scheduling Application
 
-	Version 1.0 approved
+	Version 1.1 approved
 
 	Prepared by Vincent Serrano, Zuxin Chen, Brian Espinoza Lozano
 
@@ -79,7 +79,7 @@ Appendix C: To Be Determined List	6
 |Name		|Date		|Reason For Changes	|Version
 |---		|---		|---			|---	
 |Zuxinchen 	|9/28/2023	|change format		|1.1
----			
+|ZuXinchen      |10/1/20223     |Complete 1 and 2	|1.1		
 
 
  
@@ -102,42 +102,73 @@ Appendix C: To Be Determined List	6
 
 1.4	Product Scope
 
-	<Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and goals.
-	Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, refer to it rather than duplicating its contents here.>
+	Personal Study Scheduling App is a tool for efficient study planning and management. It helps individuals set goals, manage time, organize resources, and track progress during the learning process.
 
 1.5	References
 
-	<List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location.>
+	Not yet
 
 ## 2.	Overall Description
 
 2.1	Product Perspective
 
-	<Describe the context and origin of the product being specified in this SRS. For example, state whether this product is a follow-on member of a product family, a replacement for certain existing systems, or a new, self-contained product. If the SRS defines a component of a larger system, relate the requirements of the larger system to the functionality of this software and identify interfaces between the two. A simple diagram that shows the major components of the overall system, subsystem interconnections, and external interfaces can be helpful.>
-
+	The personal study scheduling application has 4 main components, including calendar system, schedule system, goal setting and tracking system, and notification and reminder system. These components work together to provide a comprehensive and user-friendly learning management experience that helps individuals achieve their educational and efficient learning goals.
+ 
 2.2	Product Functions
 
-	<Summarize the major functions the product must perform or must let the user perform. Details will be provided in Section 3, so only a high level summary (such as a bullet list) is needed here. Organize the functions to make them understandable to any reader of the SRS. A picture of the major groups of related requirements and how they relate, such as a top level data flow diagram or object class diagram, is often effective.>
+	
+	2.2.1 calendar system
+ 
+		Description: The application can sync with users' calendars, ensuring that study sessions and deadlines are integrated with their daily schedules.
+	
+	2.2.2 schedule system
+		
+		Description: The application allows users to create, edit and view study plans. Users can allocate time slots for various subjects, assignments, and exams.
+	
+	2.2.3 goal setting and tracking system
+		
+		Description: Users can set specific learning goals, such as reaching a certain GPA, mastering a skill, or completing a course. They can track progress toward these goals over time.
+	
+	2.2.4 notification and reminder system
+		
+		Description:This component sends timely reminders and notifications to users about upcoming study courses, assignment deadlines, and exams.
 
 2.3	User Classes and Characteristics
 
-	<Identify the various user classes that you anticipate will use this product. User classes may be differentiated based on frequency of use, subset of product functions used, technical expertise, security or privilege levels, educational level, or experience. Describe the pertinent characteristics of each user class. Certain requirements may pertain only to certain user classes. Distinguish the most important user classes for this product from those who are less important to satisfy.>
+	1. Student 
+   		They are primary users of the application, from school-aged children to college students and adult learners.
+     		They need effective study planning, goal setting and tracking, and timely reminders for assignments and exams.
+        
+	2.Teachers
+		They are secondary users of the application, educators at different levels such as kindergarten teachers, primary school teachers, middle school teachers, and university teachers.
+  		They need to monitor student progress and goals and understand student work schedules.
+    	
+     	3.Parents
+      		They are secondary users of the application, and need to involved in the education of children.
+		They need to monitoring and guiding their children's study and knows their children's schedules and goals.
+  	
+   	4.Adult Learners
+    		They are Thrid users if the application, and need to learn additional education or skills.
+      		They need to balance work, life and education schedules, and manage study time effectively.
 
 2.4	Operating Environment
 	
- 	<Describe the environment in which the software will operate, including the hardware platform, operating system and versions, and any other software components or applications with which it must peacefully coexist.>
+ 	This software can run on most hardware platforms including mobile phones, computers, and tablets. Supports most operating software including window, IOS, and Linux.
 
 2.5	Design and Implementation Constraints
 
-	<Describe any items or issues that will limit the options available to the developers. These might include: corporate or regulatory policies; hardware limitations (timing requirements, memory requirements); interfaces to other applications; specific technologies, tools, and databases to be used; parallel operations; language requirements; communications protocols; security considerations; design conventions or programming standards (for example, if the customer’s organization will be responsible for maintaining the delivered software).>
+	This software needs to be developed using java
 
 2.6	User Documentation
 
+	No document yet
 	<List the user documentation components (such as user manuals, on-line help, and tutorials) that will be delivered along with the software. Identify any known user documentation delivery formats or standards.>
-
+ 
 2.7	Assumptions and Dependencies
 
-	<List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan).>
+	No document yet
+ 	<List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan).>
+ 	
 
 ## 3.	External Interface Requirements
 
