@@ -79,7 +79,8 @@ Appendix C: To Be Determined List	6
 |Name		|Date		|Reason For Changes	|Version
 |---		|---		|---			|---	
 |Zuxinchen 	|9/28/2023	|change format		|1.1
-|ZuXinchen      |10/1/20223     |Complete 1 and 2	|1.1		
+|ZuXinchen      |10/1/20223     |Complete 1 and 2	|1.1
+|Vincent	|10/1/2023	|Edits			|1.1
 
 
  
@@ -88,8 +89,8 @@ Appendix C: To Be Determined List	6
 1.1	Purpose 
 
 	The purpose of this document is to present a detailed description of the Personal Studying Scheduling Application.
-	It will explain the purpose and features of the software, the interfaces of the software, what the software will do and the constraints under which it must operate.
-	This document is intended for users of the software and also potential developers.
+	It will explain the purpose and features of the software, the interfaces of the software, what the software will do, 
+ 	and the constraints under which it must operate. This document is intended for users of the software and also potential developers.
 
 1.2	Document Conventions
 
@@ -97,13 +98,16 @@ Appendix C: To Be Determined List	6
 
 1.3	Intended Audience and Reading Suggestions
 
-	~Typical users, made for students that would like to use the application to better schedule their time for studying.
-	~Programmers that would like to implement changes on the code to improve the program and to better suit their needs.
+	~Typical users, made for students who would like to use the application to better schedule their time for studying.
+	~Programmers that would like to implement changes to the code to improve the program to suit their needs better.
 
 1.4	Product Scope
 
-	Personal Study Scheduling App is a tool for efficient study planning and management. It helps individuals set goals, manage time, organize resources, and track progress during the learning process.
-
+ 	This software will be a personal scheduling system that is made for students who would to optimize
+  	their efficiency by allowing the software to allocate time based on their schedule for the student to study. By doing so
+   	it allows the users of the program to sufficiently allow for time to learn and retain their material
+    	better.
+	
 1.5	References
 
 	Not yet
@@ -112,62 +116,58 @@ Appendix C: To Be Determined List	6
 
 2.1	Product Perspective
 
-	The personal study scheduling application has 4 main components, including calendar system, schedule system, goal setting and tracking system, and notification and reminder system. These components work together to provide a comprehensive and user-friendly learning management experience that helps individuals achieve their educational and efficient learning goals.
+	The program is designed to be used by anyone who would like to better optimize and schedule their time
+ 	by using our software to automatically allocate time to study different topics. The program was developed
+  	to be used on Windows, Mac OS X, and Linux.
  
 2.2	Product Functions
 
-	
-	2.2.1 calendar system
+	Login - Allows the user to log in to their account.
  
-		Description: The application can sync with users' calendars, ensuring that study sessions and deadlines are integrated with their daily schedules.
-	
-	2.2.2 schedule system
-		
-		Description: The application allows users to create, edit and view study plans. Users can allocate time slots for various subjects, assignments, and exams.
-	
-	2.2.3 goal setting and tracking system
-		
-		Description: Users can set specific learning goals, such as reaching a certain GPA, mastering a skill, or completing a course. They can track progress toward these goals over time.
-	
-	2.2.4 notification and reminder system
-		
-		Description:This component sends timely reminders and notifications to users about upcoming study courses, assignment deadlines, and exams.
+ 	Create an Account - Allows the user to create a new account.
+  
+  	Create an Event - Allows the user to create a singular event on the schedule. Takes the time, duration, and date of the event.
+   
+   	Create a Recurring Event - Allows the user to create a recurring event on the schedule. Takes the time of the event, days, 
+    	duration, and how long the recurring event will last(The end date of the event).
+     
+     	Set Study Topics - Allows the user to set topics they would like to study for along with the amount of time they
+      	would like to study this topic per week and duration (The end date of the topic).
+       
+       	Set user preferences - Allows the user to set the time the program is able to allocate study times for (The user is able
+	to set the time they would like to be in bed and how long into their day they would like to study), preferred study times,
+ 	the maximum duration of study times, and the ability to customize the appearance of the GUI.
+  
+       	Generate - After the user is done setting their events the generate function will automatically generate study times
+	based on their preferences.
+ 
+ 	Save - Saves the user's changes and writes them to the user data.
+  
+  	Exit - Exits the function.
 
 2.3	User Classes and Characteristics
 
-	1. Student 
-   		They are primary users of the application, from school-aged children to college students and adult learners.
-     		They need effective study planning, goal setting and tracking, and timely reminders for assignments and exams.
-        
-	2.Teachers
-		They are secondary users of the application, educators at different levels such as kindergarten teachers, primary school teachers, middle school teachers, and university teachers.
-  		They need to monitor student progress and goals and understand student work schedules.
-    	
-     	3.Parents
-      		They are secondary users of the application, and need to involved in the education of children.
-		They need to monitoring and guiding their children's study and knows their children's schedules and goals.
-  	
-   	4.Adult Learners
-    		They are Thrid users if the application, and need to learn additional education or skills.
-      		They need to balance work, life and education schedules, and manage study time effectively.
+	~Typical users, mostly students or adults would like to better allocate time for studying.
+ 
+ 	~Programmers who are interested in working on the project by further developing it
+	or fixing existing bugs.
+ 
 
 2.4	Operating Environment
 	
- 	This software can run on most hardware platforms including mobile phones, computers, and tablets. Supports most operating software including window, IOS, and Linux.
+ 	This software was made to run on computers. Supported operating systems are Windows, Linux, and Mac OS X.
 
 2.5	Design and Implementation Constraints
 
-	This software needs to be developed using java
+	N/A
 
 2.6	User Documentation
 
-	No document yet
-	<List the user documentation components (such as user manuals, on-line help, and tutorials) that will be delivered along with the software. Identify any known user documentation delivery formats or standards.>
+	N/A
  
 2.7	Assumptions and Dependencies
 
-	No document yet
- 	<List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan).>
+	The program is developed using Java so systems using the software require Java to be installed.
  	
 
 ## 3.	External Interface Requirements
