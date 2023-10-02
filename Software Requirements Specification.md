@@ -76,16 +76,14 @@ Appendix C: To Be Determined List	6
 
 
 ## Revision History
-|Name		|Date		|Reason For Changes	|Version
-|---		|---		|---			|---	
-|Zuxinchen 	|9/28/2023	|change format		|1.1
-|ZuXinchen      |10/1/20223     |Complete 1 and 2	|1.1
-|Vincent	|10/1/2023	|Edits			|1.1
+| Name		      | Date		     | Reason For Changes	 | Version |
+|-------------|------------|---------------------|---------|
+| Zuxinchen 	 | 9/28/2023	 | change format		     | 1.1     |
+| ZuXinchen   | 10/1/20223 | Complete 1 and 2	   | 1.1     |
+| Vincent	    | 10/1/2023	 | Edits			            | 1.1     |
 
-
- 
 ## 1.	Introduction
-	
+	![img_1.png](img_1.png)
 1.1	Purpose 
 
 	The purpose of this document is to present a detailed description of the Personal Studying Scheduling Application.
@@ -106,11 +104,7 @@ Appendix C: To Be Determined List	6
  	This software will be a personal scheduling system that is made for students who would to optimize
   	their efficiency by allowing the software to allocate time based on their schedule for the student to study. By doing so
    	it allows the users of the program to sufficiently allow for time to learn and retain their material
-    	better.
-	
-1.5	References
-
-	Not yet
+    better.
 
 ## 2.	Overall Description
 
@@ -129,16 +123,16 @@ Appendix C: To Be Determined List	6
   	Create an Event - Allows the user to create a singular event on the schedule. Takes the time, duration, and date of the event.
    
    	Create a Recurring Event - Allows the user to create a recurring event on the schedule. Takes the time of the event, days, 
-    	duration, and how long the recurring event will last(The end date of the event).
+    duration, and how long the recurring event will last(The end date of the event).
      
-     	Set Study Topics - Allows the user to set topics they would like to study for along with the amount of time they
-      	would like to study this topic per week and duration (The end date of the topic).
+    Set Study Topics - Allows the user to set topics they would like to study for along with the amount of time they
+    would like to study this topic per week and duration (The end date of the topic).
        
-       	Set user preferences - Allows the user to set the time the program is able to allocate study times for (The user is able
+    Set user preferences - Allows the user to set the time the program is able to allocate study times for (The user is able
 	to set the time they would like to be in bed and how long into their day they would like to study), preferred study times,
  	the maximum duration of study times, and the ability to customize the appearance of the GUI.
   
-       	Generate - After the user is done setting their events the generate function will automatically generate study times
+    Generate - After the user is done setting their events the generate function will automatically generate study times
 	based on their preferences.
  
  	Save - Saves the user's changes and writes them to the user data.
@@ -173,8 +167,21 @@ Appendix C: To Be Determined List	6
 ## 3.	External Interface Requirements
 
 3.1	User Interfaces
+1. Program Weclome Screen:
+![img.png](img.png)
+2. Create an Account Screen:
+![img_1.png](img_1.png)
+3. Main Schedule Screen:
+![img_2.png](img_2.png)
+4. Add Event Screen:
 
-	<Describe the logical characteristics of each interface between the software product and the users. This may include sample screen images, any GUI standards or product family style guides that are to be followed, screen layout constraints, standard buttons and functions (e.g., help) that will appear on every screen, keyboard shortcuts, error message display standards, and so on. Define the software components for which a user interface is needed. Details of the user interface design should be documented in a separate user interface specification.>
+    ![img_3.png](img_3.png)
+5. Add Recurring Event Screen:
+![img_4.png](img_4.png)
+6. User Preferences Screen:
+![img_5.png](img_5.png)
+7. Set Topics Screen:
+![img_7.png](img_7.png)
 
 3.3	Software Interfaces
 
