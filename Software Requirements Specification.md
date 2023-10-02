@@ -74,7 +74,6 @@ Revision History	ii
 	
  	5.4	Software Quality Attributes	
 	
- 	5.5	Business Rules	
 7.	Other Requirements	
 
     Appendix A: Glossary	
