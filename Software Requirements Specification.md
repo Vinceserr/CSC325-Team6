@@ -74,7 +74,6 @@ Revision History	ii
 	
  	5.4	Software Quality Attributes	
 	
- 	5.5	Business Rules	
 7.	Other Requirements	
 
     Appendix A: Glossary	
@@ -303,6 +302,18 @@ Revision History	ii
     Password - The user's passeword
     Email - The user's email
     Full name - The user's first and last name
+
+4.7 Create an Account
+
+	Generates study times
+
+4.7.1    Description
+
+   	Based on the user's schedule and preferences the generate button will populate the schedule with study times.
+
+4.7.2    Stimulus/Response Sequences
+
+    Upon clicking the button the schedule will be populated with study times.
 
 
 
