@@ -177,24 +177,31 @@ Revision History	ii
 1. Program Weclome Screen:
 
 ![img.png](img.png)
+
 2. Create an Account Screen:
 
-   ![img_6.png](img_6.png)
+![img_6.png](img_6.png)
+
 3. Login Screen:
 
 ![img_1.png](img_1.png)
+
 4. Main Schedule Screen:
 
 ![img_2.png](img_2.png)
+
 5. Add Event Screen:
 
-    ![img_3.png](img_3.png)
+![img_3.png](img_3.png)
+
 6. Add Recurring Event Screen:
 
 ![img_4.png](img_4.png)
+
 7. User Preferences Screen:
 
 ![img_5.png](img_5.png)
+
 8. Set Topics Screen:
 
 ![img_7.png](img_7.png)
