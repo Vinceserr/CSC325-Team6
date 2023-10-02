@@ -167,7 +167,7 @@ Appendix C: To Be Determined List	6
  
 2.7	Assumptions and Dependencies
 
-	The program is developed using Java so systems using the software require Java to be installed.
+	The application is developed using Java so systems using the software require Java to be installed.
  	
 
 ## 3.	External Interface Requirements
@@ -176,28 +176,26 @@ Appendix C: To Be Determined List	6
 
 	<Describe the logical characteristics of each interface between the software product and the users. This may include sample screen images, any GUI standards or product family style guides that are to be followed, screen layout constraints, standard buttons and functions (e.g., help) that will appear on every screen, keyboard shortcuts, error message display standards, and so on. Define the software components for which a user interface is needed. Details of the user interface design should be documented in a separate user interface specification.>
 
-3.2	Hardware Interfaces
-
-	<Describe the logical and physical characteristics of each interface between the software product and the hardware components of the system. This may include the supported device types, the nature of the data and control interactions between the software and the hardware, and communication protocols to be used.>
-
 3.3	Software Interfaces
 
-	<Describe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each. Describe the services needed and the nature of communications. Refer to documents that describe detailed application programming interface protocols. Identify data that will be shared across software components. If the data sharing mechanism must be implemented in a specific way (for example, use of a global data area in a multitasking operating system), specify this as an implementation constraint.>
+ 	The application requires Java to be installed on the system
 
 3.4	Communications Interfaces
 
-	<Describe the requirements associated with any communications functions required by this product, including e-mail, web browser, network server communications protocols, electronic forms, and so on. Define any pertinent message formatting. Identify any communication standards that will be used, such as FTP or HTTP. Specify any communication security or encryption issues, data transfer rates, and synchronization mechanisms.>
+ 	Internet is required in order to update the application's components.
 
 ## 4.	System Features
 
-	<This template illustrates organizing the functional requirements for the product by system features, the major services provided by the product. You may prefer to organize this section by use case, mode of operation, user class, object class, functional hierarchy, or combinations of these, whatever makes the most logical sense for your product.>
+ 	This section demonstrates the application’s most prominent features and explains how they can
+	be used and the results will give back to the user
 
-4.1	System Feature 1
+4.1	Add an Event
 
-	<Don’t really say “System Feature 1.” State the feature name in just a few words.>
+	Allows the user to add an event to the schedule.	
 
 4.1.1	Description and Priority
-	
+
+ 	This feature allows the user to add events to the schedule.
  	<Provide a short description of the feature and indicate whether it is of High, Medium, or Low priority. You could also include specific priority component ratings, such as benefit, penalty, cost, and risk (each rated on a relative scale from a low of 1 to a high of 9).>
 
 4.1.2	Stimulus/Response Sequences
