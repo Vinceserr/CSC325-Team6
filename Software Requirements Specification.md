@@ -13,66 +13,73 @@ Table of Contents	ii
 
 Revision History	ii
 
-1.	Introduction	1
+1.	Introduction	
 
-  	1.1	Purpose	1
+  	1.1	Purpose	
 
-  	1.2	Document Conventions	1
+  	1.2	Document Conventions	
 	
- 	1.3	Intended Audience and Reading Suggestions	1
+ 	1.3	Intended Audience and Reading Suggestions	
 	
- 	1.4	Product Scope	1
-	
- 	1.5	References	1
+ 	1.4	Product Scope	
 
-2.	Overall Description	2
-	
- 	2.1	Product Perspective	2
-	
- 	2.2	Product Functions	2
-	
- 	2.3	User Classes and Characteristics	2
-	
- 	2.4	Operating Environment	2
-	
- 	2.5	Design and Implementation Constraints	2
-	
- 	2.6	User Documentation	2
-	
- 	2.7	Assumptions and Dependencies	3
 
-4.	External Interface Requirements	3
+2.	Overall Description	
 	
- 	3.1	User Interfaces	3
+ 	2.1	Product Perspective	
 	
- 	3.2	Hardware Interfaces	3
+ 	2.2	Product Functions	
 	
- 	3.3	Software Interfaces	3
+ 	2.3	User Classes and Characteristics	
 	
- 	3.4	Communications Interfaces	3
-5.	System Features	4
+ 	2.4	Operating Environment	
 	
- 	4.1	System Feature 1	4
+ 	2.5	Design and Implementation Constraints	
 	
- 	4.2	System Feature 2 (and so on)	4
-6.	Other Nonfunctional Requirements	4
+ 	2.6	User Documentation	
 	
- 	5.1	Performance Requirements	4
-	
- 	5.2	Safety Requirements	5
-	
- 	5.3	Security Requirements	5
-	
- 	5.4	Software Quality Attributes	5
-	
- 	5.5	Business Rules	5
-7.	Other Requirements	5
+ 	2.7	Assumptions and Dependencies	
 
-Appendix A: Glossary	5
+4.	External Interface Requirements	
+	
+ 	3.1	User Interfaces	
+	
+ 	3.2	Hardware Interfaces	
+	
+ 	3.3	Software Interfaces	
+	
+ 	3.4	Communications Interfaces	
+5.	System Features	
+	
+ 	4.1 Add an Event
+	
+ 	4.2 Add Recurring Event
 
-Appendix B: Analysis Models	5
+    4.3 User Preferences
 
-Appendix C: To Be Determined List	6
+    4.4 Set topics
+
+    4.5 Login
+
+    4.6 Create an Account
+
+
+6.	Other Nonfunctional Requirements	
+	
+ 	5.1	Performance Requirements	
+	
+ 	5.2	Safety Requirements	
+
+ 	5.3	Security Requirements	
+	
+ 	5.4	Software Quality Attributes	
+	
+ 	5.5	Business Rules	
+7.	Other Requirements	
+
+    Appendix A: Glossary	
+
+
 
 
 ## Revision History
@@ -168,19 +175,28 @@ Appendix C: To Be Determined List	6
 
 3.1	User Interfaces
 1. Program Weclome Screen:
+
 ![img.png](img.png)
 2. Create an Account Screen:
+
+   ![img_6.png](img_6.png)
+3. Login Screen:
+
 ![img_1.png](img_1.png)
-3. Main Schedule Screen:
+4. Main Schedule Screen:
+
 ![img_2.png](img_2.png)
-4. Add Event Screen:
+5. Add Event Screen:
 
     ![img_3.png](img_3.png)
-5. Add Recurring Event Screen:
+6. Add Recurring Event Screen:
+
 ![img_4.png](img_4.png)
-6. User Preferences Screen:
+7. User Preferences Screen:
+
 ![img_5.png](img_5.png)
-7. Set Topics Screen:
+8. Set Topics Screen:
+
 ![img_7.png](img_7.png)
 
 3.3	Software Interfaces
@@ -203,58 +219,113 @@ Appendix C: To Be Determined List	6
 4.1.1	Description and Priority
 
  	This feature allows the user to add events to the schedule.
- 	<Provide a short description of the feature and indicate whether it is of High, Medium, or Low priority. You could also include specific priority component ratings, such as benefit, penalty, cost, and risk (each rated on a relative scale from a low of 1 to a high of 9).>
 
 4.1.2	Stimulus/Response Sequences
-	
- 	<List the sequences of user actions and system responses that stimulate the behavior defined for this feature. These will correspond to the dialog elements associated with use cases.>
 
-4.1.3	Functional Requirements
-	
- 	<Itemize the detailed functional requirements associated with this feature. These are the software capabilities that must be present in order for the user to carry out the services provided by the feature, or to execute the use case. Include how the product should respond to anticipated error conditions or invalid inputs. Requirements should be concise, complete, unambiguous, verifiable, and necessary. Use “TBD” as a placeholder to indicate when necessary information is not yet available.>
-	
-	<Each requirement should be uniquely identified with a sequence number or a meaningful tag of some kind.>
-	
-	REQ-1:	
+ 	Upon clicking on the Add Event button the user will be prompted to fill out the fields.
+    Time Start - The time the event starts
+    Time End - The time the event ends
+    Date - The date of the event
 
-	REQ-2:	
+4.2	Add Recurring Event
 
-4.2	System Feature 2 (and so on)
+	Allows the user to add an recurring event to the schedule.	
+
+4.2.1	Description and Priority
+
+ 	This feature allows the user to add a recurring events to the schedule.
+
+4.2.2	Stimulus/Response Sequences
+
+ 	Upon clicking on the Add an Recurring Event button the user will be prompted to fill out the fields.
+    Radio Buttons Depicting days the event is active for.
+    Time Start - The time the event starts
+    Time End - The time the event ends
+    Event End Date - How long the application will schedule this event for.
+
+4.3	User Preferences
+
+	Allows the user to edit their preferences.
+
+4.3.1	Description
+
+ 	Allows the user to set the time of day the program will schedule study times for, study time duration,
+    and allows the user to select themes that will allow them to customize the GUI.
+
+4.3.2	Stimulus/Response Sequences
+
+ 	Earliest Study Time - The earliest time a study time will be scheduled.
+    Latest Study Time - The latest time a study time will be scheduled.
+    Max Study Time duration - The maximum duration of time a study time will be scheduled for.
+    Program Themes - A list of themes the user could select to customize the schedule.
+
+4.4	Set topics
+
+	Allows the user to add a list of topics they would like to study
+
+4.4.1	Description
+
+ 	Allows the user to a name for a topic they would like to study along with the amount of hours they would
+    like to study for
+
+4.4.2	Stimulus/Response Sequences
+
+ 	Topic name - The name of the topic
+    Hours - The amount of time per week dedicated to studying the topic
+
+4.5 Login
+
+	Allows the user to login to their acount
+
+4.5.1    Description
+
+   	Allows the user to input their username and password to login.
+
+4.5.2    Stimulus/Response Sequences
+
+    Username - The user's username
+    Password - The user's passeword
+
+4.6 Create an Account
+
+	Allows the user to create an account
+
+4.6.1    Description
+
+   	Allows the user to input their username, password, email, and fullname in order to create an account
+
+4.6.2    Stimulus/Response Sequences
+
+    Username - The user's username
+    Password - The user's passeword
+    Email - The user's email
+    Full name - The user's first and last name
+
+
 
 ## 5.	Other Nonfunctional Requirements
 
 5.1	Performance Requirements
 
-	<If there are performance requirements for the product under various circumstances, state them here and explain their rationale, to help the developers understand the intent and make suitable design choices. Specify the timing relationships for real time systems. Make such requirements as specific as possible. You may need to state performance requirements for individual functional requirements or features.>
+	The application's performance will depend on the amount of data the user would like to store onto the program.
+    A user with a lot of notes, events, and topics will need to take this into consideration.
 
 5.2	Safety Requirements
 
-	<Specify those requirements that are concerned with possible loss, damage, or harm that could result from the use of the product. Define any safeguards or actions that must be taken, as well as actions that must be prevented. Refer to any external policies or regulations that state safety issues that affect the product’s design or use. Define any safety certifications that must be satisfied.>
+    In order to ensure no one loses their progress in the application the development team will update the software
+    regularly.
 
 5.3	Security Requirements
 
-	<Specify any requirements regarding security or privacy issues surrounding use of the product or protection of the data used or created by the product. Define any user identity authentication requirements. Refer to any external policies or regulations containing security issues that affect the product. Define any security or privacy certifications that must be satisfied.>
+    The application doesn't have any security requirements and thus the user can use it without any additional privelledges.
 
 5.4	Software Quality Attributes
 
-	<Specify any additional quality characteristics for the product that will be important to either the customers or the developers. Some to consider are: adaptability, availability, correctness, flexibility, interoperability, maintainability, portability, reliability, reusability, robustness, testability, and usability. Write these to be specific, quantitative, and verifiable when possible. At the least, clarify the relative preferences for various attributes, such as ease of use over ease of learning.>
+    The application provides the user with simple features in order to not overcomplicate the system.
 
-5.5	Business Rules
-
-	<List any operating principles about the product, such as which individuals or roles can perform which functions under specific circumstances. These are not functional requirements in themselves, but they may imply certain functional requirements to enforce the rules.>
 
 ## 6.	Other Requirements
 
-	<Define any other requirements not covered elsewhere in the SRS. This might include database requirements, internationalization requirements, legal requirements, reuse objectives for the project, and so on. Add any new sections that are pertinent to the project.>
-
 Appendix A: Glossary
 	
- 	<Define all the terms necessary to properly interpret the SRS, including acronyms and abbreviations. You may wish to build a separate glossary that spans multiple projects or the entire organization, and just include terms specific to a single project in each SRS.>
-
-Appendix B: Analysis Models
-
-	<Optionally, include any pertinent analysis models, such as data flow diagrams, class diagrams, state-transition diagrams, or entity-relationship diagrams.>
-
-Appendix C: To Be Determined List
-
-	<Collect a numbered list of the TBD (to be determined) references that remain in the SRS so they can be tracked to closure.>
+    None at the moment however will update soon.
