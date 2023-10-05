@@ -23,7 +23,7 @@ public class signInMenuController {
  
     @FXML
     void signInButtonPress(ActionEvent event)throws IOException {
-         
+         App.setRoot("scheduleScreen");
     }
 
     @FXML

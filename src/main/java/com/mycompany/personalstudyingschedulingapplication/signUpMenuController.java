@@ -21,8 +21,8 @@ public class signUpMenuController {
     private TextField passwordField;
 
     @FXML
-    void submitButtonPress(ActionEvent event) {
-
+    void submitButtonPress(ActionEvent event) throws IOException {
+           App.setRoot("signInMenu");
     }
 
 }
