@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.DatePicker?>
@@ -8,11 +9,12 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="338.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personalstudyingschedulingapplication.AddEventController">
+<AnchorPane id="AnchorPane" prefHeight="391.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personalstudyingschedulingapplication.AddEventController">
    <children>
       <VBox prefHeight="427.0" prefWidth="372.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -30,33 +32,57 @@
                   <TextField fx:id="endTimeField" prefHeight="25.0" prefWidth="176.0" promptText="23:59" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" spacing="5.0">
-               <children>
-                  <RadioButton fx:id="MONButton" mnemonicParsing="false" onAction="#MONButtonSelect" text="MON" />
-                  <RadioButton fx:id="TUEButton" mnemonicParsing="false" onAction="#TUEButtonSelect" text="TUE" />
-                  <RadioButton fx:id="WEDButton" mnemonicParsing="false" onAction="#WEDButtonSelect" text="WED" />
-                  <RadioButton fx:id="THUButton" mnemonicParsing="false" onAction="#THUButtonSelect" text="THU" />
-                  <RadioButton fx:id="FRIButton" mnemonicParsing="false" onAction="#FRIButtonSelect" text="FRI" />
-                  <RadioButton fx:id="SATButton" mnemonicParsing="false" onAction="#SATButtonSelect" text="SAT" />
-                  <RadioButton fx:id="SUNButton" mnemonicParsing="false" onAction="#SUNButtonSelect" text="SUN" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="Start Day" />
-                  <DatePicker fx:id="startDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="166.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="177.0" text="End Day" />
-                  <DatePicker fx:id="startDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="167.0">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </DatePicker>
-               </children>
-            </HBox>
+            <Accordion>
+              <panes>
+                <TitledPane animated="false" text="Weekly">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="36.0" prefWidth="350.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="25.0" prefWidth="339.0" spacing="5.0">
+                                 <children>
+                                    <RadioButton fx:id="MONButton" mnemonicParsing="false" onAction="#MONButtonSelect" text="MON" />
+                                    <RadioButton fx:id="TUEButton" mnemonicParsing="false" onAction="#TUEButtonSelect" text="TUE" />
+                                    <RadioButton fx:id="WEDButton" mnemonicParsing="false" onAction="#WEDButtonSelect" text="WED" />
+                                    <RadioButton fx:id="THUButton" mnemonicParsing="false" onAction="#THUButtonSelect" text="THU" />
+                                    <RadioButton fx:id="FRIButton" mnemonicParsing="false" onAction="#FRIButtonSelect" text="FRI" />
+                                    <RadioButton fx:id="SATButton" mnemonicParsing="false" onAction="#SATButtonSelect" text="SAT" />
+                                    <RadioButton fx:id="SUNButton" mnemonicParsing="false" onAction="#SUNButtonSelect" text="SUN" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" text="Monly">
+                  <content>
+                        <AnchorPane prefHeight="54.0" prefWidth="364.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="177.0" text="End Day" />
+                                          <DatePicker fx:id="startDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="167.0">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                          </DatePicker>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="Start Day" />
+                                          <DatePicker fx:id="startDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="166.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
             <HBox alignment="CENTER" prefHeight="35.0" prefWidth="350.0">
                <children>
                   <Label alignment="CENTER" prefHeight="30.0" prefWidth="169.0" text="Color of Event" />
