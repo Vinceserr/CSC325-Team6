@@ -9,16 +9,16 @@ import javafx.scene.control.TextField;
 public class signInMenuController {
 
     @FXML
-    private TextField usernameField;
+    private TextField tf_userName;
 
     @FXML
-    private Button signUpButton;
+    private Button button_login;
 
     @FXML
-    private TextField passwordField;
+    private TextField tf_password;
 
     @FXML
-    private Button signInButton;
+    private Button button_signUp;
     
  
     @FXML
