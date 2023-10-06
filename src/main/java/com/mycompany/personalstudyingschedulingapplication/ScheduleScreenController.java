@@ -4,17 +4,23 @@
  */
 
 package com.mycompany.personalstudyingschedulingapplication;
+
 import java.io.IOException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.GridPane;
+
+import javafx.event.ActionEvent;
+
+import javafx.fxml.FXML;
+
+import javafx.scene.control.TableView;
+
 import javafx.scene.layout.GridPane;
 
 public class ScheduleScreenController {
-
-    @FXML
-    private Button addEvent;
 
     @FXML
     private Button clearAllButton;
@@ -23,7 +29,7 @@ public class ScheduleScreenController {
     private TableColumn<?, ?> eventLoop;
 
     @FXML
-    private TableColumn<?, ?> eventColor;
+    private Button AddEventButton;
 
     @FXML
     private TableColumn<?, ?> eventTime;
@@ -35,8 +41,11 @@ public class ScheduleScreenController {
     private GridPane schedulePane;
 
     @FXML
-    void addEventButtonPress(ActionEvent event) throws IOException {
-          App.setRoot("addEvent");
+    private TableView<?> EventTable;
+
+    @FXML
+    void AddEventButtonPress(ActionEvent event) throws IOException {
+        App.setRoot("AddEvent");
     }
 
     @FXML

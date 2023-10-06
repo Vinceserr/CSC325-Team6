@@ -4,6 +4,7 @@
  */
 package com.mycompany.personalstudyingschedulingapplication;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,56 +16,72 @@ import javafx.scene.control.TextField;
 public class AddEventController {
 
     @FXML
-    private TextField titleField;
-
-    @FXML
     private TextField startTimeField;
-
-    @FXML
-    private TextField endTimeField;
 
     @FXML
     private RadioButton MONButton;
 
     @FXML
-    private RadioButton TUEButton;
+    private TextField titleField;
 
     @FXML
     private RadioButton WEDButton;
 
     @FXML
-    private RadioButton THUButton;
-
-    @FXML
     private RadioButton FRIButton;
-
-    @FXML
-    private RadioButton SATButton;
-
-    @FXML
-    private RadioButton SUNButton;
 
     @FXML
     private DatePicker startDayField;
 
     @FXML
+    private Button saveEvenButton;
+
+    @FXML
+    private DatePicker endDayField;
+
+    @FXML
+    private RadioButton THUButton;
+
+    @FXML
     private ColorPicker ColorButton;
 
     @FXML
-    private Button createEvenButton;
+    private TextField endTimeField;
 
     @FXML
-    void ColorButtonSelect(ActionEvent event) {
+    private RadioButton SATButton;
+
+    @FXML
+    private RadioButton TUEButton;
+
+    @FXML
+    private RadioButton loopButton;
+
+    @FXML
+    private RadioButton SUNButton;
+
+    @FXML
+    void THUButtonSelect(ActionEvent event) {
 
     }
 
     @FXML
-    void FRIButtonSelect(ActionEvent event) {
+    void WEDButtonSelect(ActionEvent event) {
 
     }
 
     @FXML
     void MONButtonSelect(ActionEvent event) {
+
+    }
+
+    @FXML
+    void TUEButtonSelect(ActionEvent event) {
+
+    }
+
+    @FXML
+    void FRIButtonSelect(ActionEvent event) {
 
     }
 
@@ -79,25 +96,21 @@ public class AddEventController {
     }
 
     @FXML
-    void THUButtonSelect(ActionEvent event) {
+    void ColorButtonSelect(ActionEvent event) {
 
     }
 
     @FXML
-    void TUEButtonSelect(ActionEvent event) {
+    void loopButtonSelect(ActionEvent event) {
 
     }
 
     @FXML
-    void WEDButtonSelect(ActionEvent event) {
-
-    }
-
-    @FXML
-    void createEvenButtonPress(ActionEvent event) {
-
+    void saveEvenButtonPress(ActionEvent event) throws IOException {
+         App.setRoot("scheduleScreen");
     }
 
 }
+
 
 
