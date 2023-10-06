@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -14,83 +18,84 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="391.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personalstudyingschedulingapplication.AddEventController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personalstudyingschedulingapplication.AddEventController">
    <children>
-      <VBox prefHeight="427.0" prefWidth="372.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <TextField fx:id="titleField" alignment="CENTER" prefHeight="30.0" prefWidth="261.0" promptText="Title" />
-            <Separator prefWidth="200.0" />
-            <HBox prefHeight="32.0" prefWidth="352.0">
+            <TextField fx:id="titleField" alignment="CENTER" prefHeight="66.0" prefWidth="620.0" promptText="Title" />
+            <Separator />
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="343.0" minWidth="10.0" prefWidth="279.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="341.0" minWidth="10.0" prefWidth="341.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="Start Time" />
-                  <TextField fx:id="startTimeField" prefHeight="25.0" prefWidth="177.0" promptText="00:00" />
+                  <TextField fx:id="startTimeField" prefHeight="30.0" prefWidth="176.0" promptText="00:00" GridPane.columnIndex="1" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="176.0" text="Start Time" />
+                  <TextField fx:id="endTimeField" prefHeight="30.0" prefWidth="171.0" promptText="23:59" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="End Time" GridPane.rowIndex="1" />
                </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="58.0" prefHeight="35.0" prefWidth="352.0">
+            </GridPane>
+            <GridPane alignment="CENTER" prefHeight="62.0" prefWidth="620.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="111.0" minHeight="10.0" prefHeight="79.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="End Time" />
-                  <TextField fx:id="endTimeField" prefHeight="25.0" prefWidth="176.0" promptText="23:59" />
+                  <RadioButton fx:id="THUButton" mnemonicParsing="false" onAction="#THUButtonSelect" prefHeight="20.0" prefWidth="91.0" text="THU" GridPane.columnIndex="3" />
+                  <RadioButton fx:id="WEDButton" mnemonicParsing="false" onAction="#WEDButtonSelect" prefHeight="20.0" prefWidth="89.0" text="WED" GridPane.columnIndex="2" />
+                  <RadioButton fx:id="MONButton" mnemonicParsing="false" onAction="#MONButtonSelect" prefHeight="20.0" prefWidth="88.0" text="MON" />
+                  <RadioButton fx:id="TUEButton" mnemonicParsing="false" onAction="#TUEButtonSelect" prefHeight="20.0" prefWidth="87.0" text="TUE" GridPane.columnIndex="1" />
+                  <RadioButton fx:id="FRIButton" mnemonicParsing="false" onAction="#FRIButtonSelect" prefHeight="20.0" prefWidth="91.0" text="FRI" GridPane.columnIndex="4" />
+                  <RadioButton fx:id="SATButton" mnemonicParsing="false" onAction="#SATButtonSelect" prefHeight="20.0" prefWidth="91.0" text="SAT" GridPane.columnIndex="5" />
+                  <RadioButton fx:id="SUNButton" mnemonicParsing="false" onAction="#SUNButtonSelect" prefHeight="20.0" prefWidth="81.0" text="SUN" GridPane.columnIndex="6" />
                </children>
-            </HBox>
-            <Accordion>
-              <panes>
-                <TitledPane animated="false" text="Weekly">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="36.0" prefWidth="350.0">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="25.0" prefWidth="339.0" spacing="5.0">
-                                 <children>
-                                    <RadioButton fx:id="MONButton" mnemonicParsing="false" onAction="#MONButtonSelect" text="MON" />
-                                    <RadioButton fx:id="TUEButton" mnemonicParsing="false" onAction="#TUEButtonSelect" text="TUE" />
-                                    <RadioButton fx:id="WEDButton" mnemonicParsing="false" onAction="#WEDButtonSelect" text="WED" />
-                                    <RadioButton fx:id="THUButton" mnemonicParsing="false" onAction="#THUButtonSelect" text="THU" />
-                                    <RadioButton fx:id="FRIButton" mnemonicParsing="false" onAction="#FRIButtonSelect" text="FRI" />
-                                    <RadioButton fx:id="SATButton" mnemonicParsing="false" onAction="#SATButtonSelect" text="SAT" />
-                                    <RadioButton fx:id="SUNButton" mnemonicParsing="false" onAction="#SUNButtonSelect" text="SUN" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" text="Monly">
-                  <content>
-                        <AnchorPane prefHeight="54.0" prefWidth="364.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="177.0" text="End Day" />
-                                          <DatePicker fx:id="startDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="167.0">
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                          </DatePicker>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="Start Day" />
-                                          <DatePicker fx:id="startDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="166.0" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </TitledPane>
-              </panes>
-            </Accordion>
-            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="350.0">
+            </GridPane>
+            <VBox>
+               <children>
+                  <GridPane prefHeight="64.0" prefWidth="620.0" VBox.vgrow="ALWAYS">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="275.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="345.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <DatePicker fx:id="startDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="338.0" GridPane.columnIndex="1">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </DatePicker>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="177.0" text="End Day" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="Start Day" />
+                        <DatePicker fx:id="endDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="45.0" prefWidth="337.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+                  <HBox alignment="CENTER" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER">
                <children>
                   <Label alignment="CENTER" prefHeight="30.0" prefWidth="169.0" text="Color of Event" />
-                  <ColorPicker fx:id="ColorButton" onAction="#ColorButtonSelect" prefHeight="25.0" prefWidth="156.0" />
+                  <ColorPicker fx:id="ColorButton" onAction="#ColorButtonSelect" prefHeight="42.0" prefWidth="157.0" />
                </children>
             </HBox>
-            <Separator prefHeight="0.0" prefWidth="352.0" />
-            <Button fx:id="createEvenButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#createEvenButtonPress" prefHeight="44.0" prefWidth="348.0" text="Create" />
+            <Separator prefHeight="10.0" prefWidth="620.0" />
+            <Button fx:id="createEvenButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createEvenButtonPress" prefHeight="83.0" prefWidth="619.0" text="Create" />
          </children>
       </VBox>
    </children>
