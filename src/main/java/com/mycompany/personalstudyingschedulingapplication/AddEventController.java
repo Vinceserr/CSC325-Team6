@@ -107,7 +107,7 @@ public class AddEventController {
 
     @FXML
     void saveEvenButtonPress(ActionEvent event) throws IOException {
-         App.setRoot("scheduleScreen");
+        App.setRoot("scheduleScreen");
     }
 
 }
