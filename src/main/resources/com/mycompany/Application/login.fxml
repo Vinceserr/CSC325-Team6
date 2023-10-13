@@ -14,13 +14,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.personalstudyingschedulingapplication.signInMenuController">
+<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.Controller.loginController">
    <children>
       <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="227.0" style="-fx-background-color: #9F281C;">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Image/calendar.png" />
+                  <Image url="@../Image/calendar.png" />
                </image>
             </ImageView>
             <Label layoutX="32.0" layoutY="263.0" text="Personal Schedule" textAlignment="CENTER" textFill="WHITE">
@@ -39,7 +39,7 @@
          <children>
             <ImageView fitHeight="105.0" fitWidth="103.0" layoutX="175.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Image/login.png" />
+                  <Image url="@../Image/login.png" />
                </image>
             </ImageView>
             <Label layoutX="55.0" layoutY="202.0" text="UserName:" textAlignment="CENTER">
@@ -79,19 +79,14 @@
             </Button>
             <ImageView fitHeight="15.0" fitWidth="16.0" layoutX="33.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Image/padlock.png" />
+                  <Image url="@../Image/padlock.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="15.0" fitWidth="16.0" layoutX="33.0" layoutY="204.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Image/id-card.png" />
+                  <Image url="@../Image/id-card.png" />
                </image>
             </ImageView>
-            <Label fx:id="information" layoutX="176.0" layoutY="170.0" textAlignment="CENTER" textFill="#f20000">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="18.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
    </children>

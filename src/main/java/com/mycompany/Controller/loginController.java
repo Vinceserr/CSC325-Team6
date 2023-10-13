@@ -1,41 +1,37 @@
-package com.mycompany.personalstudyingschedulingapplication;
+package com.mycompany.Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.mycompany.Application.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class signInMenuController {
+public class loginController {
 
     @FXML
     private TextField tf_userName;
 
-    @FXML
-    private Button button_login;
 
     @FXML
     private TextField tf_password;
 
-    @FXML
-    private Button button_signUp;
-    
-    
     
     @FXML
-    void signInButtonPress(ActionEvent event)throws IOException {             
-        ArrayList<Account> list = signUpMenuController.list;
+    void signInButtonPress(ActionEvent event) throws Exception {
+        ArrayList<Account>list = signupController.list;
         // check the username and password is correct
-        // if is true, go to scedule
+        // if is true, go to schedule
         boolean result = login(list); 
         if(result){
-            App.setRoot("scheduleScreen");
+            createStage.close();
+            createStage schedule = new scheduleStage();
+            schedule.showStage();
         }else{
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Login Failed");
@@ -67,8 +63,10 @@ public class signInMenuController {
         
     }
     @FXML
-    void signUpButtonPress(ActionEvent event) throws IOException {
-        App.setRoot("signUpMenu");
+    void signUpButtonPress(ActionEvent event) throws Exception {
+        createStage.close();
+        createStage signup = new signupStage();
+        signup.showStage();
     }
 
 }

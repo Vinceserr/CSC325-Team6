@@ -1,7 +1,12 @@
-package com.mycompany.personalstudyingschedulingapplication;
+package com.mycompany.Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.mycompany.Application.Account;
+import com.mycompany.Application.createStage;
+import com.mycompany.Application.loginStage;
+import com.mycompany.Application.signupStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -9,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
-public class signUpMenuController {
+public class signupController {
 
     @FXML
     private TextField usernameField;
@@ -26,11 +31,13 @@ public class signUpMenuController {
     static ArrayList<Account> list = new ArrayList<>();
     
     @FXML
-    void submitButtonPress(ActionEvent event) throws IOException {
+    void submitButtonPress(ActionEvent event) throws Exception {
         boolean result = register(list);
         //if is true, go back to signIn menu
         if(result){
-            App.setRoot("signInMenu");
+            createStage.close();
+            createStage login = new loginStage();
+            login.showStage();
         }else{
              Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Register Failed");
@@ -47,7 +54,11 @@ public class signUpMenuController {
         String passwordTF = passwordField.getText();
         String newpasswordTF = newPasswordField.getText();
         Account newAccount = new Account();
-        
+
+        //if nothing enter, click submit button will not work
+        if(usernameTF.isEmpty() || passwordTF.isEmpty()){
+            return false;
+        }
         // if it is empty, only need to check the password
         if(list.isEmpty()){
             if(passwordTF.equals(newpasswordTF)){
@@ -59,6 +70,8 @@ public class signUpMenuController {
                 return true;
             }
         }
+
+        //check this account is not exist
         for(Account a:list){
             String username = a.getUsername();
             String password =a.getPassword();
