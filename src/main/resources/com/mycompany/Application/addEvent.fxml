@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -48,13 +50,17 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <RadioButton fx:id="MONButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="88.0" text="MON" />
-                                    <RadioButton fx:id="TUEButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="87.0" text="TUE" GridPane.rowIndex="1" />
-                                    <RadioButton fx:id="WEDButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="89.0" text="WED" GridPane.rowIndex="2" />
-                                    <RadioButton fx:id="THUButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="91.0" text="THU" GridPane.rowIndex="3" />
-                                    <RadioButton fx:id="FRIButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="63.0" text="FRI" GridPane.rowIndex="4" />
-                                    <RadioButton fx:id="SATButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="91.0" text="SAT" GridPane.rowIndex="5" />
-                                    <RadioButton fx:id="SUNButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="81.0" text="SUN" GridPane.rowIndex="6" />
+                                    <ToggleButton fx:id="MONButton" blendMode="SRC_ATOP" prefHeight="30.0" prefWidth="102.0" text="MON" textFill="#0a0a0a">
+                                       <effect>
+                                          <Blend />
+                                       </effect>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="TUEButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" text="TUE" GridPane.rowIndex="1" />
+                                    <ToggleButton fx:id="WEDButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" text="WED" GridPane.rowIndex="2" />
+                                    <ToggleButton fx:id="THUButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" text="THU" GridPane.rowIndex="3" />
+                                    <ToggleButton fx:id="FRIButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="103.0" text="FRI" GridPane.rowIndex="4" />
+                                    <ToggleButton fx:id="SATButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="106.0" text="SAT" GridPane.rowIndex="5" />
+                                    <ToggleButton fx:id="SUNButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="106.0" text="SUN" GridPane.rowIndex="6" />
                                  </children>
                               </GridPane>
                            </children>
@@ -84,12 +90,12 @@
                                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="End Time" GridPane.rowIndex="1" />
                                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="176.0" text="Start Day" GridPane.rowIndex="2" />
                                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="177.0" text="End Day" GridPane.rowIndex="3" />
-                                                <DatePicker fx:id="startDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                <DatePicker fx:id="startDayField" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                    <opaqueInsets>
                                                       <Insets />
                                                    </opaqueInsets>
                                                 </DatePicker>
-                                                <DatePicker fx:id="endDayField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="33.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <DatePicker fx:id="endDayField" nodeOrientation="LEFT_TO_RIGHT" prefHeight="33.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                                 <ColorPicker fx:id="ColorButton" prefHeight="42.0" prefWidth="106.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                                    <GridPane.margin>
                                                       <Insets left="60.0" />
