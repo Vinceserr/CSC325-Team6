@@ -13,5 +13,7 @@ public class loginStage extends createStage{
         scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.show();
+        //make the login stage unresizable
+        stage.setResizable(false);
     }
 }
