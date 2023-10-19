@@ -10,15 +10,15 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        /*
+
         createStage login = new loginStage();
         login.showStage();
-         */
-        createStage schedule = new scheduleStage();
-        schedule.showStage();
+         /*
 
         createStage addEvent = new addEventStage();
         addEvent.showStage();
+
+         */
     }
 
     

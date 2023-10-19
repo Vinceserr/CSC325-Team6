@@ -30,7 +30,7 @@ public class loginController {
         boolean result = login(list); 
         if(result){
             createStage.close();
-            createStage schedule = new scheduleStage();
+            createStage schedule = new MainScheduleStage();
             schedule.showStage();
         }else{
             Alert alert = new Alert(AlertType.WARNING);

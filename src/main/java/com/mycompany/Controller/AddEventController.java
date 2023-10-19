@@ -8,7 +8,6 @@ import com.mycompany.Application.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class AddEventController {
@@ -54,16 +53,11 @@ public class AddEventController {
 
     @FXML
     void saveButtonPress(ActionEvent event) {
-        ScheduleController schedule = ScheduleController.getInstance();;
+        MainScheduleController schedule =MainScheduleController.getInstance();;
         schedule.addEventToSchedule(setEvent());
-
-
     }
+    //remove delete ButtonPress,now it is being handle in the MainSheduleController
 
-    @FXML
-    void deleteButtonPress(ActionEvent event) {
-
-    }
     // set which weeks is select
     private String setWeeks(){
         StringBuilder selectedDays = new StringBuilder();
