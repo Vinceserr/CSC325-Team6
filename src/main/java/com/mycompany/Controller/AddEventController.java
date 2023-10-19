@@ -53,7 +53,7 @@ public class AddEventController {
 
     @FXML
     void saveButtonPress(ActionEvent event) {
-        MainScheduleController schedule =MainScheduleController.getInstance();;
+        MainScheduleController schedule =MainScheduleController.getInstance();
         schedule.addEventToSchedule(setEvent());
     }
     //remove delete ButtonPress,now it is being handle in the MainSheduleController
