@@ -8,85 +8,147 @@ import com.mycompany.Application.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class AddEventController {
     @FXML private TextField titleField;
+    @FXML private ComboBox<LocalTime> startTime;
+    @FXML private ComboBox<LocalTime> endTime;
+    @FXML private DatePicker startDay;
+    @FXML private DatePicker endDay;
+    @FXML private ChoiceBox<String> repeat;
 
-    @FXML private ToggleButton MONButton;
-    @FXML private ToggleButton TUEButton;
-    @FXML private ToggleButton WEDButton;
-    @FXML private ToggleButton THUButton;
-    @FXML private ToggleButton FRIButton;
-    @FXML private ToggleButton SATButton;
-    @FXML private ToggleButton SUNButton;
+    @FXML private CheckBox MON;
+    @FXML private CheckBox TUE;
+    @FXML private CheckBox WED;
+    @FXML private CheckBox THU;
+    @FXML private CheckBox FRI;
+    @FXML private CheckBox SAT;
+    @FXML private CheckBox SUN;
 
-    @FXML private TextField startTimeField;
-    @FXML private TextField endTimeField;
+    @FXML private GridPane weeksPane;
 
-    @FXML private DatePicker startDayField;
-    @FXML private DatePicker endDayField;
+   ArrayList<Event> eventArrayList = new ArrayList<>();
 
-    @FXML private ColorPicker ColorButton;
-    @FXML private RadioButton loopButton;
+    public void initialize(){
+        //set the start time
+        for(int hour =0; hour<24; hour++){
+            for( int minute =0; minute < 60; minute+=10){
+                startTime.getItems().add(LocalTime.of(hour,minute));
+            }
+        }
+        //set the end time
+        for(int hour =0; hour<24; hour++){
+            for( int minute =0; minute < 60; minute+=10){
+                endTime.getItems().add(LocalTime.of(hour,minute));
+            }
+        }
+        //set the repeat select items
+        repeat.getItems().addAll("No repeat","Every Day","Every Weeks",
+                                    "Every Month","Every Year");
+        //set the initial repeat as no repeat
+        repeat.setValue("No repeat");
+
+        // listen the state of repeat, if user choose to repeat every week,
+        // open the weeks pane what allow user to select the weeks
+        repeat.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if ("Every Weeks".equals(newValue)) {
+                weeksPane.setDisable(false);
+            } else {
+                weeksPane.setDisable(true);
+                MON.setSelected(false);
+                TUE.setSelected(false);
+                WED.setSelected(false);
+                THU.setSelected(false);
+                FRI.setSelected(false);
+                SAT.setSelected(false);
+                SUN.setSelected(false);
+            }
+        });
 
 
+    }
     public Event setEvent(){
-        Event event = new Event();
-        event.setTitle(titleField.getText());
-        event.setStartTime(startTimeField.getText());
-        event.setEndTime(endTimeField.getText());
-        event.setStartDay(startDayField.getValue().toString());
-        event.setEndDay(endDayField.getValue().toString());
-        event.setLoop(loopButton.isSelected());
-
-        Color color = ColorButton.getValue();
-        String colorAsString = String.format( "#%02X%02X%02X",
-                (int)( color.getRed() * 255 ),
-                (int)( color.getGreen() * 255 ),
-                (int)( color.getBlue() * 255 ) );
-        event.setColor(colorAsString);
-
-        event.setDayOfWeeks(setWeeks());
-        return event;
+        Event e = new Event();
+        e.setTitle(titleField.getText());
+        e.setStartTime(startTime.getValue());
+        e.setEndTime(endTime.getValue());
+        e.setStartDay(startDay.getValue());
+        e.setEndDay(endDay.getValue());
+        e.setRepeat(repeat.getValue().toString());
+        e.setWeeks(setWeeks());
+        return e;
     }
 
     @FXML
     void saveButtonPress(ActionEvent event) {
-        MainScheduleController schedule =MainScheduleController.getInstance();
-        schedule.addEventToSchedule(setEvent());
+        eventArrayList.add(setEvent());
+        MainScheduleController scheduleController = new MainScheduleController();
+        if(!eventArrayList.isEmpty()){
+            scheduleController.addEventToList(eventArrayList.get(0));
+        }
+        else{
+            System.out.println("Empty");
+        }
     }
-    //remove delete ButtonPress,now it is being handle in the MainSheduleController
 
     // set which weeks is select
     private String setWeeks(){
-        StringBuilder selectedDays = new StringBuilder();
-        if(SUNButton.isSelected()){
-            selectedDays.append("SUN ");
-        }
-        if(MONButton.isSelected()){
-            selectedDays.append("MON ");
-        }
-        if(TUEButton.isSelected()){
-            selectedDays.append("TUE ");
-        }
-        if(WEDButton.isSelected()){
-            selectedDays.append("WED ");
-        }
-        if(THUButton.isSelected()){
-            selectedDays.append("THU ");
-        }
-        if(FRIButton.isSelected()){
-            selectedDays.append("FRI ");
-        }
-        if(SATButton.isSelected()){
-            selectedDays.append("SAT ");
-        }
+        StringBuilder weeks = new StringBuilder();
 
-        return selectedDays.toString().trim();
+        if(SUN.isSelected()){weeks.append("SUN ");}
+        if(MON.isSelected()){weeks.append("MON ");}
+        if(TUE.isSelected()){weeks.append("TUE ");}
+        if(WED.isSelected()){weeks.append("WED ");}
+        if(THU.isSelected()){weeks.append("THU ");}
+        if(FRI.isSelected()){weeks.append("FRI ");}
+        if(SAT.isSelected()){weeks.append("SAT ");}
+
+        return weeks.toString().trim();
     }
 
+    public void showEvent(Event event) {
+        titleField.setText(event.getTitle());
+        startTime.getSelectionModel().select(event.getStartTime());
+        endTime.getSelectionModel().select(event.getEndTime());
+        startDay.setValue(event.getStartDay());
+        endDay.setValue(event.getEndDay());
+        repeat.setValue(event.getRepeat());
+        // Set the statue of weeks
+        for (String week : event.getWeeks().split(" ")) {
+            if (week.equals("MON")) {MON.setSelected(true);}
+            if (week.equals("TUE")) {TUE.setSelected(true);}
+            if (week.equals("WED")) {WED.setSelected(true);}
+            if (week.equals("THU")) {THU.setSelected(true);}
+            if (week.equals("FRI")) {FRI.setSelected(true);}
+            if (week.equals("SAT")) {SAT.setSelected(true);}
+            if (week.equals("SUN")) {SUN.setSelected(true);}
+       }
+    }
+
+    @FXML
+    void clear(ActionEvent event) {
+        titleField.clear();
+        startTime.getSelectionModel().clearSelection();
+        endTime.getSelectionModel().clearSelection();
+        startDay.setValue(null);
+        endDay.setValue(null);
+        repeat.setValue(null);
+    }
+
+    @FXML
+    void show(ActionEvent event) {
+
+    }
 }
+
+
+
+
 
 
 

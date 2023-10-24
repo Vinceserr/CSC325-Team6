@@ -11,14 +11,14 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        createStage login = new loginStage();
-        login.showStage();
-         /*
+        //createStage login = new loginStage();
+        //login.showStage();
 
-        createStage addEvent = new addEventStage();
-        addEvent.showStage();
+        createStage Schedule = new MainScheduleStage();
+        Schedule.showStage();
 
-         */
+        //createStage addEvent = new addEventStage();
+        //addEvent.showStage();
     }
 
     

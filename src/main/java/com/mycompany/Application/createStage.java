@@ -10,9 +10,11 @@ public abstract class createStage {
     protected static Stage stage;
     protected Scene scene;
     protected FXMLLoader loader;
+    protected Event event;
 
     public createStage() {
         stage = new Stage();
+        event = new Event();
     }
 
     public abstract void showStage() throws Exception;

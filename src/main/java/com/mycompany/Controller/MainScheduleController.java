@@ -1,43 +1,71 @@
 package com.mycompany.Controller;
 import com.mycompany.Application.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainScheduleController implements Initializable{
-    @FXML
-    private BorderPane bPane;
+    @FXML private BorderPane bPane;
+    @FXML private VBox vBox;
+    @FXML private Text year;
+    @FXML private Text month;
+    @FXML private GridPane schedulePane;
+
+    @FXML private TableView<Event> eventList;
+    @FXML private TableColumn<Event, String> timeColumn;
+    @FXML private TableColumn<Event, String> titleColumn;
 
     ZonedDateTime dateFocus;
     ZonedDateTime today;
 
-    @FXML
-    private VBox vBox;
-    @FXML
-    private Text year;
-    @FXML
-    private Text month;
-    @FXML
-    private GridPane schedulePane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dateFocus = ZonedDateTime.now();
         today = ZonedDateTime.now();
         drawCalendar();
+
+        // define the date into colum list
+        titleColumn.setCellValueFactory(new PropertyValueFactory<Event, String>("title"));
+        timeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Event, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Event, String> param) {
+                Event event = param.getValue();
+                String timeString =event.getStartTime().toString()+" >> "
+                        +event.getEndTime().toString();
+                return new SimpleStringProperty(timeString);
+            }
+        });
+
+
+        eventList.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldVal, newVal) ->{
+                    try {
+                        showEventDetail(newVal);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
     }
 
     /**
@@ -133,95 +161,26 @@ public class MainScheduleController implements Initializable{
         lg.showStage();
     }
 
-    //private Map<Integer, List<Event>> createCalendarMap(List<Event> events){
-       // Map<Integer ,List<Event>> calendarMap = new HashMap<>();
-
-       // for (Event e: events){
-       //     int eventDate;
-      //  }
-   // }
-
-    private static MainScheduleController instance;
-
-    public MainScheduleController() {
-        instance = this;
-    }
-
-    public static MainScheduleController getInstance() {
-        return instance;
-    }
-
-    public void addEventToSchedule(Event event){
-        String weeks = event.getDayOfWeeks();
-
-        //get all weeks when user choose
-        for(String str :weeks.split(" ")){
-            // get column of grid pane which list the box under the week
-            int column = event.weeksToRows(str);
-
-            // get row of grid pane, if one box is exit than go to next box
-            int row  = findNextAvailableRow(column);
-
-            // if all row are occupied show the warring to user
-            if(row == -1){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Add Failed");
-                alert.setHeaderText("all rows are occupied");
-                ButtonType bt = new ButtonType("Cancel");
-                alert.getButtonTypes().setAll(bt);
-                alert.showAndWait();
-            }else {
-                VBox evenBox = createEventBox(event);
-                schedulePane.add(evenBox, column, row);
-            }
-        }
-    }
-
-    public int findNextAvailableRow(int column){
-        int maxRows = 6;
-        for(int row = 0; row<maxRows;row++){
-            for(Node e:schedulePane.getChildren()){
-                boolean isOccupied = false;
-                // check have box in row,if not return this row
-                if(Integer.valueOf(column).equals(GridPane.getColumnIndex(e))
-                        && !Integer.valueOf(row).equals(GridPane.getRowIndex(e))){
-                    isOccupied = true;
-                    break;
-                }
-                if (!isOccupied) {
-                    return row;
-                }
-            }
-        }
-
-        return -1;
-    }
-    // create the event box in VBox which assign the information of event
-    // and return the VBox for add event to schedule
-    public VBox createEventBox(Event event){
-        VBox eventBox = new VBox();
-        //set color of box
-        eventBox.setStyle("-fx-background-color: " + event.getColor() + ";");
-
-        //set data of event
-        Label title = new Label(event.getTitle());
-        Label time = new Label(event.getStartTime()+" - "+event.getEndTime());
-        Label day = new Label(event.getStartDay()+"\n"+event.getEndDay());
-        Label loop = new Label("Loop: "+event.isLoop());
-
-        //add these labels to box
-        eventBox.getChildren().add(title);
-        eventBox.getChildren().add(time);
-        eventBox.getChildren().add(day);
-        eventBox.getChildren().add(loop);
-
-        return eventBox;
+    // add Event to list , not add to schedule
+    public void addEventToList(Event e){
+        AddEventController addevent = new AddEventController();
+        ObservableList<Event> events = FXCollections.observableArrayList();
+        if(e!=null)
+            events.add(e);
+        else
+            System.out.println("null");
+        eventList.setItems(events);
     }
 
 
-    public void setSchedulePane(GridPane schedulePane) {
-        this.schedulePane = schedulePane;
+
+    // show the detail of event and able to edit it
+    public void showEventDetail(Event event) throws Exception {
+        loadPage("addEvent");
+        AddEventController addevent = new AddEventController();
+       // addevent.showEvent(event);
     }
+
 }
 
 

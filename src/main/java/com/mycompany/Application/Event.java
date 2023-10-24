@@ -1,30 +1,39 @@
 package com.mycompany.Application;
 
+import com.mycompany.Controller.MainScheduleController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Event {
     private String title;
-    private String startTime;
-    private String endTime;
-    private String startDay;
-    private String endDay;
-    private String Color;
-    private boolean loop;
-    private String dayOfWeeks;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private LocalDate startDay;
+    private LocalDate endDay;
+    private String repeat;
+    private String weeks;
 
     public Event() {
     }
 
-    public Event(String title, String startTime, String endTime, String startDay,
-                 String endDay, String color, boolean loop, String dayOfWeeks) {
+    public Event(String title, LocalTime startTime, LocalTime endTime,
+                 LocalDate startDay, LocalDate endDay, String repeat,
+                 String weeks) {
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
         this.startDay = startDay;
         this.endDay = endDay;
-        Color = color;
-        this.loop = loop;
-        this.dayOfWeeks =dayOfWeeks;
+        this.repeat = repeat;
+        this.weeks = weeks;
     }
 
     public String getTitle() {
@@ -35,86 +44,51 @@ public class Event {
         this.title = title;
     }
 
-    public String getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
-    public String getStartDay() {
+    public LocalDate getStartDay() {
         return startDay;
     }
 
-    public void setStartDay(String startDay) {
+    public void setStartDay(LocalDate startDay) {
         this.startDay = startDay;
     }
 
-    public String getEndDay() {
+    public LocalDate getEndDay() {
         return endDay;
     }
 
-    public void setEndDay(String endDay) {
+    public void setEndDay(LocalDate endDay) {
         this.endDay = endDay;
     }
 
-    public String getColor() {
-        return Color;
+    public String getRepeat() {
+        return repeat;
     }
 
-    public void setColor(String color) {
-        Color = color;
+    public void setRepeat(String repeat) {
+        this.repeat = repeat;
     }
 
-    public boolean isLoop() {
-        return loop;
+    public String getWeeks() {
+        return weeks;
     }
 
-    public void setLoop(boolean loop) {
-        this.loop = loop;
-    }
-
-    public String getDayOfWeeks() {
-        return dayOfWeeks;
-    }
-
-    public void setDayOfWeeks(String dayOfWeeks) {
-        this.dayOfWeeks = dayOfWeeks;
-    }
-    //transform the weeks to row number like MON to 1, TUE to 2
-    public int weeksToRows(String week){
-
-        if (week.equals("SUN")){
-            return 0;
-        }
-        if(week.equals("MON")){
-            return 1;
-        }
-        if(week.equals("TUE")){
-            return 2;
-        }
-        if(week.equals("WED")){
-            return 3;
-        }
-        if(week.equals("THU")){
-            return 4;
-        }
-        if(week.equals("FRI")){
-            return 5;
-        }
-        if(week.equals("SAT")){
-            return 6;
-        }
-
-        return -1;
+    public void setWeeks(String weeks) {
+        this.weeks = weeks;
     }
 }
