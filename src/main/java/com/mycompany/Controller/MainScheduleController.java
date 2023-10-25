@@ -144,7 +144,7 @@ public class MainScheduleController implements Initializable{
 
 
     private void loadPage() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/company/Application/addEvent.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/addEvent.fxml"));
         Parent root = loader.load();
         bPane.setCenter(root);
 
