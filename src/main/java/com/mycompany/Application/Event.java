@@ -1,16 +1,7 @@
 package com.mycompany.Application;
 
-import com.mycompany.Controller.MainScheduleController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class Event {
     private String title;
@@ -90,5 +81,9 @@ public class Event {
 
     public void setWeeks(String weeks) {
         this.weeks = weeks;
+    }
+
+    public boolean isActivityOnDate(LocalDate date) {
+        return !date.isBefore(startDay) && !date.isAfter(endDay);
     }
 }

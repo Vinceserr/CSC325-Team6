@@ -5,11 +5,12 @@
 package com.mycompany.Controller;
 
 import com.mycompany.Application.Event;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -32,7 +33,9 @@ public class AddEventController {
 
     @FXML private GridPane weeksPane;
 
-   ArrayList<Event> eventArrayList = new ArrayList<>();
+    public static ArrayList<Event> eventArrayList = new ArrayList<>();
+    private TableView<Event> eventList;
+    public ObservableList<Event> events = FXCollections.observableArrayList();
 
     public void initialize(){
         //set the start time
@@ -79,21 +82,22 @@ public class AddEventController {
         e.setEndTime(endTime.getValue());
         e.setStartDay(startDay.getValue());
         e.setEndDay(endDay.getValue());
-        e.setRepeat(repeat.getValue().toString());
+        e.setRepeat(repeat.getValue());
         e.setWeeks(setWeeks());
         return e;
     }
 
+    public void setEventList(TableView<Event>eventList){
+        this.eventList = eventList;
+    }
+
     @FXML
     void saveButtonPress(ActionEvent event) {
-        eventArrayList.add(setEvent());
-        MainScheduleController scheduleController = new MainScheduleController();
-        if(!eventArrayList.isEmpty()){
-            scheduleController.addEventToList(eventArrayList.get(0));
-        }
-        else{
-            System.out.println("Empty");
-        }
+        Event e =setEvent();
+        eventArrayList.add(e); // save to Array list
+
+        events.add(e);
+        eventList.setItems(events); // show on TableView
     }
 
     // set which weeks is select
@@ -130,20 +134,9 @@ public class AddEventController {
        }
     }
 
-    @FXML
-    void clear(ActionEvent event) {
-        titleField.clear();
-        startTime.getSelectionModel().clearSelection();
-        endTime.getSelectionModel().clearSelection();
-        startDay.setValue(null);
-        endDay.setValue(null);
-        repeat.setValue(null);
-    }
 
-    @FXML
-    void show(ActionEvent event) {
 
-    }
+
 }
 
 
