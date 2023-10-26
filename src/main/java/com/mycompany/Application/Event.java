@@ -1,5 +1,6 @@
 package com.mycompany.Application;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -10,21 +11,20 @@ public class Event {
     private LocalDate startDay;
     private LocalDate endDay;
     private String repeat;
-    private String weeks;
+    private DayOfWeek[] weeks;
 
     public Event() {
     }
 
     public Event(String title, LocalTime startTime, LocalTime endTime,
-                 LocalDate startDay, LocalDate endDay, String repeat,
-                 String weeks) {
+                 LocalDate startDay, LocalDate endDay, String repeat) {
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
         this.startDay = startDay;
         this.endDay = endDay;
         this.repeat = repeat;
-        this.weeks = weeks;
+        this.weeks = new DayOfWeek[7];
     }
 
     public String getTitle() {
@@ -75,15 +75,24 @@ public class Event {
         this.repeat = repeat;
     }
 
-    public String getWeeks() {
+    public DayOfWeek[] getWeeks() {
         return weeks;
     }
 
-    public void setWeeks(String weeks) {
+    public void setWeeks(DayOfWeek[] weeks) {
         this.weeks = weeks;
     }
 
     public boolean isActivityOnDate(LocalDate date) {
         return !date.isBefore(startDay) && !date.isAfter(endDay);
     }
+    public boolean isActivityOnWeek(DayOfWeek currentWeek){
+        for(DayOfWeek eventWeek: weeks){
+            if(currentWeek.equals(eventWeek)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

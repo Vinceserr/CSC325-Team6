@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -15,6 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,8 +31,6 @@ public class MainScheduleController implements Initializable{
     @FXML private Text month;
     @FXML private GridPane schedulePane;
 
-    @FXML private Button homeButton;
-    @FXML private Button addEventButton;
     @FXML private Button deleteButton;
 
     @FXML private TableView<Event> eventList;
@@ -48,10 +48,6 @@ public class MainScheduleController implements Initializable{
         dateFocus = ZonedDateTime.now();
         today = ZonedDateTime.now();
         drawCalendar();
-
-        addEventButton.setVisible(true);
-        homeButton.setVisible(false);
-        deleteButton.setVisible(false);
 
         // define the date into colum list
         eventColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -127,18 +123,27 @@ public class MainScheduleController implements Initializable{
                 // Add click event listener for the stackPane
                 stackPane.setOnMouseClicked(event -> {
                     StackPane clickedStack = (StackPane) event.getSource();
-                    day = (Text) clickedStack.getChildren().get(0);
-                    //System.out.println(currentDayInfo());
+                    Node node = clickedStack.getChildren().get(0);
+                    day = (Text) node;
 
                     // add event to tableView list
-                    events.clear();
-                    addEventToList(eventArrayList);
+                    int clickedDate = Integer.parseInt(day.getText());
+                    handleDateClick(clickedDate);
+
 
                 });
                 schedulePane.add(stackPane,j,i);
 
 
             }
+        }
+    }
+
+    private void handleDateClick(int clickedDate) {
+        if (!eventArrayList.isEmpty()) {
+            events.clear();
+            LocalDate clickedLocalDate = LocalDate.from(dateFocus.withDayOfMonth(clickedDate));
+            addEventToList(clickedLocalDate, clickedLocalDate.getDayOfWeek());
         }
     }
 
@@ -163,12 +168,9 @@ public class MainScheduleController implements Initializable{
     public void homeButton(ActionEvent event) {
         // clear the event in home page, wait for select day to show daily schedule
         events.clear();
-
-        addEventButton.setVisible(true);
-        homeButton.setVisible(false);
-        deleteButton.setVisible(false);
-
         bPane.setCenter(vBox);
+
+
     }
 
     /**
@@ -179,12 +181,8 @@ public class MainScheduleController implements Initializable{
     @FXML
     public void addEventButton(ActionEvent event) throws Exception {
         loadPage();
-        // set state of each buttons
-        homeButton.setVisible(true);
-        addEventButton.setVisible(false);
-        deleteButton.setVisible(true);
-
         // show all event as user created
+        events.clear();
         if(!eventArrayList.isEmpty()) {
             events.addAll(eventArrayList);
             eventList.setItems(events);
@@ -200,7 +198,7 @@ public class MainScheduleController implements Initializable{
 
     // change the time formal from 4 OCTOBER 2023 to 4/10/2023
     // which able to compare with even's day data
-    private LocalDate currentDayInfo() {
+    private LocalDate getCurrentDay() {
         String timeInput = day.getText() + " " + month.getText() + " " + year.getText();
 
         DateTimeFormatter inputFormat = new DateTimeFormatterBuilder()
@@ -213,10 +211,17 @@ public class MainScheduleController implements Initializable{
     }
 
     // add Event to list , not add to schedule
-    public void addEventToList(ArrayList<Event> eventArrayList){
+    public void addEventToList(LocalDate currentDay, DayOfWeek currentWeek){
+
         for(Event e :eventArrayList){
-            if(e.isActivityOnDate(currentDayInfo())){
-                events.add(e);
+            if ("Every Weeks".equals(e.getRepeat())) {
+                if (e.isActivityOnDate(currentDay) && e.isActivityOnWeek(currentWeek)) {
+                    events.add(e);
+                }
+            }else {
+                if (e.isActivityOnDate(currentDay)) {
+                    events.add(e);
+                }
             }
         }
         eventList.setItems(events);
@@ -225,7 +230,6 @@ public class MainScheduleController implements Initializable{
     // show the detail of event and able to edit it
     public void showEventDetail(Event event) throws Exception {
         loadPage();
-
         addEventController.showEvent(event);
     }
 

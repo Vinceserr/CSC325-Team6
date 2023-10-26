@@ -11,7 +11,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -22,6 +25,7 @@ public class AddEventController {
     @FXML private DatePicker startDay;
     @FXML private DatePicker endDay;
     @FXML private ChoiceBox<String> repeat;
+    @FXML private HBox currentDay;
 
     @FXML private CheckBox MON;
     @FXML private CheckBox TUE;
@@ -38,6 +42,28 @@ public class AddEventController {
     public ObservableList<Event> events = FXCollections.observableArrayList();
 
     public void initialize(){
+        currentDay.setDisable(true);
+        LocalDate today = LocalDate.now();
+        startDay.setValue(today);
+        endDay.setValue(today);
+
+        setTimeOfComboBox();
+
+        //set the repeat select items
+        repeat.getItems().addAll("No repeat","Every Day","Every Weeks");
+        //set the initial repeat as no repeat
+        repeat.setValue("No repeat");
+
+        // listen the state of repeat, if user choose to repeat every week,
+        // open the weeks pane what allow user to select the weeks
+        repeat.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+            handleRepeatClick(newValue,today);
+        });
+
+
+    }
+    private void setTimeOfComboBox(){
         //set the start time
         for(int hour =0; hour<24; hour++){
             for( int minute =0; minute < 60; minute+=10){
@@ -50,30 +76,35 @@ public class AddEventController {
                 endTime.getItems().add(LocalTime.of(hour,minute));
             }
         }
-        //set the repeat select items
-        repeat.getItems().addAll("No repeat","Every Day","Every Weeks",
-                                    "Every Month","Every Year");
-        //set the initial repeat as no repeat
-        repeat.setValue("No repeat");
+    }
 
-        // listen the state of repeat, if user choose to repeat every week,
-        // open the weeks pane what allow user to select the weeks
-        repeat.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if ("Every Weeks".equals(newValue)) {
-                weeksPane.setDisable(false);
-            } else {
-                weeksPane.setDisable(true);
-                MON.setSelected(false);
-                TUE.setSelected(false);
-                WED.setSelected(false);
-                THU.setSelected(false);
-                FRI.setSelected(false);
-                SAT.setSelected(false);
-                SUN.setSelected(false);
-            }
-        });
+    private void handleRepeatClick(String newValue,LocalDate today){
+        if("No repeat".equals(newValue)){
 
+            currentDay.setDisable(true);
+            weeksPane.setDisable(true);
 
+            startDay.setValue(today);
+            endDay.setValue(today);
+
+        }else if ("Every Weeks".equals(newValue)) {
+
+            currentDay.setDisable(false);
+            weeksPane.setDisable(false);
+
+        } else if("Every Day".equals(newValue)){
+
+            currentDay.setDisable(false);
+            weeksPane.setDisable(true);
+
+            MON.setSelected(false);
+            TUE.setSelected(false);
+            WED.setSelected(false);
+            THU.setSelected(false);
+            FRI.setSelected(false);
+            SAT.setSelected(false);
+            SUN.setSelected(false);
+        }
     }
     public Event setEvent(){
         Event e = new Event();
@@ -87,10 +118,6 @@ public class AddEventController {
         return e;
     }
 
-    public void setEventList(TableView<Event>eventList){
-        this.eventList = eventList;
-    }
-
     @FXML
     void saveButtonPress(ActionEvent event) {
         Event e =setEvent();
@@ -101,18 +128,18 @@ public class AddEventController {
     }
 
     // set which weeks is select
-    private String setWeeks(){
-        StringBuilder weeks = new StringBuilder();
+    private DayOfWeek[] setWeeks(){
+        DayOfWeek[] weeks = new DayOfWeek[7];
 
-        if(SUN.isSelected()){weeks.append("SUN ");}
-        if(MON.isSelected()){weeks.append("MON ");}
-        if(TUE.isSelected()){weeks.append("TUE ");}
-        if(WED.isSelected()){weeks.append("WED ");}
-        if(THU.isSelected()){weeks.append("THU ");}
-        if(FRI.isSelected()){weeks.append("FRI ");}
-        if(SAT.isSelected()){weeks.append("SAT ");}
+        if(SUN.isSelected()){weeks[0] = DayOfWeek.SUNDAY;}
+        if(MON.isSelected()){weeks[1] = DayOfWeek.MONDAY;}
+        if(TUE.isSelected()){weeks[2] = DayOfWeek.TUESDAY;}
+        if(WED.isSelected()){weeks[3] = DayOfWeek.WEDNESDAY;}
+        if(THU.isSelected()){weeks[4] = DayOfWeek.THURSDAY;}
+        if(FRI.isSelected()){weeks[5] = DayOfWeek.FRIDAY;}
+        if(SAT.isSelected()){weeks[6] = DayOfWeek.SATURDAY;}
 
-        return weeks.toString().trim();
+        return weeks;
     }
 
     public void showEvent(Event event) {
@@ -123,18 +150,45 @@ public class AddEventController {
         endDay.setValue(event.getEndDay());
         repeat.setValue(event.getRepeat());
         // Set the statue of weeks
-        for (String week : event.getWeeks().split(" ")) {
-            if (week.equals("MON")) {MON.setSelected(true);}
-            if (week.equals("TUE")) {TUE.setSelected(true);}
-            if (week.equals("WED")) {WED.setSelected(true);}
-            if (week.equals("THU")) {THU.setSelected(true);}
-            if (week.equals("FRI")) {FRI.setSelected(true);}
-            if (week.equals("SAT")) {SAT.setSelected(true);}
-            if (week.equals("SUN")) {SUN.setSelected(true);}
-       }
+        if(event.getRepeat().equals("Every Weeks")) {
+            for (DayOfWeek week : event.getWeeks()) {
+                if (week.equals(DayOfWeek.MONDAY)) {
+                    MON.setSelected(true);
+                }
+                if (week.equals(DayOfWeek.TUESDAY)) {
+                    TUE.setSelected(true);
+                }
+                if (week.equals(DayOfWeek.WEDNESDAY)) {
+                    WED.setSelected(true);
+                }
+                if (week.equals(DayOfWeek.THURSDAY)) {
+                    THU.setSelected(true);
+                }
+                if (week.equals(DayOfWeek.FRIDAY)) {
+                    FRI.setSelected(true);
+                }
+                if (week.equals(DayOfWeek.SATURDAY)) {
+                    SAT.setSelected(true);
+                }
+                if (week.equals(DayOfWeek.SUNDAY)) {
+                    SUN.setSelected(true);
+                }
+            }
+        }else{
+            MON.setSelected(false);
+            TUE.setSelected(false);
+            WED.setSelected(false);
+            THU.setSelected(false);
+            FRI.setSelected(false);
+            SAT.setSelected(false);
+            SUN.setSelected(false);
+        }
+
     }
 
-
+    public void setEventList(TableView<Event>eventList){
+        this.eventList = eventList;
+    }
 
 
 }
