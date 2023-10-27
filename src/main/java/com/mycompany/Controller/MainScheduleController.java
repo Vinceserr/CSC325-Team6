@@ -1,5 +1,6 @@
 package com.mycompany.Controller;
 import com.mycompany.Application.*;
+import com.mycompany.Application.Task;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,17 +32,19 @@ public class MainScheduleController implements Initializable{
     @FXML private Text month;
     @FXML private GridPane schedulePane;
 
-    @FXML private Button deleteButton;
+    @FXML private Button deleteTaskButton;
+    @FXML private Button addTaskButton;
 
-    @FXML private TableView<Event> eventList;
-    @FXML private TableColumn<Event, String> eventColumn;
+    @FXML private TableView<Task> TaskTableView;
+    @FXML private TableColumn<Task, String> TaskColumn;
 
     ZonedDateTime dateFocus;
     ZonedDateTime today;
     Text day;
-    ObservableList<Event> events = FXCollections.observableArrayList();
-    ArrayList<Event> eventArrayList = AddEventController.eventArrayList;
-    AddEventController addEventController;
+    StackPane stackPane;
+    ObservableList<Task> taskObservableList = FXCollections.observableArrayList();
+    ArrayList<Task> taskArrayList = AddTaskController.taskArrayList;
+    AddTaskController addTaskController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,22 +52,26 @@ public class MainScheduleController implements Initializable{
         today = ZonedDateTime.now();
         drawCalendar();
 
+        taskObservableList.clear();
+        addTaskButton.setVisible(true);
+
         // define the date into colum list
-        eventColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        TaskColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         //listen the TableView for which event is select
-        eventList.getSelectionModel().selectedItemProperty().addListener(
+        TaskTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldVal, newVal) ->{
                     try {
                         showEventDetail(newVal);
-                        deleteButton.setOnAction(e->deleteEvent(newVal));
+                        if(newVal == null){
+                            System.out.println("newVal is null");
+                        }
+                        deleteTaskButton.setOnAction(e->deleteEvent(newVal));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
         );
-
-
 
     }
 
@@ -108,7 +115,7 @@ public class MainScheduleController implements Initializable{
                 1,0,0,0,0,dateFocus.getZone()).getDayOfWeek().getValue();
         for (int i = 0 ; i < 6 ; i ++){
             for (int j = 0; j < 7 ; j ++){
-                StackPane stackPane = new StackPane();
+                stackPane = new StackPane();
                 int calculatedDate = (j+1)+(7*i);
                 if (calculatedDate > dateOffSet){
                     int currentDate = calculatedDate - dateOffSet;
@@ -117,77 +124,84 @@ public class MainScheduleController implements Initializable{
 
                         stackPane.getChildren().add(date);
                         date.setFont(Font.font("Arial Rounded MT Bold"));
+
+                        // Add click event listener for the stackPane
+                        stackPane.setOnMouseClicked(event -> {
+                            StackPane clickedStack = (StackPane) event.getSource();
+                            Node node = clickedStack.getChildren().get(0);
+                            day = (Text) node;
+
+                            // add event to tableView list
+                            int clickedDate = Integer.parseInt(day.getText());
+                            handleDateClick(clickedDate);
+
+                        });
                     }
                 }
-
-                // Add click event listener for the stackPane
-                stackPane.setOnMouseClicked(event -> {
-                    StackPane clickedStack = (StackPane) event.getSource();
-                    Node node = clickedStack.getChildren().get(0);
-                    day = (Text) node;
-
-                    // add event to tableView list
-                    int clickedDate = Integer.parseInt(day.getText());
-                    handleDateClick(clickedDate);
-
-
-                });
                 schedulePane.add(stackPane,j,i);
-
-
             }
         }
     }
 
     private void handleDateClick(int clickedDate) {
-        if (!eventArrayList.isEmpty()) {
-            events.clear();
+        if (!taskArrayList.isEmpty()) {
+            taskObservableList.clear();
             LocalDate clickedLocalDate = LocalDate.from(dateFocus.withDayOfMonth(clickedDate));
             addEventToList(clickedLocalDate, clickedLocalDate.getDayOfWeek());
         }
     }
 
 
-    private void loadPage() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/addEvent.fxml"));
-        Parent root = loader.load();
-        bPane.setCenter(root);
+    private void loadPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/addTask.fxml"));
+            Parent root = loader.load();
+            bPane.setCenter(root);
 
-        //sent TableView to addEventController
-        addEventController = loader.getController();
-        addEventController.setEventList(eventList);
+            //sent TableView to addEventController
+            addTaskController = loader.getController();
+            if(addTaskController != null){
+                addTaskController.setTaskTableView(TaskTableView);
+            }else{
+                System.out.println("addTaskController is null");
+            }
+
+        }catch (Exception e){
+            System.out.println("Failed to load FXML!");
+        }
     }
 
     /**
      * HomeButton method
      * This method handles the Home Button
      *
-     * @param event
+     * @param event on mouse click
      */
     @FXML
     public void homeButton(ActionEvent event) {
         // clear the event in home page, wait for select day to show daily schedule
-        events.clear();
+        taskObservableList.clear();
         bPane.setCenter(vBox);
-
+        addTaskButton.setVisible(true);
 
     }
 
     /**
      * addEventButton method
-     * @param event
-     * @throws Exception
+     * @param event on mouse click
      */
     @FXML
-    public void addEventButton(ActionEvent event) throws Exception {
+    public void addTaskButton(ActionEvent event) throws Exception {
         loadPage();
-        // show all event as user created
-        events.clear();
-        if(!eventArrayList.isEmpty()) {
-            events.addAll(eventArrayList);
-            eventList.setItems(events);
+        // show all event as user click
+        if(!taskArrayList.isEmpty()) {
+            taskObservableList.addAll(taskArrayList);
+            TaskTableView.setItems(taskObservableList);
         }
+        addTaskButton.setVisible(false);
+
     }
+
 
     @FXML
     public void signOutButton(ActionEvent event)throws Exception{
@@ -210,34 +224,45 @@ public class MainScheduleController implements Initializable{
 
     }
 
-    // add Event to list , not add to schedule
+    // add Task to list , not add to schedule
     public void addEventToList(LocalDate currentDay, DayOfWeek currentWeek){
 
-        for(Event e :eventArrayList){
-            if ("Every Weeks".equals(e.getRepeat())) {
-                if (e.isActivityOnDate(currentDay) && e.isActivityOnWeek(currentWeek)) {
-                    events.add(e);
+        for(Task task : taskArrayList){
+            if ("Every Weeks".equals(task.getRepeat())) {
+                if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
+                    taskObservableList.add(task);
                 }
             }else {
-                if (e.isActivityOnDate(currentDay)) {
-                    events.add(e);
+                if (task.isActivityOnDate(currentDay)) {
+                    taskObservableList.add(task);
                 }
             }
         }
-        eventList.setItems(events);
+        TaskTableView.setItems(taskObservableList);
     }
 
     // show the detail of event and able to edit it
-    public void showEventDetail(Event event) throws Exception {
-        loadPage();
-        addEventController.showEvent(event);
+    public void showEventDetail(Task task) throws Exception {
+
+        try {
+            loadPage();
+            addTaskController.showEvent(task);
+        }catch (NullPointerException npe){
+            npe.printStackTrace();
+            System.out.println("Failed to load stored task.");
+        }
+
     }
 
-    public void deleteEvent(Event e){
+    public void deleteEvent(Task task){
         // remove from Array list
-        if(!eventArrayList.isEmpty()) {eventArrayList.remove(e);}
+        if(!taskArrayList.isEmpty()) {
+            taskArrayList.remove(task);}
         // remove from TableView
-        if(!events.isEmpty()){events.remove(e);}
+        if(!taskObservableList.isEmpty()){
+            taskObservableList.remove(task);
+        }
+        System.out.println("delete: "+ task.getTitle());
     }
 
 }

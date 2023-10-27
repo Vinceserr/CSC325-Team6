@@ -1,0 +1,204 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ */
+package com.mycompany.Controller;
+
+import com.mycompany.Application.Task;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+
+public class AddTaskController {
+    @FXML private TextField titleField;
+    @FXML private ComboBox<LocalTime> startTime;
+    @FXML private ComboBox<LocalTime> endTime;
+    @FXML private DatePicker startDay;
+    @FXML private DatePicker endDay;
+    @FXML private ChoiceBox<String> repeat;
+    @FXML private HBox currentDay;
+
+    @FXML private CheckBox MON;
+    @FXML private CheckBox TUE;
+    @FXML private CheckBox WED;
+    @FXML private CheckBox THU;
+    @FXML private CheckBox FRI;
+    @FXML private CheckBox SAT;
+    @FXML private CheckBox SUN;
+
+    @FXML private GridPane weeksPane;
+
+    public static ArrayList<Task> taskArrayList = new ArrayList<>();
+    private TableView<Task> taskTableView;
+    public ObservableList<Task> tasks = FXCollections.observableArrayList();
+
+    public void initialize(){
+
+        setTimeOfComboBox();
+        //set the repeat select items
+        repeat.getItems().addAll("No repeat","Every Day","Every Weeks");
+
+        // listen the state of repeat, if user choose to repeat every week,
+        // open the weeks pane what allow user to select the weeks
+        repeat.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> handleRepeatClick(newValue));
+
+        initTaskMessage();
+    }
+    private void setTimeOfComboBox(){
+        for(int hour =0; hour<24; hour++){
+            for( int minute =0; minute < 60; minute+=10){
+                startTime.getItems().add(LocalTime.of(hour,minute));
+                endTime.getItems().add(LocalTime.of(hour,minute));
+            }
+        }
+    }
+
+    private void handleRepeatClick(String newValue){
+        if("No repeat".equals(newValue)){
+
+            currentDay.setDisable(true); // hide
+            weeksPane.setDisable(true); // hide
+
+            // set as today's date
+            startDay.setValue(LocalDate.now());
+            endDay.setValue(LocalDate.now());
+
+        } else if("Every Day".equals(newValue)){
+
+            currentDay.setDisable(false); //show
+            weeksPane.setDisable(true); //hide
+            hideWeeksPane();
+
+        }else if ("Every Weeks".equals(newValue)) {
+
+            currentDay.setDisable(false); // show
+            weeksPane.setDisable(false); // show
+
+        }
+    }
+    public Task setEvent(){
+        Task e = new Task();
+        e.setTitle(titleField.getText());
+        e.setStartTime(startTime.getValue());
+        e.setEndTime(endTime.getValue());
+        e.setStartDay(startDay.getValue());
+        e.setEndDay(endDay.getValue());
+        e.setRepeat(repeat.getValue());
+        e.setWeeks(setWeeks());
+        return e;
+    }
+
+    @FXML
+    void saveButtonPress(ActionEvent event) {
+        Task e =setEvent();
+        taskArrayList.add(e); // save to Array list
+
+        tasks.add(e);
+        taskTableView.setItems(tasks); // show on TableView
+        initTaskMessage();
+    }
+
+    // set which weeks is select
+    private DayOfWeek[] setWeeks(){
+        DayOfWeek[] weeks = new DayOfWeek[7];
+
+        if(SUN.isSelected()){weeks[0] = DayOfWeek.SUNDAY;}
+        if(MON.isSelected()){weeks[1] = DayOfWeek.MONDAY;}
+        if(TUE.isSelected()){weeks[2] = DayOfWeek.TUESDAY;}
+        if(WED.isSelected()){weeks[3] = DayOfWeek.WEDNESDAY;}
+        if(THU.isSelected()){weeks[4] = DayOfWeek.THURSDAY;}
+        if(FRI.isSelected()){weeks[5] = DayOfWeek.FRIDAY;}
+        if(SAT.isSelected()){weeks[6] = DayOfWeek.SATURDAY;}
+
+        return weeks;
+    }
+
+    public void showEvent(Task task) {
+        if(task != null) {
+            titleField.setText(task.getTitle());
+            startTime.getSelectionModel().select(task.getStartTime());
+            endTime.getSelectionModel().select(task.getEndTime());
+            startDay.setValue(task.getStartDay());
+            endDay.setValue(task.getEndDay());
+            repeat.setValue(task.getRepeat());
+
+            // Set the statue of weeks
+            if (task.getRepeat().equals("Every Weeks")) {
+                for (DayOfWeek week : task.getWeeks()) {
+                    
+                    if (week == DayOfWeek.MONDAY) {
+                        MON.setSelected(true);
+                    }
+                    if (week == DayOfWeek.TUESDAY) {
+                        TUE.setSelected(true);
+                    }
+                    if (week == DayOfWeek.WEDNESDAY) {
+                        WED.setSelected(true);
+                    }
+                    if (week == DayOfWeek.THURSDAY) {
+                        THU.setSelected(true);
+                    }
+                    if (week == DayOfWeek.FRIDAY) {
+                        FRI.setSelected(true);
+                    }
+                    if (week == DayOfWeek.SATURDAY) {
+                        SAT.setSelected(true);
+                    }
+                    if (week == DayOfWeek.SUNDAY) {
+                        SUN.setSelected(true);
+                    }
+
+
+                }
+            } else {
+                hideWeeksPane();
+            }
+        }
+
+    }
+
+    private void hideWeeksPane() {
+        MON.setSelected(false);
+        TUE.setSelected(false);
+        WED.setSelected(false);
+        THU.setSelected(false);
+        FRI.setSelected(false);
+        SAT.setSelected(false);
+        SUN.setSelected(false);
+    }
+
+
+    public void initTaskMessage(){
+        titleField.clear();
+        startTime.getSelectionModel().clearSelection();
+        endTime.getSelectionModel().clearSelection();
+        startDay.setValue(LocalDate.now());
+        endDay.setValue(LocalDate.now());
+        repeat.setValue("No repeat");
+
+        hideWeeksPane();
+    }
+
+
+
+    public void setTaskTableView(TableView<Task> taskTableView) {
+        this.taskTableView = taskTableView;
+    }
+}
+
+
+
+
+
+
+

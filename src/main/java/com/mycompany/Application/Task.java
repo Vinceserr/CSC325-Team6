@@ -4,7 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Event {
+public class Task {
     private String title;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -13,11 +13,11 @@ public class Event {
     private String repeat;
     private DayOfWeek[] weeks;
 
-    public Event() {
+    public Task() {
     }
 
-    public Event(String title, LocalTime startTime, LocalTime endTime,
-                 LocalDate startDay, LocalDate endDay, String repeat) {
+    public Task(String title, LocalTime startTime, LocalTime endTime,
+                LocalDate startDay, LocalDate endDay, String repeat) {
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -87,8 +87,8 @@ public class Event {
         return !date.isBefore(startDay) && !date.isAfter(endDay);
     }
     public boolean isActivityOnWeek(DayOfWeek currentWeek){
-        for(DayOfWeek eventWeek: weeks){
-            if(currentWeek.equals(eventWeek)){
+        for(DayOfWeek taskWeek: weeks){
+            if(currentWeek.equals(taskWeek)){
                 return true;
             }
         }

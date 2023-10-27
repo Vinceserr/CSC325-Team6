@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -29,19 +28,14 @@
          <children>
             <VBox alignment="CENTER" prefWidth="115.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button fx:id="homeButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#homeButton" prefHeight="50.0" style="-fx-background-color: #9F281C; -fx-border-color: #eab676; -fx-cursor: hand;" text="Home" textFill="WHITE">
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#homeButton" prefHeight="50.0" style="-fx-background-color: #9F281C; -fx-border-color: #eab676; -fx-cursor: hand;" text="Home" textFill="WHITE">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="12.0" />
                      </font></Button>
-                  <Button fx:id="addEventButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addEventButton" prefHeight="50.0" style="-fx-background-color: #9F281C; -fx-border-color: #eab676; -fx-cursor: hand;" text="Add Event" textFill="WHITE">
+                  <Button fx:id="addTaskButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addTaskButton" prefHeight="50.0" style="-fx-background-color: #9F281C; -fx-border-color: #eab676; -fx-cursor: hand;" text="Add Task" textFill="WHITE">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="12.0" />
                      </font></Button>
-                  <Button fx:id="deleteButton" layoutX="10.0" layoutY="60.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" style="-fx-background-color: #9F281C; -fx-border-color: #eab676; -fx-cursor: hand;" text="Delete Event" textFill="WHITE">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="12.0" />
-                     </font>
-                  </Button>
                </children>
             </VBox>
             <Button layoutX="28.0" layoutY="313.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signOutButton" prefHeight="50.0" style="-fx-background-color: #9F281C; -fx-border-color: eab676; -fx-cursor: hand;" text="Sign Out" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -152,14 +146,23 @@
    <right>
       <AnchorPane style="-fx-background-color: #9F281C;">
          <children>
-            <TableView fx:id="eventList" prefHeight="547.0" prefWidth="163.0" style="-fx-background-color: #9F281C;" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn fx:id="eventColumn" editable="false" prefWidth="96.0" sortable="false" text="Event" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
+            <VBox prefHeight="547.0" prefWidth="163.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TableView fx:id="TaskTableView" prefHeight="519.0" prefWidth="163.0" style="-fx-background-color: #9F281C;" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="TaskColumn" editable="false" prefWidth="96.0" sortable="false" text="Task" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Button fx:id="deleteTaskButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="58.0" prefWidth="163.0" style="-fx-background-color: #9F281C; -fx-border-color: #eab676; -fx-cursor: hand;" text="Delete" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </right>

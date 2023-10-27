@@ -17,7 +17,7 @@ public class App extends Application {
         createStage Schedule = new MainScheduleStage();
         Schedule.showStage();
 
-        //createStage addEvent = new addEventStage();
+        //createStage addEvent = new addTaskStage();
         //addEvent.showStage();
     }
 
