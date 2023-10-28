@@ -1,43 +1,78 @@
 package com.mycompany.Controller;
 import com.mycompany.Application.*;
+import com.mycompany.Application.Task;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainScheduleController implements Initializable{
-    @FXML
-    private BorderPane bPane;
+    @FXML private BorderPane bPane;
+    @FXML private VBox vBox;
+    @FXML private Text year;
+    @FXML private Text month;
+    @FXML private GridPane schedulePane;
+
+    @FXML private Button deleteTaskButton;
+    @FXML private Button addTaskButton;
+
+    @FXML private TableView<Task> TaskTableView;
+    @FXML private TableColumn<Task, String> TaskColumn;
 
     ZonedDateTime dateFocus;
     ZonedDateTime today;
-
-    @FXML
-    private VBox vBox;
-    @FXML
-    private Text year;
-    @FXML
-    private Text month;
-    @FXML
-    private GridPane schedulePane;
+    Text day;
+    StackPane stackPane;
+    ObservableList<Task> taskObservableList = FXCollections.observableArrayList();
+    ArrayList<Task> taskArrayList = AddTaskController.taskArrayList;
+    AddTaskController addTaskController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dateFocus = ZonedDateTime.now();
         today = ZonedDateTime.now();
         drawCalendar();
+
+        taskObservableList.clear();
+        addTaskButton.setVisible(true);
+
+        // define the date into colum list
+        TaskColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+        //listen the TableView for which event is select
+        TaskTableView.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldVal, newVal) ->{
+                    try {
+                        showEventDetail(newVal);
+                        if(newVal == null){
+                            System.out.println("newVal is null");
+                        }
+                        deleteTaskButton.setOnAction(e->deleteEvent(newVal));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+
     }
 
     /**
@@ -76,18 +111,31 @@ public class MainScheduleController implements Initializable{
             monthMaxDate = 28;
         }
 
-        int dateOffSet = ZonedDateTime.of(dateFocus.getYear(),dateFocus.getMonthValue(),1,0,0,0,0,dateFocus.getZone()).getDayOfWeek().getValue();
+        int dateOffSet = ZonedDateTime.of(dateFocus.getYear(),dateFocus.getMonthValue(),
+                1,0,0,0,0,dateFocus.getZone()).getDayOfWeek().getValue();
         for (int i = 0 ; i < 6 ; i ++){
             for (int j = 0; j < 7 ; j ++){
-                StackPane stackPane = new StackPane();
+                stackPane = new StackPane();
                 int calculatedDate = (j+1)+(7*i);
                 if (calculatedDate > dateOffSet){
                     int currentDate = calculatedDate - dateOffSet;
                     if(currentDate <= monthMaxDate){
                         Text date = new Text(String.valueOf(currentDate));
-                        //Button date = new Button(String.valueOf(currentDate));
+
                         stackPane.getChildren().add(date);
                         date.setFont(Font.font("Arial Rounded MT Bold"));
+
+                        // Add click event listener for the stackPane
+                        stackPane.setOnMouseClicked(event -> {
+                            StackPane clickedStack = (StackPane) event.getSource();
+                            Node node = clickedStack.getChildren().get(0);
+                            day = (Text) node;
+
+                            // add event to tableView list
+                            int clickedDate = Integer.parseInt(day.getText());
+                            handleDateClick(clickedDate);
+
+                        });
                     }
                 }
                 schedulePane.add(stackPane,j,i);
@@ -95,36 +143,65 @@ public class MainScheduleController implements Initializable{
         }
     }
 
-    public GridPane getSchedulePane() {
-        return schedulePane;
+    private void handleDateClick(int clickedDate) {
+        if (!taskArrayList.isEmpty()) {
+            taskObservableList.clear();
+            LocalDate clickedLocalDate = LocalDate.from(dateFocus.withDayOfMonth(clickedDate));
+            addEventToList(clickedLocalDate, clickedLocalDate.getDayOfWeek());
+        }
     }
 
-    private void loadPage(String page) throws Exception {
-        Parent root = null;
-        root = FXMLLoader.load(getClass().getResource("/com/mycompany/Application/"+page + ".fxml"));
-        bPane.setCenter(root);
+
+    private void loadPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/addTask.fxml"));
+            Parent root = loader.load();
+            bPane.setCenter(root);
+
+            //sent TableView to addEventController
+            addTaskController = loader.getController();
+            if(addTaskController != null){
+                addTaskController.setTaskTableView(TaskTableView);
+            }else{
+                System.out.println("addTaskController is null");
+            }
+
+        }catch (Exception e){
+            System.out.println("Failed to load FXML!");
+        }
     }
 
     /**
      * HomeButton method
      * This method handles the Home Button
      *
-     * @param event
+     * @param event on mouse click
      */
     @FXML
     public void homeButton(ActionEvent event) {
+        // clear the event in home page, wait for select day to show daily schedule
+        taskObservableList.clear();
         bPane.setCenter(vBox);
+        addTaskButton.setVisible(true);
+
     }
 
     /**
      * addEventButton method
-     * @param event
-     * @throws Exception
+     * @param event on mouse click
      */
     @FXML
-    public void addEventButton(ActionEvent event) throws Exception {
-        loadPage("addEvent");
+    public void addTaskButton(ActionEvent event) throws Exception {
+        loadPage();
+        // show all event as user click
+        if(!taskArrayList.isEmpty()) {
+            taskObservableList.addAll(taskArrayList);
+            TaskTableView.setItems(taskObservableList);
+        }
+        addTaskButton.setVisible(false);
+
     }
+
 
     @FXML
     public void signOutButton(ActionEvent event)throws Exception{
@@ -133,95 +210,61 @@ public class MainScheduleController implements Initializable{
         lg.showStage();
     }
 
-    //private Map<Integer, List<Event>> createCalendarMap(List<Event> events){
-       // Map<Integer ,List<Event>> calendarMap = new HashMap<>();
+    // change the time formal from 4 OCTOBER 2023 to 4/10/2023
+    // which able to compare with even's day data
+    private LocalDate getCurrentDay() {
+        String timeInput = day.getText() + " " + month.getText() + " " + year.getText();
 
-       // for (Event e: events){
-       //     int eventDate;
-      //  }
-   // }
+        DateTimeFormatter inputFormat = new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .appendPattern("d MMMM yyyy")
+                .toFormatter();
 
-    private static MainScheduleController instance;
+        return LocalDate.parse(timeInput, inputFormat);
 
-    public MainScheduleController() {
-        instance = this;
     }
 
-    public static MainScheduleController getInstance() {
-        return instance;
-    }
+    // add Task to list , not add to schedule
+    public void addEventToList(LocalDate currentDay, DayOfWeek currentWeek){
 
-    public void addEventToSchedule(Event event){
-        String weeks = event.getDayOfWeeks();
-
-        //get all weeks when user choose
-        for(String str :weeks.split(" ")){
-            // get column of grid pane which list the box under the week
-            int column = event.weeksToRows(str);
-
-            // get row of grid pane, if one box is exit than go to next box
-            int row  = findNextAvailableRow(column);
-
-            // if all row are occupied show the warring to user
-            if(row == -1){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Add Failed");
-                alert.setHeaderText("all rows are occupied");
-                ButtonType bt = new ButtonType("Cancel");
-                alert.getButtonTypes().setAll(bt);
-                alert.showAndWait();
+        for(Task task : taskArrayList){
+            if ("Every Weeks".equals(task.getRepeat())) {
+                if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
+                    taskObservableList.add(task);
+                }
             }else {
-                VBox evenBox = createEventBox(event);
-                schedulePane.add(evenBox, column, row);
-            }
-        }
-    }
-
-    public int findNextAvailableRow(int column){
-        int maxRows = 6;
-        for(int row = 0; row<maxRows;row++){
-            for(Node e:schedulePane.getChildren()){
-                boolean isOccupied = false;
-                // check have box in row,if not return this row
-                if(Integer.valueOf(column).equals(GridPane.getColumnIndex(e))
-                        && !Integer.valueOf(row).equals(GridPane.getRowIndex(e))){
-                    isOccupied = true;
-                    break;
-                }
-                if (!isOccupied) {
-                    return row;
+                if (task.isActivityOnDate(currentDay)) {
+                    taskObservableList.add(task);
                 }
             }
         }
-
-        return -1;
-    }
-    // create the event box in VBox which assign the information of event
-    // and return the VBox for add event to schedule
-    public VBox createEventBox(Event event){
-        VBox eventBox = new VBox();
-        //set color of box
-        eventBox.setStyle("-fx-background-color: " + event.getColor() + ";");
-
-        //set data of event
-        Label title = new Label(event.getTitle());
-        Label time = new Label(event.getStartTime()+" - "+event.getEndTime());
-        Label day = new Label(event.getStartDay()+"\n"+event.getEndDay());
-        Label loop = new Label("Loop: "+event.isLoop());
-
-        //add these labels to box
-        eventBox.getChildren().add(title);
-        eventBox.getChildren().add(time);
-        eventBox.getChildren().add(day);
-        eventBox.getChildren().add(loop);
-
-        return eventBox;
+        TaskTableView.setItems(taskObservableList);
     }
 
+    // show the detail of event and able to edit it
+    public void showEventDetail(Task task) throws Exception {
 
-    public void setSchedulePane(GridPane schedulePane) {
-        this.schedulePane = schedulePane;
+        try {
+            loadPage();
+            addTaskController.showEvent(task);
+        }catch (NullPointerException npe){
+            npe.printStackTrace();
+            System.out.println("Failed to load stored task.");
+        }
+
     }
+
+    public void deleteEvent(Task task){
+        // remove from Array list
+        if(!taskArrayList.isEmpty()) {
+            taskArrayList.remove(task);}
+        // remove from TableView
+        if(!taskObservableList.isEmpty()){
+            taskObservableList.remove(task);
+        }
+        System.out.println("delete: "+ task.getTitle());
+    }
+
 }
 
 

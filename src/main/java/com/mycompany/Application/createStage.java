@@ -4,15 +4,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public abstract class createStage {
     protected static Stage stage;
     protected Scene scene;
     protected FXMLLoader loader;
+    protected Task task;
 
     public createStage() {
         stage = new Stage();
+        task = new Task();
     }
 
     public abstract void showStage() throws Exception;
