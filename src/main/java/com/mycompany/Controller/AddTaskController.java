@@ -38,8 +38,6 @@ public class AddTaskController {
     @FXML private GridPane weeksPane;
 
     public static ArrayList<Task> taskArrayList = new ArrayList<>();
-    private TableView<Task> taskTableView;
-    public ObservableList<Task> tasks = FXCollections.observableArrayList();
 
     public void initialize(){
 
@@ -54,6 +52,10 @@ public class AddTaskController {
 
         initTaskMessage();
     }
+
+    /**
+     * set the time of ComboBox
+     */
     private void setTimeOfComboBox(){
         for(int hour =0; hour<24; hour++){
             for( int minute =0; minute < 60; minute+=10){
@@ -63,6 +65,19 @@ public class AddTaskController {
         }
     }
 
+    @FXML
+    void saveButtonPress(ActionEvent event) {
+        Task task =setEvent();
+        taskArrayList.add(task); // save to Array list
+
+        showOnTableView(task);
+        initTaskMessage();
+    }
+
+    /**
+     * Change the statue of component when user choose different repeat
+     * @param newValue get the new item from repeat's listener
+     */
     private void handleRepeatClick(String newValue){
         if("No repeat".equals(newValue)){
 
@@ -86,44 +101,49 @@ public class AddTaskController {
 
         }
     }
+
+    /**
+     * Encapsulate all task information
+     * @return task to show task or add to list
+     */
     public Task setEvent(){
-        Task e = new Task();
-        e.setTitle(titleField.getText());
-        e.setStartTime(startTime.getValue());
-        e.setEndTime(endTime.getValue());
-        e.setStartDay(startDay.getValue());
-        e.setEndDay(endDay.getValue());
-        e.setRepeat(repeat.getValue());
-        e.setWeeks(setWeeks());
-        return e;
+        Task task = new Task();
+        task.setTitle(titleField.getText());
+        task.setStartTime(startTime.getValue());
+        task.setEndTime(endTime.getValue());
+        task.setStartDay(startDay.getValue());
+        task.setEndDay(endDay.getValue());
+        task.setRepeat(repeat.getValue());
+        task.setWeeks(setWeeks());
+        return task;
     }
 
-    @FXML
-    void saveButtonPress(ActionEvent event) {
-        Task e =setEvent();
-        taskArrayList.add(e); // save to Array list
 
-        tasks.add(e);
-        taskTableView.setItems(tasks); // show on TableView
-        initTaskMessage();
+    private void showOnTableView(Task task){
+        MainScheduleController mainScheduleController = new MainScheduleController();
+        mainScheduleController.addTaskToTableView(task);
     }
 
     // set which weeks is select
-    private DayOfWeek[] setWeeks(){
-        DayOfWeek[] weeks = new DayOfWeek[7];
+    private ArrayList<DayOfWeek> setWeeks(){
+        ArrayList<DayOfWeek> weeks = null;
 
-        if(SUN.isSelected()){weeks[0] = DayOfWeek.SUNDAY;}
-        if(MON.isSelected()){weeks[1] = DayOfWeek.MONDAY;}
-        if(TUE.isSelected()){weeks[2] = DayOfWeek.TUESDAY;}
-        if(WED.isSelected()){weeks[3] = DayOfWeek.WEDNESDAY;}
-        if(THU.isSelected()){weeks[4] = DayOfWeek.THURSDAY;}
-        if(FRI.isSelected()){weeks[5] = DayOfWeek.FRIDAY;}
-        if(SAT.isSelected()){weeks[6] = DayOfWeek.SATURDAY;}
+        if(SUN.isSelected()){weeks.add(DayOfWeek.SUNDAY);}
+        if(MON.isSelected()){weeks.add(DayOfWeek.MONDAY);}
+        if(TUE.isSelected()){weeks.add(DayOfWeek.TUESDAY);}
+        if(WED.isSelected()){weeks.add(DayOfWeek.WEDNESDAY);}
+        if(THU.isSelected()){weeks.add(DayOfWeek.THURSDAY);}
+        if(FRI.isSelected()){weeks.add(DayOfWeek.FRIDAY);}
+        if(SAT.isSelected()){weeks.add(DayOfWeek.SATURDAY);}
 
         return weeks;
     }
 
-    public void showEvent(Task task) {
+    /**
+     * show task on addTask pane
+     * @param task from which is user choose
+     */
+    public void showTask(Task task) {
         if(task != null) {
             titleField.setText(task.getTitle());
             startTime.getSelectionModel().select(task.getStartTime());
@@ -132,10 +152,10 @@ public class AddTaskController {
             endDay.setValue(task.getEndDay());
             repeat.setValue(task.getRepeat());
 
-            // Set the statue of weeks
+            // Set the statue of weeks buttons
             if (task.getRepeat().equals("Every Weeks")) {
                 for (DayOfWeek week : task.getWeeks()) {
-                    
+
                     if (week == DayOfWeek.MONDAY) {
                         MON.setSelected(true);
                     }
@@ -167,6 +187,9 @@ public class AddTaskController {
 
     }
 
+    /**
+     * hide all weeks button, without let user click
+     */
     private void hideWeeksPane() {
         MON.setSelected(false);
         TUE.setSelected(false);
@@ -177,8 +200,10 @@ public class AddTaskController {
         SUN.setSelected(false);
     }
 
-
-    public void initTaskMessage(){
+    /**
+     * initialize state of all components
+     */
+    private void initTaskMessage(){
         titleField.clear();
         startTime.getSelectionModel().clearSelection();
         endTime.getSelectionModel().clearSelection();
@@ -189,11 +214,6 @@ public class AddTaskController {
         hideWeeksPane();
     }
 
-
-
-    public void setTaskTableView(TableView<Task> taskTableView) {
-        this.taskTableView = taskTableView;
-    }
 }
 
 

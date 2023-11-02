@@ -11,14 +11,12 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        //createStage login = new loginStage();
-        //login.showStage();
+        //CreateStage.setRoot("login");
+        //CreateStage.setRoot("signup");
+        CreateStage.setRoot("mainSchedule");
+        //CreateStage.setRoot("calendar");
+        //CreateStage.setRoot("addTask");
 
-        createStage Schedule = new MainScheduleStage();
-        Schedule.showStage();
-
-        //createStage addEvent = new addTaskStage();
-        //addEvent.showStage();
     }
 
     

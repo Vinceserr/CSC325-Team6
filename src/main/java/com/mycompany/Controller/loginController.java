@@ -1,6 +1,5 @@
 package com.mycompany.Controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.mycompany.Application.*;
@@ -8,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
@@ -29,9 +27,8 @@ public class loginController {
         // if is true, go to schedule
         boolean result = login(list); 
         if(result){
-            createStage.close();
-            createStage schedule = new MainScheduleStage();
-            schedule.showStage();
+            CreateStage.close();
+            //CreateStage.setRoot("mainSchedule");
         }else{
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Login Failed");
@@ -64,9 +61,8 @@ public class loginController {
     }
     @FXML
     void signUpButtonPress(ActionEvent event) throws Exception {
-        createStage.close();
-        createStage signup = new signupStage();
-        signup.showStage();
+        CreateStage.close();
+        //CreateStage.setRoot("signup");
     }
 
 }

@@ -1,12 +1,9 @@
 package com.mycompany.Controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.mycompany.Application.Account;
-import com.mycompany.Application.createStage;
-import com.mycompany.Application.loginStage;
-import com.mycompany.Application.signupStage;
+import com.mycompany.Application.CreateStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -35,9 +32,8 @@ public class signupController {
         boolean result = register(list);
         //if is true, go back to signIn menu
         if(result){
-            createStage.close();
-            createStage login = new loginStage();
-            login.showStage();
+            CreateStage.close();
+           // CreateStage.setRoot("login");
         }else{
              Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Register Failed");
