@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -41,9 +42,9 @@
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="396.0" text="Time" />
                               <HBox prefHeight="51.0" prefWidth="395.0" GridPane.rowIndex="1">
                                  <children>
-                                    <ComboBox fx:id="startTime" prefHeight="30.0" prefWidth="158.0" promptText="00:00" />
+                                    <ComboBox fx:id="startTime" prefHeight="30.0" prefWidth="158.0" promptText="12:00 AM" />
                                     <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="115.0" text="&gt;&gt;" />
-                                    <ComboBox fx:id="endTime" prefHeight="30.0" prefWidth="158.0" promptText="23:59" />
+                                    <ComboBox fx:id="endTime" prefHeight="30.0" prefWidth="158.0" promptText="12:00 PM" />
                                  </children>
                               </HBox>
                               <HBox fx:id="currentDay" layoutX="168.0" layoutY="10.0" prefHeight="49.0" prefWidth="342.0" GridPane.rowIndex="5">

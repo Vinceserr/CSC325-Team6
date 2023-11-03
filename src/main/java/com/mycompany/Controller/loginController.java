@@ -28,7 +28,7 @@ public class loginController {
         boolean result = login(list); 
         if(result){
             CreateStage.close();
-            //CreateStage.setRoot("mainSchedule");
+            CreateStage.setRoot("mainSchedule");
         }else{
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Login Failed");
@@ -42,7 +42,6 @@ public class loginController {
 
     }
     boolean login(ArrayList<Account> list){
-        Account account = new Account();
         if(!list.isEmpty()){
             for(Account a:list){
                String username = a.getUsername();
@@ -62,7 +61,7 @@ public class loginController {
     @FXML
     void signUpButtonPress(ActionEvent event) throws Exception {
         CreateStage.close();
-        //CreateStage.setRoot("signup");
+        CreateStage.setRoot("signup");
     }
 
 }

@@ -13,11 +13,16 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.util.StringConverter;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AddTaskController{
     @FXML private TextField titleField;
@@ -59,12 +64,37 @@ public class AddTaskController{
      * set the time of ComboBox
      */
     private void setTimeOfComboBox(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
         for(int hour =0; hour<24; hour++){
             for( int minute =0; minute < 60; minute+=10){
-                startTime.getItems().add(LocalTime.of(hour,minute));
-                endTime.getItems().add(LocalTime.of(hour,minute));
+                LocalTime time = LocalTime.of(hour, minute);
+                startTime.getItems().add(time);
+                endTime.getItems().add(time);
             }
         }
+
+        StringConverter<LocalTime> converter = new StringConverter<LocalTime>() {
+            @Override
+            public String toString(LocalTime object) {
+                if (object != null) {
+                    return formatter.format(object);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalTime fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalTime.parse(string, formatter);
+                } else {
+                    return null;
+                }
+            }
+        };
+
+        startTime.setConverter(converter);
+        endTime.setConverter(converter);
     }
 
     @FXML

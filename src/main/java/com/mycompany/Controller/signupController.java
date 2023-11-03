@@ -33,7 +33,7 @@ public class signupController {
         //if is true, go back to signIn menu
         if(result){
             CreateStage.close();
-           // CreateStage.setRoot("login");
+            CreateStage.setRoot("login");
         }else{
              Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Register Failed");
