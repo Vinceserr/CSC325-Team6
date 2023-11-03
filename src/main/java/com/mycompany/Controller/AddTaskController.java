@@ -4,21 +4,22 @@
  */
 package com.mycompany.Controller;
 
+import com.mycompany.Application.CreateStage;
 import com.mycompany.Application.Task;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class AddTaskController {
+public class AddTaskController{
     @FXML private TextField titleField;
     @FXML private ComboBox<LocalTime> startTime;
     @FXML private ComboBox<LocalTime> endTime;
@@ -37,7 +38,8 @@ public class AddTaskController {
 
     @FXML private GridPane weeksPane;
 
-    public static ArrayList<Task> taskArrayList = new ArrayList<>();
+    MainScheduleController mainScheduleController;
+    static ArrayList<Task> taskArrayList = new ArrayList<>();
 
     public void initialize(){
 
@@ -67,12 +69,19 @@ public class AddTaskController {
 
     @FXML
     void saveButtonPress(ActionEvent event) {
-        Task task =setEvent();
+        Task task = setEvent();
         taskArrayList.add(task); // save to Array list
 
-        showOnTableView(task);
+        try{
+            mainScheduleController.addTaskToTableView(task); // show on table view
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            System.out.println("mainScheduleController is null");
+        }
         initTaskMessage();
+
     }
+
 
     /**
      * Change the statue of component when user choose different repeat
@@ -119,14 +128,9 @@ public class AddTaskController {
     }
 
 
-    private void showOnTableView(Task task){
-        MainScheduleController mainScheduleController = new MainScheduleController();
-        mainScheduleController.addTaskToTableView(task);
-    }
-
     // set which weeks is select
     private ArrayList<DayOfWeek> setWeeks(){
-        ArrayList<DayOfWeek> weeks = null;
+        ArrayList<DayOfWeek> weeks = new ArrayList<>();
 
         if(SUN.isSelected()){weeks.add(DayOfWeek.SUNDAY);}
         if(MON.isSelected()){weeks.add(DayOfWeek.MONDAY);}
@@ -214,6 +218,9 @@ public class AddTaskController {
         hideWeeksPane();
     }
 
+    public void setMainScheduleController(MainScheduleController mainScheduleController) {
+        this.mainScheduleController = mainScheduleController;
+    }
 }
 
 
