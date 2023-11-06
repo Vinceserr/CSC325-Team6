@@ -2,7 +2,9 @@ package com.mycompany.Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
+import com.google.cloud.firestore.DocumentReference;
 import com.mycompany.Application.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,22 +14,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
+import static com.mycompany.Controller.signupController.getAccountDetails;
+
 public class loginController {
 
     @FXML
-    private TextField tf_userName;
-
-
+    private TextField tf_email;
     @FXML
     private TextField tf_password;
 
-    
     @FXML
     void signInButtonPress(ActionEvent event) throws Exception {
-        ArrayList<Account>list = signupController.list;
         // check the username and password is correct
         // if is true, go to schedule
-        boolean result = login(list); 
+        boolean result = login();
         if(result){
             createStage.close();
             createStage schedule = new MainScheduleStage();
@@ -40,34 +40,35 @@ public class loginController {
             alert.getButtonTypes().setAll(bt);
             alert.showAndWait();
         }
-        
-        
-
     }
-    boolean login(ArrayList<Account> list){
-        Account account = new Account();
-        if(!list.isEmpty()){
-            for(Account a:list){
-               String username = a.getUsername();
-               String password =a.getPassword();
-               String usernameText = tf_userName.getText();
-               String passwordText = tf_password.getText();
-               
-               if(username.equals(usernameText) && 
-                       password.equals(passwordText)){
-                   return true;
-               }
+
+    boolean login() throws ExecutionException, InterruptedException {
+        String emailText = tf_email.getText();
+        String passwordText = tf_password.getText();
+        Account account = getAccountDetails(emailText);
+        //if nothing enter, click logIn button will not work
+        if (emailText.isEmpty() || passwordText.isEmpty()) {
+            return false;
+        }
+        //if there is an account created, enter the correct credentials
+        if (account != null) {
+            String username = account.getEmail();
+            String password = account.getPassword();
+
+            if (username.equals(emailText) &&
+                    password.equals(passwordText)) {
+                return true;
             }
         }
         return false;
-        
+
     }
+
     @FXML
     void signUpButtonPress(ActionEvent event) throws Exception {
         createStage.close();
         createStage signup = new signupStage();
         signup.showStage();
     }
-
 }
 

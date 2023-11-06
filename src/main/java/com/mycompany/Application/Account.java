@@ -5,27 +5,32 @@
 package com.mycompany.Application;
 
 /**
- *
  * @author user
  */
 public class Account {
-    private String username;
+    private String name;
     private String password;
+    private String email;
 
     public Account() {
     }
 
-    public Account(String username, String password) {
-        this.username = username;
+    public Account(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
         this.password = password;
     }
 
+    public void setEmail(String email) { this.email = email; }
+
+    public String getEmail() { return email; }
+
     public String getUsername() {
-        return username;
+        return name;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.name = username;
     }
 
     public String getPassword() {
@@ -35,6 +40,6 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+
+
 }

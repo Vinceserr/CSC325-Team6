@@ -240,10 +240,12 @@ public class MainScheduleController implements Initializable{
         }
         TaskTableView.setItems(taskObservableList);
     }
+    private void createCalendar(){
+
+    }
 
     // show the detail of event and able to edit it
     public void showEventDetail(Task task) throws Exception {
-
         try {
             loadPage();
             addTaskController.showEvent(task);
