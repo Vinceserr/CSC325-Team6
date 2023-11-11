@@ -11,21 +11,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.Controller.signupController">
    <children>
-      <Label layoutX="275.0" layoutY="204.0" prefHeight="20.0" prefWidth="80.0" text="Username:">
+      <Label layoutX="275.0" layoutY="204.0" prefHeight="20.0" prefWidth="80.0" text="Email:">
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />
          </font></Label>
-      <Label layoutX="275.0" layoutY="248.0" prefHeight="17.0" prefWidth="80.0" text="Password:">
+      <Label layoutX="275.0" layoutY="290.0" prefHeight="17.0" prefWidth="80.0" text="Password:">
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />
          </font></Label>
-      <Label layoutX="248.0" layoutY="290.0" prefHeight="17.0" prefWidth="134.0" text="Confirm Password:">
+      <Label layoutX="275.0" layoutY="248.0" prefHeight="17.0" prefWidth="80.0" text="Name:">
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />
          </font></Label>
-      <TextField fx:id="usernameField" layoutX="405.0" layoutY="202.0" />
-      <TextField fx:id="passwordField" layoutX="405.0" layoutY="244.0" />
-      <TextField fx:id="newPasswordField" layoutX="405.0" layoutY="286.0" />
+      <TextField fx:id="emailField" layoutX="405.0" layoutY="202.0" />
+      <TextField fx:id="nameField" layoutX="405.0" layoutY="244.0" />
+      <TextField fx:id="passwordField" layoutX="405.0" layoutY="286.0" />
       <Text layoutX="264.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create your Account!">
          <font>
             <Font name="Arial Rounded MT Bold" size="27.0" />
@@ -60,15 +60,20 @@
             <Image url="@../../../Images/id-card.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="15.0" fitWidth="16.0" layoutX="257.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="15.0" fitWidth="16.0" layoutX="256.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../Images/padlock.png" />
          </image>
       </ImageView>
-      <Button fx:id="submitButton" layoutX="353.0" layoutY="344.0" mnemonicParsing="false" onAction="#submitButtonPress" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: #9F281C; -fx-cursor: hand;" text="Sign Up!" textFill="WHITE">
+      <Button fx:id="submitButton" layoutX="353.0" layoutY="344.0" mnemonicParsing="false" onAction="#submitButtonPress" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: #9F281C; -fx-cursor: hand;" text="Register!" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Button>
+      <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="257.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/name.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
