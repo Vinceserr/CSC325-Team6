@@ -1,4 +1,4 @@
-package com.mycompany.View;
+package com.mycompany.Controller;
 
 import java.util.ArrayList;
 

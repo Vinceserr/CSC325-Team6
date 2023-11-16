@@ -10,7 +10,7 @@ import java.io.IOException;
 public class CreateStage {
     private static Stage stage;
     private static Scene scene;
-    private static String path = "/com/mycompany/View/";
+    private static String path = "/com/mycompany/Controller/";
 
     public static void setRoot(String fxml) throws IOException {
         stage = new Stage();

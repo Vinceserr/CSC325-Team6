@@ -1,4 +1,4 @@
-package com.mycompany.View;
+package com.mycompany.Controller;
 import com.mycompany.Application.*;
 import com.mycompany.Model.Task;
 import javafx.collections.FXCollections;
