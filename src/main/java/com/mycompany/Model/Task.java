@@ -1,8 +1,10 @@
-package com.mycompany.Application;
+package com.mycompany.Model;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Task {
     private String title;
@@ -11,20 +13,21 @@ public class Task {
     private LocalDate startDay;
     private LocalDate endDay;
     private String repeat;
-    private DayOfWeek[] weeks;
+    private ArrayList<DayOfWeek> weeks;
 
     public Task() {
     }
 
     public Task(String title, LocalTime startTime, LocalTime endTime,
-                LocalDate startDay, LocalDate endDay, String repeat) {
+                LocalDate startDay, LocalDate endDay, String repeat,
+                ArrayList<DayOfWeek> weeks) {
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
         this.startDay = startDay;
         this.endDay = endDay;
         this.repeat = repeat;
-        this.weeks = new DayOfWeek[7];
+        this.weeks = weeks;
     }
 
     public String getTitle() {
@@ -75,11 +78,11 @@ public class Task {
         this.repeat = repeat;
     }
 
-    public DayOfWeek[] getWeeks() {
+    public ArrayList<DayOfWeek> getWeeks() {
         return weeks;
     }
 
-    public void setWeeks(DayOfWeek[] weeks) {
+    public void setWeeks(ArrayList<DayOfWeek> weeks) {
         this.weeks = weeks;
     }
 

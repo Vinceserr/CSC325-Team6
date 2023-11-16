@@ -1,14 +1,13 @@
-package com.mycompany.Controller;
+package com.mycompany.View;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.mycompany.Application.*;
+import com.mycompany.Model.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
@@ -21,17 +20,16 @@ public class loginController {
     @FXML
     private TextField tf_password;
 
-    
+
     @FXML
     void signInButtonPress(ActionEvent event) throws Exception {
         ArrayList<Account>list = signupController.list;
         // check the username and password is correct
         // if is true, go to schedule
-        boolean result = login(list); 
+        boolean result = login(list);
         if(result){
-            createStage.close();
-            createStage schedule = new MainScheduleStage();
-            schedule.showStage();
+            CreateStage.close();
+            CreateStage.setRoot("mainSchedule");
         }else{
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Login Failed");
@@ -40,34 +38,31 @@ public class loginController {
             alert.getButtonTypes().setAll(bt);
             alert.showAndWait();
         }
-        
-        
+
+
 
     }
     boolean login(ArrayList<Account> list){
-        Account account = new Account();
         if(!list.isEmpty()){
             for(Account a:list){
-               String username = a.getUsername();
-               String password =a.getPassword();
-               String usernameText = tf_userName.getText();
-               String passwordText = tf_password.getText();
-               
-               if(username.equals(usernameText) && 
-                       password.equals(passwordText)){
-                   return true;
-               }
+                String username = a.getUsername();
+                String password =a.getPassword();
+                String usernameText = tf_userName.getText();
+                String passwordText = tf_password.getText();
+
+                if(username.equals(usernameText) &&
+                        password.equals(passwordText)){
+                    return true;
+                }
             }
         }
         return false;
-        
+
     }
     @FXML
     void signUpButtonPress(ActionEvent event) throws Exception {
-        createStage.close();
-        createStage signup = new signupStage();
-        signup.showStage();
+        CreateStage.close();
+        CreateStage.setRoot("signup");
     }
 
 }
-

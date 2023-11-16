@@ -5,8 +5,10 @@ module com.mycompany.personalstudyingschedulingapplication {
 
     opens com.mycompany.Application to javafx.fxml;
     exports com.mycompany.Application;
-    exports com.mycompany.Controller;
-    opens com.mycompany.Controller to javafx.fxml;
+    exports com.mycompany.View;
+    opens com.mycompany.View to javafx.fxml;
+    exports com.mycompany.Model;
+    opens com.mycompany.Model to javafx.fxml;
 
 
 }
