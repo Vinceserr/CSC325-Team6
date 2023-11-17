@@ -228,7 +228,7 @@ public class MainScheduleController implements Initializable{
     public void addEventToList(LocalDate currentDay, DayOfWeek currentWeek){
 
         for(Task task : taskArrayList){
-            if ("Every Weeks".equals(task.getRepeat())) {
+            if ("Task Repeats on Certain Days".equals(task.getRepeat())) {
                 if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
                     taskObservableList.add(task);
                 }

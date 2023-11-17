@@ -16,12 +16,14 @@ import javafx.scene.layout.HBox;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AddTaskController {
     @FXML private TextField titleField;
-    @FXML private ComboBox<LocalTime> startTime;
-    @FXML private ComboBox<LocalTime> endTime;
+    @FXML private ComboBox<String> startTime;
+    @FXML private ComboBox<String> endTime;
     @FXML private DatePicker startDay;
     @FXML private DatePicker endDay;
     @FXML private ChoiceBox<String> repeat;
@@ -45,7 +47,7 @@ public class AddTaskController {
 
         setTimeOfComboBox();
         //set the repeat select items
-        repeat.getItems().addAll("No repeat","Every Day","Every Weeks");
+        repeat.getItems().addAll("Single Task","Task Repeats Every Day","Task Repeats on Certain Days");
 
         // listen the state of repeat, if user choose to repeat every week,
         // open the weeks pane what allow user to select the weeks
@@ -54,45 +56,72 @@ public class AddTaskController {
 
         initTaskMessage();
     }
-    private void setTimeOfComboBox(){
-        for(int hour =0; hour<24; hour++){
-            for( int minute =0; minute < 60; minute+=10){
-                startTime.getItems().add(LocalTime.of(hour,minute));
-                endTime.getItems().add(LocalTime.of(hour,minute));
+    private void setTimeOfComboBox() {
+        for (int i = 0; i < 60; i+=15) {
+            if(i<10){
+                startTime.getItems().add("12:0" + i + " AM");
+                endTime.getItems().add("12:0" + i + " AM");
+            }
+            else {
+                startTime.getItems().add("12:" + i + " AM");
+                endTime.getItems().add("12:" + i + " AM");
+            }
+        }
+
+        for (int i = 1; i < 12; i++) {
+            for (int j = 0; j < 60; j += 15) {
+                String hour = (i < 10) ? "0" + i : String.valueOf(i);
+                String minute = (j < 10) ? "0" + j : String.valueOf(j);
+
+                startTime.getItems().add(hour + ":" + minute + " AM");
+                endTime.getItems().add(hour + ":" + minute + " AM");
+            }
+        }
+
+        for (int i = 1; i < 12; i++) {
+            for (int j = 0; j < 60; j += 15) {
+                //adds a zero if the number is less than 10 in order to keep proper format
+                String hour = (i < 10) ? "0" + i : String.valueOf(i);
+                String minute = (j < 10) ? "0" + j : String.valueOf(j);
+                startTime.getItems().add(hour + ":" + minute + " PM");
+                endTime.getItems().add(hour + ":" + minute + " PM");
             }
         }
     }
 
     private void handleRepeatClick(String newValue){
-        if("No repeat".equals(newValue)){
+        if("Single Task".equals(newValue)){
 
-            currentDay.setDisable(true); // hide
+            currentDay.setDisable(false); // hide
             weeksPane.setDisable(true); // hide
+            endDay.setDisable(true);
 
-            // set as today's date
-            startDay.setValue(LocalDate.now());
-            endDay.setValue(LocalDate.now());
-
-        } else if("Every Day".equals(newValue)){
+        } else if("Task Repeats Every Day".equals(newValue)){
 
             currentDay.setDisable(false); //show
             weeksPane.setDisable(true); //hide
+            endDay.setDisable(false);
             hideWeeksPane();
 
-        }else if ("Every Weeks".equals(newValue)) {
+        }else if ("Task Repeats on Certain Days".equals(newValue)) {
 
             currentDay.setDisable(false); // show
             weeksPane.setDisable(false); // show
+            endDay.setDisable(false);
 
         }
     }
     public Task setEvent(){
         Task e = new Task();
         e.setTitle(titleField.getText());
-        e.setStartTime(startTime.getValue());
-        e.setEndTime(endTime.getValue());
+        e.setStartTime(timeToLocalTime(startTime.getValue()));
+        e.setEndTime(timeToLocalTime(endTime.getValue()));
         e.setStartDay(startDay.getValue());
-        e.setEndDay(endDay.getValue());
+        if(Objects.equals(repeat.getValue(), "Single Task")) {
+            e.setEndDay(startDay.getValue());
+        }
+        else
+            e.setEndDay(endDay.getValue());
         e.setRepeat(repeat.getValue());
         e.setWeeks(setWeeks());
         return e;
@@ -126,16 +155,16 @@ public class AddTaskController {
     public void showEvent(Task task) {
         if(task != null) {
             titleField.setText(task.getTitle());
-            startTime.getSelectionModel().select(task.getStartTime());
-            endTime.getSelectionModel().select(task.getEndTime());
+            startTime.getSelectionModel().select(convertTimeToString(task.getStartTime()));
+            endTime.getSelectionModel().select(convertTimeToString(task.getEndTime()));
             startDay.setValue(task.getStartDay());
             endDay.setValue(task.getEndDay());
             repeat.setValue(task.getRepeat());
 
             // Set the statue of weeks
-            if (task.getRepeat().equals("Every Weeks")) {
+            if (task.getRepeat().equals("Task Repeats on Certain Days")) {
                 for (DayOfWeek week : task.getWeeks()) {
-                    
+
                     if (week == DayOfWeek.MONDAY) {
                         MON.setSelected(true);
                     }
@@ -184,7 +213,7 @@ public class AddTaskController {
         endTime.getSelectionModel().clearSelection();
         startDay.setValue(LocalDate.now());
         endDay.setValue(LocalDate.now());
-        repeat.setValue("No repeat");
+        repeat.setValue("Single Task");
 
         hideWeeksPane();
     }
@@ -193,6 +222,17 @@ public class AddTaskController {
 
     public void setTaskTableView(TableView<Task> taskTableView) {
         this.taskTableView = taskTableView;
+    }
+
+    public static LocalTime timeToLocalTime(String time){
+            // Helper method to convert formatted time string to LocalTime
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+                return LocalTime.parse(time, formatter);
+            }
+
+    public static String convertTimeToString(LocalTime localTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+        return localTime.format(formatter);
     }
 }
 
