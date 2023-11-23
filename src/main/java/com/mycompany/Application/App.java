@@ -15,16 +15,19 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        fstore = contxtFirebase.firebase();
-        fauth = FirebaseAuth.getInstance();
-        createStage login = new loginStage();
-        login.showStage();
+        //fstore = contxtFirebase.firebase();
+        //fauth = FirebaseAuth.getInstance();
+        //createStage login = new loginStage();
+        //login.showStage();
 
         //createStage Schedule = new MainScheduleStage();
         //Schedule.showStage();
 
         //createStage addEvent = new addTaskStage();
         //addEvent.showStage();
+
+        createStage UserPrefs = new userPrefsStage();
+        UserPrefs.showStage();
     }
 
 
