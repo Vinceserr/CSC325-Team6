@@ -32,7 +32,7 @@ public class userPrefs {
      * @param duration the duration object you would like to turn into a string
      * @return the duration object in string form
      */
-    private static String formatDuration(Duration duration) {
+    public static String formatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.toMinutesPart();
         long seconds = duration.toSecondsPart();

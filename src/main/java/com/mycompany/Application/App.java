@@ -20,14 +20,14 @@ public class App extends Application {
         //createStage login = new loginStage();
         //login.showStage();
 
-        //createStage Schedule = new MainScheduleStage();
-        //Schedule.showStage();
+        createStage Schedule = new MainScheduleStage();
+        Schedule.showStage();
 
         //createStage addEvent = new addTaskStage();
         //addEvent.showStage();
 
-        createStage UserPrefs = new userPrefsStage();
-        UserPrefs.showStage();
+        //createStage UserPrefs = new studyTopicStage();
+        //UserPrefs.showStage();
     }
 
 

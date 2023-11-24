@@ -37,7 +37,6 @@ public class MainScheduleController implements Initializable{
 
     @FXML private TableView<Task> TaskTableView;
     @FXML private TableColumn<Task, String> TaskColumn;
-
     ZonedDateTime dateFocus;
     ZonedDateTime today;
     Text day;
@@ -170,6 +169,15 @@ public class MainScheduleController implements Initializable{
             System.out.println("Failed to load FXML!");
         }
     }
+    public void userPrefButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/userPrefs.fxml"));
+            Parent root = loader.load();
+            bPane.setCenter(root);
+        }catch (Exception e){
+            System.out.println("Failed to load FXML!");
+        }
+    }
 
     /**
      * HomeButton method
@@ -184,6 +192,18 @@ public class MainScheduleController implements Initializable{
         bPane.setCenter(vBox);
         addTaskButton.setVisible(true);
 
+    }
+
+    @FXML
+    public void studyTopicButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/studyTopics.fxml"));
+            Parent root = loader.load();
+            bPane.setCenter(root);
+        } catch (Exception e) {
+            System.out.println("Failed to load FXML!");
+
+        }
     }
 
     /**

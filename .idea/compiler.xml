@@ -10,9 +10,4 @@
       </profile>
     </annotationProcessing>
   </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="PersonalStudyingSchedulingApplication" options="--add-exports jdk.jfr/jdk.jfr.internal=com.mycompany.personalstudyingschedulingapplication" />
-    </option>
-  </component>
 </project>
