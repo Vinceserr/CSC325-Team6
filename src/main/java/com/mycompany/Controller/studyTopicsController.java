@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 
 public class studyTopicsController {
+    //Study Topic name text fields
     @FXML
     private TextField studyTopic1;
     @FXML
@@ -23,6 +24,7 @@ public class studyTopicsController {
     private TextField studyTopic5;
     @FXML
     private TextField studyTopic6;
+    //Durations for the study topics
     @FXML
     private ComboBox<String> duration1;
     @FXML
@@ -39,6 +41,12 @@ public class studyTopicsController {
     ArrayList<Duration> durations;
     public void initialize(){
         setTimeofDuration();
+        durationBoxCheck(duration1, studyTopic1);
+        durationBoxCheck(duration2, studyTopic2);
+        durationBoxCheck(duration3, studyTopic3);
+        durationBoxCheck(duration4, studyTopic4);
+        durationBoxCheck(duration5, studyTopic5);
+        durationBoxCheck(duration6, studyTopic6);
     }
     private void setTimeofDuration() {
         for (int hours = 0; hours < 40; hours++) {
@@ -54,6 +62,19 @@ public class studyTopicsController {
             }
         }
     }
+
+    /**
+     * Helper method to check if a string has a letter or number
+     * @param input the string that you'd like to check
+     * @return true if the string has a letter or number and false if not
+     */
+    public static boolean containsLetterOrNumber(String input) {
+        // Using regular expressions to check if the string contains any letter or number
+        return input.matches(".*[a-zA-Z].*") || input.matches(".*\\d.*");
+    }
+    private void durationBoxCheck(ComboBox<String> dur, TextField sT){
+        dur.setDisable(containsLetterOrNumber(sT.getText()));
+        }
     private String formatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.minusHours(hours).toMinutes();
