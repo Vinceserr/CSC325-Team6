@@ -25,6 +25,9 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static com.mycompany.Application.Account.loadEmail;
+import static com.mycompany.Controller.loginController.*;
+
 public class MainScheduleController implements Initializable{
     @FXML private BorderPane bPane;
     @FXML private VBox vBox;
@@ -47,6 +50,8 @@ public class MainScheduleController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Testing (Will print the current email)
+        System.out.println(loadEmail());
         dateFocus = ZonedDateTime.now();
         today = ZonedDateTime.now();
         drawCalendar();

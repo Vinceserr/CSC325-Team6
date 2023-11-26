@@ -2,6 +2,10 @@ package com.mycompany.Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import com.google.cloud.firestore.DocumentReference;
@@ -14,10 +18,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
+import static com.mycompany.Application.Account.saveEmail;
 import static com.mycompany.Controller.signupController.getAccountDetails;
 
 public class loginController {
-
     @FXML
     private TextField tf_email;
     @FXML
@@ -29,6 +33,7 @@ public class loginController {
         // if is true, go to schedule
         boolean result = login();
         if(result){
+            saveEmail(tf_email.getText());
             createStage.close();
             createStage schedule = new MainScheduleStage();
             schedule.showStage();

@@ -10,6 +10,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
+import static com.mycompany.Application.Account.loadEmail;
+
 
 public class studyTopicsController {
     //Study Topic name text fields
@@ -77,7 +79,7 @@ public class studyTopicsController {
      * @param duration duration object as a string
      * @return string of the duration object
      */
-    private String formatDuration(Duration duration) {
+    public static String formatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.minusHours(hours).toMinutes();
 
@@ -160,10 +162,12 @@ public class studyTopicsController {
         // Now 'topics' ArrayList contains studyTopic objects for each valid study topic
         // You can perform further operations with the 'topics' list as needed
         System.out.println(topics.toString());
+        System.out.println(loadEmail());
+
     }
 
     // Helper method to parse a duration string and convert it to a Duration object
-    private Duration parseDurationString(String durationString) {
+    public static Duration parseDurationString(String durationString) {
         String[] parts = durationString.split(" ");
 
         long hours = 0;

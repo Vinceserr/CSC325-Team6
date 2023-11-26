@@ -4,6 +4,11 @@
  */
 package com.mycompany.Application;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * @author user
  */
@@ -11,6 +16,9 @@ public class Account {
     private String name;
     private String password;
     private String email;
+    private static final String CONFIG_FILE = "config.properties";
+    private static final String EMAIL_KEY = "email";
+
 
     public Account() {
     }
@@ -19,6 +27,34 @@ public class Account {
         this.email = email;
         this.name = name;
         this.password = password;
+    }
+    /**
+     * Used to save the email used to log in into the CONFIG_FILE file
+     * using the key "EMAIL_KEY"
+     * @param email the email that is to be saved
+     */
+    public static void saveEmail(String email) {
+        try (FileOutputStream fos = new FileOutputStream(CONFIG_FILE)) {
+            Properties properties = new Properties();
+            properties.setProperty(EMAIL_KEY, email);
+            properties.store(fos, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Used to retrieve the email from CONFIG_FILE using the key "EMAIL_KEY"
+     * @return the email from the CONFIG_FILE
+     */
+    public static String loadEmail() {
+        try (FileInputStream fis = new FileInputStream(CONFIG_FILE)) {
+            Properties properties = new Properties();
+            properties.load(fis);
+            return properties.getProperty(EMAIL_KEY);
+        } catch (IOException e) {
+            System.out.println("Couldn't get email");
+            return null;
+        }
     }
 
     public void setEmail(String email) { this.email = email; }
