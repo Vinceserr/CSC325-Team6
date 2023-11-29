@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static com.mycompany.Application.Account.loadEmail;
+import static com.mycompany.Application.AppConfig.getEmail;
 import static com.mycompany.Controller.loginController.*;
 
 public class MainScheduleController implements Initializable{
@@ -51,7 +51,7 @@ public class MainScheduleController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Testing (Will print the current email)
-        System.out.println(loadEmail());
+        System.out.println(getEmail());
         dateFocus = ZonedDateTime.now();
         today = ZonedDateTime.now();
         drawCalendar();
@@ -219,12 +219,11 @@ public class MainScheduleController implements Initializable{
     public void addTaskButton(ActionEvent event) throws Exception {
         loadPage();
         // show all event as user click
+        taskObservableList.clear();
         if(!taskArrayList.isEmpty()) {
             taskObservableList.addAll(taskArrayList);
             TaskTableView.setItems(taskObservableList);
         }
-        addTaskButton.setVisible(false);
-
     }
 
 

@@ -2,15 +2,13 @@ package com.mycompany.Controller;
 
 import com.mycompany.Application.studyTopic;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.time.format.DateTimeFormatter;
 
-import static com.mycompany.Application.Account.loadEmail;
+import static com.mycompany.Application.AppConfig.*;
 
 
 public class studyTopicsController {
@@ -27,7 +25,6 @@ public class studyTopicsController {
     private TextField studyTopic5;
     @FXML
     private TextField studyTopic6;
-
     //Durations for the study topics
     @FXML
     private ComboBox<String> duration1;
@@ -41,12 +38,7 @@ public class studyTopicsController {
     private ComboBox<String> duration5;
     @FXML
     private ComboBox<String> duration6;
-    @FXML
-    private Button submit;
-    @FXML
-    private Button cancel;
     ArrayList<studyTopic> topics;
-    ArrayList<Duration> durations;
     public void initialize(){
         setTimeofDuration();
     }
@@ -97,13 +89,15 @@ public class studyTopicsController {
             return hours + " hours " + minutes + " minutes";
         }
     }
+
+    /**
+     * On save button press the code will save the StudyTopics
+     * to the AppConfigProperties file
+     */
     @FXML
     void onSavePress() {
+        //Creates a new arrayList to store the studyTopics
         topics = new ArrayList<>();
-
-        // Assuming you have error checking/validation for each study topic
-        // If a study topic is empty or the duration is not selected, handle it accordingly
-
         String name1 = studyTopic1.getText();
         String durationString1 = duration1.getValue();
 
@@ -158,15 +152,18 @@ public class studyTopicsController {
             studyTopic topic6 = new studyTopic(name6, duration6);
             topics.add(topic6);
         }
-
-        // Now 'topics' ArrayList contains studyTopic objects for each valid study topic
-        // You can perform further operations with the 'topics' list as needed
-        System.out.println(topics.toString());
-        System.out.println(loadEmail());
-
+        // After clicking the save button it will save the topics to
+        // the appConfigProperties file and prints the studyTopics and email
+        saveStudyTopics(topics.toString());
+        System.out.println(getStudyTopics());
+        System.out.println(getEmail());
     }
 
-    // Helper method to parse a duration string and convert it to a Duration object
+    /**
+     * Helper method used to parse a string into a Duration
+      * @param durationString the string that would be changed to a duration
+     * @return duration object generated from the String
+     */
     public static Duration parseDurationString(String durationString) {
         String[] parts = durationString.split(" ");
 

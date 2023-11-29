@@ -1,16 +1,16 @@
 package com.mycompany.Application;
 
-import java.io.*;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Properties;
 
+/**
+ * The userPrefs class contains the methods needed to
+ * create and edit a userPrefs
+ */
 public class userPrefs {
     private LocalTime startTime; //startTime is the earliest time the program will generate a study task.(Waking up)
     private LocalTime endTime; //endTime is the latest time the program will generate a study task.(Bed Time)
     private Duration studyLength; //studyLength is the maximum amount of time a study task will last.
-    private static final String CONFIG_FILE = "config.properties";
-
     /**
      * Default constructor for userPrefs
      */
@@ -91,57 +91,11 @@ public class userPrefs {
     }
 
     /**
-     * Used to save userPrefs into the CONFIG_FILE
-     * @param userPrefs the userPrefs object to be saved
+     * Used to return the userPrefs object as a string
+     * @return a string representing the userPrefs object
      */
-    public static void saveUserPrefs(userPrefs userPrefs) throws FileNotFoundException {
-        try (OutputStream os = new FileOutputStream(CONFIG_FILE)) {
-            Properties properties = new Properties();
-
-            // Combine userPrefs properties into a single string
-            String prefs = String.format("%s;%s;%s",
-                    userPrefs.getStartTime().toString(),
-                    userPrefs.getEndTime().toString(),
-                    userPrefs.getStudyLength().toString());
-
-            // Save the combined string to the properties
-            properties.setProperty("userPrefs", prefs);
-
-            // Store the properties to the file
-            properties.store(os, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     * Retrieves userPrefs from the CONFIG_FILE.
-     * @return The userPrefs object, or null if there is an error.
-     */
-    public static userPrefs getUserPrefs() {
-        try (InputStream is = new FileInputStream(CONFIG_FILE)) {
-            Properties properties = new Properties();
-
-            // Load existing properties
-            properties.load(is);
-
-            // Retrieve the combined string from properties
-            String combinedPrefs = properties.getProperty("userPrefs");
-
-            // Split the combined string into individual properties
-            String[] prefsArray = combinedPrefs.split(";");
-            LocalTime startTime = LocalTime.parse(prefsArray[0]);
-            LocalTime endTime = LocalTime.parse(prefsArray[1]);
-            Duration studyLength = Duration.parse(prefsArray[2]);
-
-            return new userPrefs(startTime, endTime, studyLength);
-        } catch (IOException e) {
-            System.out.println("Couldn't get userPrefs");
-            return null;
-        }
-    }
-
     @Override
     public String toString() {
-        return "Day duration: " + startTime + "-" + endTime + " Max Study Length:" + formatDuration(studyLength);
+        return "Day duration:" + startTime + "-" + endTime + "Max Study Length:" + formatDuration(studyLength);
     }
 }

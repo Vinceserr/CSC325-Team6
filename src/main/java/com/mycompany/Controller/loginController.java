@@ -18,7 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
-import static com.mycompany.Application.Account.saveEmail;
+import static com.mycompany.Application.AppConfig.saveEmail;
 import static com.mycompany.Controller.signupController.getAccountDetails;
 
 public class loginController {
@@ -26,7 +26,6 @@ public class loginController {
     private TextField tf_email;
     @FXML
     private TextField tf_password;
-
     @FXML
     void signInButtonPress(ActionEvent event) throws Exception {
         // check the username and password is correct
@@ -46,7 +45,6 @@ public class loginController {
             alert.showAndWait();
         }
     }
-
     boolean login() throws ExecutionException, InterruptedException {
         String emailText = tf_email.getText();
         String passwordText = tf_password.getText();
@@ -59,16 +57,13 @@ public class loginController {
         if (account != null) {
             String username = account.getEmail();
             String password = account.getPassword();
-
             if (username.equals(emailText) &&
                     password.equals(passwordText)) {
                 return true;
             }
         }
         return false;
-
     }
-
     @FXML
     void signUpButtonPress(ActionEvent event) throws Exception {
         createStage.close();

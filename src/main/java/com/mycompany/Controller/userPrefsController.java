@@ -10,8 +10,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.mycompany.Application.Account.loadEmail;
-import static com.mycompany.Application.userPrefs.*;
+import static com.mycompany.Application.AppConfig.*;
 import static com.mycompany.Controller.studyTopicsController.parseDurationString;
 
 public class userPrefsController {
@@ -98,15 +97,22 @@ public class userPrefsController {
             return hours + " hours " + minutes + " minutes";
         }
     }
+
+    /**
+     * Handles how the code will function when the submit buttton is pressed.
+     * Will save the userPrefs to the appConfigProperties file.
+     * @throws FileNotFoundException When the file cannot be found
+     */
     @FXML
     void onSubmitPress() throws FileNotFoundException {
         userPrefs prefs = new userPrefs(timeToLocalTime(genStartTime.getValue()), timeToLocalTime(genEndTime.getValue()), parseDurationString(maxStudyTime.getValue()));
-        saveUserPrefs(prefs);
-        System.out.println(loadEmail());
+        saveUserPrefs(prefs.toString());
+        //Used to test the save and load methods
+        System.out.println(getEmail());
         System.out.println(getUserPrefs());
     }
+    // Helper method to convert formatted time string to LocalTime
     public static LocalTime timeToLocalTime(String time){
-        // Helper method to convert formatted time string to LocalTime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
         return LocalTime.parse(time, formatter);
     }
