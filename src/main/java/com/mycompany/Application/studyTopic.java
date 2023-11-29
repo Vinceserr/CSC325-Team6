@@ -21,6 +21,10 @@ public class studyTopic {
         this.length = length;
     }
 
+    /**
+     * Returns the studyTopic object as a string
+     * @return a representation of the studyTopic as a string
+     */
     @Override
     public String toString() {
         return "Topic name: " + name + " Duration: " + userPrefs.formatDuration(length);

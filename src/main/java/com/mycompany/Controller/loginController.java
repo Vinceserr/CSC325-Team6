@@ -1,22 +1,17 @@
 package com.mycompany.Controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-
-import com.google.cloud.firestore.DocumentReference;
-import com.mycompany.Application.*;
+import com.mycompany.Application.Account;
+import com.mycompany.Application.MainScheduleStage;
+import com.mycompany.Application.createStage;
+import com.mycompany.Application.signupStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+
+import java.util.concurrent.ExecutionException;
 
 import static com.mycompany.Application.AppConfig.saveEmail;
 import static com.mycompany.Controller.signupController.getAccountDetails;
