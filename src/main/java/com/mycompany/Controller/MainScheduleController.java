@@ -25,6 +25,9 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static com.mycompany.Application.AppConfig.getEmail;
+import static com.mycompany.Controller.loginController.*;
+
 public class MainScheduleController implements Initializable{
     @FXML private BorderPane bPane;
     @FXML private VBox vBox;
@@ -37,7 +40,6 @@ public class MainScheduleController implements Initializable{
 
     @FXML private TableView<Task> TaskTableView;
     @FXML private TableColumn<Task, String> TaskColumn;
-
     ZonedDateTime dateFocus;
     ZonedDateTime today;
     Text day;
@@ -48,6 +50,8 @@ public class MainScheduleController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Testing (Will print the current email)
+        System.out.println(getEmail());
         dateFocus = ZonedDateTime.now();
         today = ZonedDateTime.now();
         drawCalendar();
@@ -170,6 +174,15 @@ public class MainScheduleController implements Initializable{
             System.out.println("Failed to load FXML!");
         }
     }
+    public void userPrefButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/userPrefs.fxml"));
+            Parent root = loader.load();
+            bPane.setCenter(root);
+        }catch (Exception e){
+            System.out.println("Failed to load FXML!");
+        }
+    }
 
     /**
      * HomeButton method
@@ -186,6 +199,18 @@ public class MainScheduleController implements Initializable{
 
     }
 
+    @FXML
+    public void studyTopicButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/studyTopics.fxml"));
+            Parent root = loader.load();
+            bPane.setCenter(root);
+        } catch (Exception e) {
+            System.out.println("Failed to load FXML!");
+
+        }
+    }
+
     /**
      * addEventButton method
      * @param event on mouse click
@@ -194,12 +219,11 @@ public class MainScheduleController implements Initializable{
     public void addTaskButton(ActionEvent event) throws Exception {
         loadPage();
         // show all event as user click
+        taskObservableList.clear();
         if(!taskArrayList.isEmpty()) {
             taskObservableList.addAll(taskArrayList);
             TaskTableView.setItems(taskObservableList);
         }
-        addTaskButton.setVisible(false);
-
     }
 
 
@@ -228,7 +252,7 @@ public class MainScheduleController implements Initializable{
     public void addEventToList(LocalDate currentDay, DayOfWeek currentWeek){
 
         for(Task task : taskArrayList){
-            if ("Every Weeks".equals(task.getRepeat())) {
+            if ("Task Repeats on Certain Days".equals(task.getRepeat())) {
                 if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
                     taskObservableList.add(task);
                 }

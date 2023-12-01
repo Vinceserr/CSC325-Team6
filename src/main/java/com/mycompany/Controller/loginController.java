@@ -1,34 +1,33 @@
 package com.mycompany.Controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
-import com.google.cloud.firestore.DocumentReference;
-import com.mycompany.Application.*;
+import com.mycompany.Application.Account;
+import com.mycompany.Application.MainScheduleStage;
+import com.mycompany.Application.createStage;
+import com.mycompany.Application.signupStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
+import java.util.concurrent.ExecutionException;
+
+import static com.mycompany.Application.AppConfig.saveEmail;
 import static com.mycompany.Controller.signupController.getAccountDetails;
 
 public class loginController {
-
     @FXML
     private TextField tf_email;
     @FXML
     private TextField tf_password;
-
     @FXML
     void signInButtonPress(ActionEvent event) throws Exception {
         // check the username and password is correct
         // if is true, go to schedule
         boolean result = login();
         if(result){
+            saveEmail(tf_email.getText());
             createStage.close();
             createStage schedule = new MainScheduleStage();
             schedule.showStage();
@@ -41,7 +40,6 @@ public class loginController {
             alert.showAndWait();
         }
     }
-
     boolean login() throws ExecutionException, InterruptedException {
         String emailText = tf_email.getText();
         String passwordText = tf_password.getText();
@@ -54,16 +52,13 @@ public class loginController {
         if (account != null) {
             String username = account.getEmail();
             String password = account.getPassword();
-
             if (username.equals(emailText) &&
                     password.equals(passwordText)) {
                 return true;
             }
         }
         return false;
-
     }
-
     @FXML
     void signUpButtonPress(ActionEvent event) throws Exception {
         createStage.close();
