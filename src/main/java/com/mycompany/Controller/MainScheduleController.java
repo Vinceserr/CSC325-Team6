@@ -174,7 +174,13 @@ public class MainScheduleController implements Initializable{
             System.out.println("Failed to load FXML!");
         }
     }
+
+    /**
+     * Will change the interface to the userPreferences Menu
+     * @param event this handles the Home Button
+     */
     public void userPrefButton(ActionEvent event) {
+        taskObservableList.clear();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/userPrefs.fxml"));
             Parent root = loader.load();
@@ -195,12 +201,11 @@ public class MainScheduleController implements Initializable{
         // clear the event in home page, wait for select day to show daily schedule
         taskObservableList.clear();
         bPane.setCenter(vBox);
-        addTaskButton.setVisible(true);
-
     }
 
     @FXML
     public void studyTopicButton(ActionEvent event) {
+        taskObservableList.clear();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/studyTopics.fxml"));
             Parent root = loader.load();

@@ -46,14 +46,7 @@ public class AddTaskController {
     public void initialize(){
 
         setTimeOfComboBox();
-        //set the repeat select items
-        repeat.getItems().addAll("Single Task","Task Repeats Every Day","Task Repeats on Certain Days");
-
-        // listen the state of repeat, if user choose to repeat every week,
-        // open the weeks pane what allow user to select the weeks
-        repeat.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> handleRepeatClick(newValue));
-
+        repeatHandler();
         initTaskMessage();
     }
     private void setTimeOfComboBox() {
@@ -129,7 +122,7 @@ public class AddTaskController {
 
     @FXML
     void saveButtonPress(ActionEvent event) {
-        Task e =setEvent();
+        Task e = setEvent();
         taskArrayList.add(e); // save to Array list
 
         tasks.add(e);
@@ -233,6 +226,18 @@ public class AddTaskController {
     public static String convertTimeToString(LocalTime localTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
         return localTime.format(formatter);
+    }
+
+    /**
+     * Handles the repeat button
+     */
+    public void repeatHandler(){
+        repeat.getItems().addAll("Single Task","Task Repeats Every Day","Task Repeats on Certain Days");
+
+        // listen the state of repeat, if user choose to repeat every week,
+        // open the weeks pane what allow user to select the weeks
+        repeat.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> handleRepeatClick(newValue));
     }
 }
 
