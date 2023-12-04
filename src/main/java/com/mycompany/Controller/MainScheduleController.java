@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -40,6 +41,8 @@ public class MainScheduleController implements Initializable{
 
     @FXML private TableView<Task> TaskTableView;
     @FXML private TableColumn<Task, String> TaskColumn;
+    @FXML private TableColumn<Task, LocalTime> startColumn;
+    @FXML private TableColumn<Task, LocalTime> endColumn;
     ZonedDateTime dateFocus;
     ZonedDateTime today;
     Text day;
@@ -61,6 +64,8 @@ public class MainScheduleController implements Initializable{
 
         // define the date into colum list
         TaskColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
 
         //listen the TableView for which event is select
         TaskTableView.getSelectionModel().selectedItemProperty().addListener(

@@ -44,7 +44,6 @@ public class AddTaskController {
     public ObservableList<Task> tasks = FXCollections.observableArrayList();
 
     public void initialize(){
-
         setTimeOfComboBox();
         repeatHandler();
         initTaskMessage();

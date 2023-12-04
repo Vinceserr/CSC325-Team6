@@ -14,18 +14,18 @@
             <Font name="Arial Rounded MT Bold" size="40.0" />
          </font>
       </Label>
-      <TextField fx:id="studyTopic1" layoutX="61.0" layoutY="111.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
-      <ComboBox fx:id="duration1" layoutX="265.0" layoutY="111.0" prefWidth="150.0" />
-      <TextField fx:id="studyTopic5" layoutX="61.0" layoutY="311.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
-      <ComboBox fx:id="duration5" layoutX="265.0" layoutY="311.0" prefWidth="150.0" />
-      <TextField fx:id="studyTopic2" layoutX="61.0" layoutY="161.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
-      <ComboBox fx:id="duration2" layoutX="265.0" layoutY="161.0" prefWidth="150.0" />
-      <TextField fx:id="studyTopic4" layoutX="61.0" layoutY="261.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
-      <ComboBox fx:id="duration4" layoutX="265.0" layoutY="261.0" prefWidth="150.0" />
-      <TextField fx:id="studyTopic3" layoutX="61.0" layoutY="211.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
-      <ComboBox fx:id="duration3" layoutX="265.0" layoutY="211.0" prefWidth="150.0" />
-      <TextField fx:id="studyTopic6" layoutX="61.0" layoutY="361.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
-      <ComboBox fx:id="duration6" layoutX="265.0" layoutY="361.0" prefWidth="150.0" />
+      <TextField fx:id="studyTopic1" layoutX="61.0" layoutY="142.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
+      <ComboBox fx:id="duration1" layoutX="265.0" layoutY="142.0" prefWidth="150.0" />
+      <TextField fx:id="studyTopic5" layoutX="61.0" layoutY="175.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
+      <ComboBox fx:id="duration5" layoutX="265.0" layoutY="175.0" prefWidth="150.0" />
+      <TextField fx:id="studyTopic2" layoutX="61.0" layoutY="209.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
+      <ComboBox fx:id="duration2" layoutX="265.0" layoutY="209.0" prefWidth="150.0" />
+      <TextField fx:id="studyTopic4" layoutX="61.0" layoutY="244.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
+      <ComboBox fx:id="duration4" layoutX="265.0" layoutY="244.0" prefWidth="150.0" />
+      <TextField fx:id="studyTopic3" layoutX="61.0" layoutY="278.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
+      <ComboBox fx:id="duration3" layoutX="265.0" layoutY="278.0" prefWidth="150.0" />
+      <TextField fx:id="studyTopic6" layoutX="61.0" layoutY="313.0" prefHeight="25.0" prefWidth="204.0" promptText="Topic Name" />
+      <ComboBox fx:id="duration6" layoutX="265.0" layoutY="313.0" prefWidth="150.0" />
       <Button fx:id="submit" layoutX="344.0" layoutY="408.0" mnemonicParsing="false" onAction="#onSavePress" prefHeight="33.0" prefWidth="44.0" text="Save" />
       <Button fx:id="cancel" layoutX="388.0" layoutY="408.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="55.0" text="Cancel" />
    </children>

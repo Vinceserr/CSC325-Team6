@@ -3,6 +3,7 @@ package com.mycompany.Application;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 
 public class Task {
     private String title;
@@ -94,5 +95,16 @@ public class Task {
         }
         return false;
     }
-
+    @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", startDay=" + startDay +
+                ", endDay=" + endDay +
+                ", repeat='" + repeat + '\'' +
+                ", weeks=" + Arrays.toString(weeks) +
+                '}';
+    }
 }
