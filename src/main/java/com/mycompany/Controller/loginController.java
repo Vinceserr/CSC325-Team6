@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import com.mycompany.Application.*;
-import com.mycompany.Model.Account;
+import com.mycompany.Application.Account;
 import com.mycompany.ViewModel.AccountViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

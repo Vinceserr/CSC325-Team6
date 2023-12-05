@@ -10,7 +10,7 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.mycompany.Application.App;
-import com.mycompany.Model.Account;
+import com.mycompany.Application.Account;
 import com.mycompany.Application.CreateStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
