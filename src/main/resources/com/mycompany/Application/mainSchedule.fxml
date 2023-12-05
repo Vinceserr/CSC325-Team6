@@ -173,6 +173,7 @@
                <children>
                   <TableView fx:id="TaskTableView" prefHeight="519.0" prefWidth="163.0" style="-fx-background-color: #9F281C;" BorderPane.alignment="CENTER">
                     <columns>
+                        <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
                       <TableColumn fx:id="TaskColumn" editable="false" prefWidth="30.0" sortable="false" text="Task" />
                         <TableColumn fx:id="startColumn" prefWidth="141.0" text="Start" />
                         <TableColumn fx:id="endColumn" prefWidth="58.0" text="End" />
