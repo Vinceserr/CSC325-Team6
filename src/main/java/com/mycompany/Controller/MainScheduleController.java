@@ -89,6 +89,8 @@ public class MainScheduleController{
 
     }
 
+    // This method is a utility method for getting the added task controller
+    // to be able to use its instance
     private void loadAddTaskPage() {
         try {
             FXMLLoader loader = createStage.loadFXML("addTask");
@@ -118,6 +120,17 @@ public class MainScheduleController{
             System.out.println("Failed to load calendar FXML!");
         }
     }
+    private void loadUserPrefsPage(){
+        try {
+            FXMLLoader loader = createStage.loadFXML("UserPrefs");
+            Parent root = loader.load();
+            bPane.setCenter(root);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Failed to load UserPrefs FXML!");
+        }
+    }
 
     @FXML
     public void signOutButton(ActionEvent event)throws Exception{
@@ -126,6 +139,12 @@ public class MainScheduleController{
         login.showStage();
 
     }
+
+    @FXML
+    void UserPrefsButton(ActionEvent event) {
+        loadUserPrefsPage();
+    }
+
 
     // show the detail of event and able to edit it
     public void showEventDetail(Task task) {

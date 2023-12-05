@@ -25,14 +25,16 @@ public class App extends Application {
         createStage mainSchedule = new MainScheduleStage();
         createStage calendar =  new calendarStage();
         createStage addEvent = new addTaskStage();
+        createStage UserPrefs = new UserPrefsStage();
 
 
 
-        //login.showStage();
+        login.showStage();
         //signup.showStage();
-        mainSchedule.showStage();
+        //mainSchedule.showStage();
         //calendar.showStage();
         //addEvent.showStage();
+        //UserPrefs.showStage();
 
 
     }

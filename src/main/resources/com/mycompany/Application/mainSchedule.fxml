@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -7,23 +8,6 @@
 <?import javafx.scene.text.*?>
 
 <BorderPane fx:id="bPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="579.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.Controller.MainScheduleController">
-    <top>
-        <MenuBar BorderPane.alignment="CENTER">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-    </top>
     <left>
         <AnchorPane prefHeight="459.0" prefWidth="132.0" style="-fx-background-color: #9F281C;" BorderPane.alignment="CENTER">
             <children>
@@ -37,6 +21,11 @@
                             <font>
                                 <Font name="Arial Rounded MT Bold" size="12.0" />
                             </font></Button>
+                  <Button layoutX="10.0" layoutY="60.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#UserPrefsButton" prefHeight="50.0" style="-fx-background-color: #9F281C; -fx-border-color: #eab676; -fx-cursor: hand;" text="User Preferences" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                     </font>
+                  </Button>
                     </children>
                 </VBox>
                 <Button layoutX="28.0" layoutY="313.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signOutButton" prefHeight="50.0" style="-fx-background-color: #9F281C; -fx-border-color: eab676; -fx-cursor: hand;" text="Sign Out" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
