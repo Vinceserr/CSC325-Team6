@@ -4,7 +4,7 @@
  */
 package com.mycompany.Controller;
 
-import com.mycompany.Application.Task;
+import com.mycompany.Model.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

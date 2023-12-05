@@ -3,9 +3,10 @@ package com.mycompany.Controller;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import com.mycompany.Application.*;
-import com.mycompany.Application.Account;
-import com.mycompany.ViewModel.AccountViewModel;
+import com.mycompany.Model.Account;
+import com.mycompany.Stage.MainScheduleStage;
+import com.mycompany.Stage.createStage;
+import com.mycompany.Stage.signupStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,25 +19,19 @@ import static com.mycompany.Controller.signupController.getAccountDetails;
 public class loginController {
 
     @FXML
-    private TextField tf_userName;
-
+    private TextField tf_email;
     @FXML
     private TextField tf_password;
 
-    public void initialize(){
-        AccountViewModel accountViewModel = new AccountViewModel();
-        tf_userName.textProperty().bindBidirectional(accountViewModel.usernameProperty());
-        tf_password.textProperty().bindBidirectional(accountViewModel.passwordProperty());
-    }
     @FXML
     void signInButtonPress(ActionEvent event) throws Exception {
-        ArrayList<Account>list = signupController.list;
         // check the username and password is correct
         // if is true, go to schedule
-        boolean result = login(list);
+        boolean result = login();
         if(result){
-            CreateStage.close();
-            CreateStage.setRoot("mainSchedule");
+            createStage.close();
+            createStage schedule = new MainScheduleStage();
+            schedule.showStage();
         }else{
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Login Failed");
@@ -45,24 +40,22 @@ public class loginController {
             alert.getButtonTypes().setAll(bt);
             alert.showAndWait();
         }
-
-
-
     }
-    boolean login(ArrayList<Account> list) throws ExecutionException, InterruptedException {
-        String userNameText = tf_userName.getText();
+
+    boolean login() throws ExecutionException, InterruptedException {
+        String emailText = tf_email.getText();
         String passwordText = tf_password.getText();
-        Account account = getAccountDetails(userNameText);
+        Account account = getAccountDetails(emailText);
         //if nothing enter, click logIn button will not work
-        if (userNameText.isEmpty() || passwordText.isEmpty()) {
+        if (emailText.isEmpty() || passwordText.isEmpty()) {
             return false;
         }
         //if there is an account created, enter the correct credentials
         if (account != null) {
-            String username = account.getUsername();
+            String username = account.getEmail();
             String password = account.getPassword();
 
-            if (username.equals(userNameText) &&
+            if (username.equals(emailText) &&
                     password.equals(passwordText)) {
                 return true;
             }
@@ -72,8 +65,9 @@ public class loginController {
     }
     @FXML
     void signUpButtonPress(ActionEvent event) throws Exception {
-        CreateStage.close();
-        CreateStage.setRoot("signup");
+        createStage.close();
+        createStage signup = new signupStage();
+        signup.showStage();
     }
 
 }

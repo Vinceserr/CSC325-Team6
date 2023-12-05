@@ -1,5 +1,6 @@
 package com.mycompany.Application;
 
+import com.mycompany.Stage.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import com.google.cloud.firestore.Firestore;
@@ -19,11 +20,19 @@ public class App extends Application {
         fstore = contxtFirebase.firebase();
         fauth = FirebaseAuth.getInstance();
 
-        //CreateStage.setRoot("login");
-        //CreateStage.setRoot("signup");
-        //CreateStage.setRoot("mainSchedule");
-        //CreateStage.setRoot("calendar");
-        //CreateStage.setRoot("addTask");
+        createStage login = new loginStage();
+        createStage signup = new signupStage();
+        createStage mainSchedule = new MainScheduleStage();
+        createStage calendar =  new calendarStage();
+        createStage addEvent = new addTaskStage();
+
+
+
+        //login.showStage();
+        //signup.showStage();
+        mainSchedule.showStage();
+        //calendar.showStage();
+        //addEvent.showStage();
 
 
     }

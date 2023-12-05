@@ -1,6 +1,7 @@
 package com.mycompany.Controller;
-import com.mycompany.Application.*;
-import com.mycompany.Application.Task;
+import com.mycompany.Model.Task;
+import com.mycompany.Stage.createStage;
+import com.mycompany.Stage.loginStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -90,7 +91,7 @@ public class MainScheduleController{
 
     private void loadAddTaskPage() {
         try {
-            FXMLLoader loader = CreateStage.loadFXML("addTask");
+            FXMLLoader loader = createStage.loadFXML("addTask");
             Parent root = loader.load();
             bPane.setCenter(root);
 
@@ -105,7 +106,7 @@ public class MainScheduleController{
 
     private void loadCalendarPage(){
         try {
-            FXMLLoader loader = CreateStage.loadFXML("calendar");
+            FXMLLoader loader = createStage.loadFXML("calendar");
             Parent root = loader.load();
             bPane.setCenter(root);
 
@@ -120,8 +121,10 @@ public class MainScheduleController{
 
     @FXML
     public void signOutButton(ActionEvent event)throws Exception{
-        CreateStage.close();
-        CreateStage.setRoot("login");
+        createStage.close();
+        createStage login = new loginStage();
+        login.showStage();
+
     }
 
     // show the detail of event and able to edit it

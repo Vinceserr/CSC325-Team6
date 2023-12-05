@@ -1,6 +1,6 @@
 package com.mycompany.Controller;
 
-import com.mycompany.Application.UserPrefs;
+import com.mycompany.Model.UserPrefs;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

@@ -1,4 +1,4 @@
-package com.mycompany.Application;
+package com.mycompany.Model;
 
 
 

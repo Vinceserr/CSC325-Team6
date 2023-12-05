@@ -18,6 +18,8 @@ module com.mycompany.personalstudyingschedulingapplication {
     opens com.mycompany.Controller to javafx.fxml;
     exports com.mycompany.Model;
     opens com.mycompany.Model to javafx.fxml;
+    exports com.mycompany.Stage;
+    opens com.mycompany.Stage to javafx.fxml;
 
 
 }

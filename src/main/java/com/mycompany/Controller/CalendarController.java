@@ -1,6 +1,6 @@
 package com.mycompany.Controller;
 
-import com.mycompany.Application.Task;
+import com.mycompany.Model.Task;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
