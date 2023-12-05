@@ -21,6 +21,22 @@ public class studyTopic {
         this.length = length;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Duration getLength() {
+        return length;
+    }
+
+    public void setLength(Duration length) {
+        this.length = length;
+    }
+
     /**
      * Returns the studyTopic object as a string
      * @return a representation of the studyTopic as a string

@@ -39,6 +39,7 @@ public class MainScheduleController implements Initializable{
     @FXML private Button deleteTaskButton;
     @FXML private Button addTaskButton;
 
+    @FXML private TableColumn<Task, LocalDate> dateColumn;
     @FXML private TableView<Task> TaskTableView;
     @FXML private TableColumn<Task, String> TaskColumn;
     @FXML private TableColumn<Task, LocalTime> startColumn;
@@ -63,6 +64,7 @@ public class MainScheduleController implements Initializable{
         addTaskButton.setVisible(true);
 
         // define the date into colum list
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("startDay"));
         TaskColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         startColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
