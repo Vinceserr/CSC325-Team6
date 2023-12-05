@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<<<<<<< HEAD
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+=======
+>>>>>>> 2837acb860880802c7cb3dd481392576343a1513
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -15,6 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<<<<<<< HEAD
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.Controller.signupController">
    <children>
       <GridPane layoutX="216.0" layoutY="168.0" prefHeight="160.0" prefWidth="377.0">
@@ -96,6 +100,33 @@
       <AnchorPane layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="214.0" style="-fx-background-color: #9F281C;">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="32.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+=======
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.Controller.signupController">
+   <children>
+      <Label layoutX="275.0" layoutY="204.0" prefHeight="20.0" prefWidth="80.0" text="Username:">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font></Label>
+      <Label layoutX="275.0" layoutY="248.0" prefHeight="17.0" prefWidth="80.0" text="Password:">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font></Label>
+      <Label layoutX="248.0" layoutY="290.0" prefHeight="17.0" prefWidth="134.0" text="Confirm Password:">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font></Label>
+      <TextField fx:id="usernameField" layoutX="405.0" layoutY="202.0" />
+      <TextField fx:id="passwordField" layoutX="405.0" layoutY="244.0" />
+      <TextField fx:id="newPasswordField" layoutX="405.0" layoutY="286.0" />
+      <Text layoutX="264.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create your Account!">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="27.0" />
+         </font>
+      </Text>
+      <AnchorPane layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="227.0" style="-fx-background-color: #9F281C;">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+>>>>>>> 2837acb860880802c7cb3dd481392576343a1513
                <image>
                   <Image url="@../../../Images/calendar.png" />
                </image>
@@ -112,11 +143,28 @@
             </Label>
          </children>
       </AnchorPane>
+<<<<<<< HEAD
       <ImageView fitHeight="105.0" fitWidth="103.0" layoutX="359.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+=======
+      <ImageView fitHeight="105.0" fitWidth="103.0" layoutX="358.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+>>>>>>> 2837acb860880802c7cb3dd481392576343a1513
          <image>
             <Image url="@../../../Images/login.png" />
          </image>
       </ImageView>
+<<<<<<< HEAD
+=======
+      <ImageView fitHeight="15.0" fitWidth="16.0" layoutX="257.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/id-card.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="15.0" fitWidth="16.0" layoutX="257.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/padlock.png" />
+         </image>
+      </ImageView>
+>>>>>>> 2837acb860880802c7cb3dd481392576343a1513
       <Button fx:id="submitButton" layoutX="353.0" layoutY="344.0" mnemonicParsing="false" onAction="#submitButtonPress" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: #9F281C; -fx-cursor: hand;" text="Sign Up!" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
