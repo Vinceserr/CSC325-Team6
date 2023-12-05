@@ -17,6 +17,8 @@ import javafx.scene.layout.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainScheduleController{
     @FXML private BorderPane bPane;
@@ -29,7 +31,7 @@ public class MainScheduleController{
 
     AddTaskController addTaskController;
     CalendarController calendarController;
-    ArrayList<Task> taskArrayList = AddTaskController.taskArrayList;
+    HashMap<LocalDate, List<Task>> taskHashMap = AddTaskController.taskHashMap;
     ObservableList<Task> taskObservableList = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -80,13 +82,17 @@ public class MainScheduleController{
     public void addTaskButton(ActionEvent event) {
         loadAddTaskPage();
         // show all event as user click
-        if(!taskArrayList.isEmpty()) {
+        if (!taskHashMap.isEmpty()) {
             taskObservableList.clear();
-            taskObservableList.addAll(taskArrayList);
-            taskTableView.setItems(taskObservableList);
-        }
-        addTaskButton.setVisible(false);
+            for (List<Task> tasks : taskHashMap.values()) {
+                for (Task task : tasks) {
+                    taskObservableList.addAll(task);
+                }
+                taskTableView.setItems(taskObservableList);
+            }
+            addTaskButton.setVisible(false);
 
+        }
     }
 
     // This method is a utility method for getting the added task controller
@@ -154,9 +160,9 @@ public class MainScheduleController{
     }
 
     public void deleteEvent(Task task){
-        // remove from Array list
-        if(!taskArrayList.isEmpty()) {
-            taskArrayList.remove(task);}
+         if(!taskHashMap.isEmpty()){
+             taskHashMap.remove(task);
+         }
         // remove from TableView
         if(!taskObservableList.isEmpty()){
             taskObservableList.remove(task);
@@ -177,25 +183,29 @@ public class MainScheduleController{
 
     // showing the tasks on table view by click the date in calendar
     public void showTasksByDate(LocalDate currentDay, DayOfWeek currentWeek) {
-        for (Task task : taskArrayList) {
-            if (isOnArrayList(currentDay, currentWeek)) {
-                taskObservableList.add(task);
+        for(List<Task> tasks: taskHashMap.values()) {
+            for (Task task : tasks) {
+                if (isOnHashMap(currentDay, currentWeek)) {
+                    taskObservableList.add(task);
+                    taskTableView.setItems(taskObservableList);
+                }
             }
-            taskTableView.setItems(taskObservableList);
         }
     }
 
     // a tool class  using to check the task is meets the condition
-    public boolean isOnArrayList(LocalDate currentDay, DayOfWeek currentWeek){
-        for(Task task: taskArrayList){
-            // when the repeat is every week
-            if ("Every Weeks".equals(task.getRepeat())) {
-                if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
-                    return true;
-                }
-            }else { // when the repeat is not repeat or every day
-                if (task.isActivityOnDate(currentDay)) {
-                    return true;
+    public boolean isOnHashMap(LocalDate currentDay, DayOfWeek currentWeek){
+        for(List<Task> tasks: taskHashMap.values()){
+            for(Task task: tasks) {
+                // when the repeat is every week
+                if ("Every Weeks".equals(task.getRepeat())) {
+                    if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
+                        return true;
+                    }
+                } else { // when the repeat is not repeat or every day
+                    if (task.isActivityOnDate(currentDay)) {
+                        return true;
+                    }
                 }
             }
         }

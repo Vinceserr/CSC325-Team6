@@ -20,6 +20,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CalendarController implements Initializable {
@@ -36,7 +38,8 @@ public class CalendarController implements Initializable {
 
     MainScheduleController mainScheduleController;
     ObservableList<Task> taskObservableList = FXCollections.observableArrayList();
-    ArrayList<Task> taskArrayList = AddTaskController.taskArrayList;;
+    //ArrayList<Task> taskArrayList = AddTaskController.taskArrayList;
+    HashMap<LocalDate, List<Task>> taskHashMap = AddTaskController.taskHashMap;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -91,38 +94,35 @@ public class CalendarController implements Initializable {
 
     // when the data is click, it will show all tasks it have;
     private void handleDateClick(int clickedDate) {
-        if (!taskArrayList.isEmpty()) {
-            taskObservableList.clear();
-            LocalDate clickedLocalDate = LocalDate.from(dateFocus.withDayOfMonth(clickedDate));
-            mainScheduleController.showTasksByDate(clickedLocalDate, clickedLocalDate.getDayOfWeek());
-        }
-
+        taskObservableList.clear();
+        LocalDate clickedLocalDate = LocalDate.from(dateFocus.withDayOfMonth(clickedDate));
+        mainScheduleController.showTasksByDate(clickedLocalDate, clickedLocalDate.getDayOfWeek());
 
     }
 
     //drawing a dot in calendar if that date have task
     private void drawingADot(int clickedDate, StackPane stackPane) {
         LocalDate clickedLocalDate = LocalDate.from(dateFocus.withDayOfMonth(clickedDate));
-        if (!taskArrayList.isEmpty()) {
-            boolean isOnList = isOnArrayList(clickedLocalDate, clickedLocalDate.getDayOfWeek());
-            if(isOnList) {
+        boolean onData = isOnHashMap(clickedLocalDate,clickedLocalDate.getDayOfWeek());
+        if(onData) {
                 Circle dot = new Circle(10, Color.RED);
                 stackPane.getChildren().add(dot);
-            }
         }
 
     }
     // a tool class  using to check the task is meets the condition
-    public boolean isOnArrayList(LocalDate currentDay, DayOfWeek currentWeek){
-        for(Task task: taskArrayList){
-            // when the repeat is every week
-            if ("Every Weeks".equals(task.getRepeat())) {
-                if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
-                    return true;
-                }
-            }else { // when the repeat is not repeat or every day
-                if (task.isActivityOnDate(currentDay)) {
-                    return true;
+    public boolean isOnHashMap(LocalDate currentDay, DayOfWeek currentWeek){
+        for(List<Task> tasks: taskHashMap.values()){
+            for(Task task: tasks) {
+                // when the repeat is every week
+                if ("Every Weeks".equals(task.getRepeat())) {
+                    if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
+                        return true;
+                    }
+                } else { // when the repeat is not repeat or every day
+                    if (task.isActivityOnDate(currentDay)) {
+                        return true;
+                    }
                 }
             }
         }

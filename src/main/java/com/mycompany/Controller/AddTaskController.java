@@ -16,7 +16,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.*;
 
 public class AddTaskController{
     @FXML private TextField titleField;
@@ -38,7 +38,7 @@ public class AddTaskController{
     @FXML private GridPane weeksPane;
 
     MainScheduleController mainScheduleController;
-    static ArrayList<Task> taskArrayList = new ArrayList<>();
+    static HashMap<LocalDate,List<Task>> taskHashMap = new HashMap<>();
 
     public void initialize(){
 
@@ -94,7 +94,12 @@ public class AddTaskController{
     @FXML
     void saveButtonPress(ActionEvent event) {
         Task task = setEvent();
-        taskArrayList.add(task); // save to Array list
+        //taskArrayList.add(task); // save to Array list
+        LocalDate date = task.getStartDay();
+        while(!task.getStartDay().isAfter(task.getEndDay())){
+            taskHashMap.computeIfAbsent(date, k -> new ArrayList<>()).add(task);
+            date = date.plusDays(1);
+        }
 
         try{
             mainScheduleController.addTaskToTableView(task); // show on table view
