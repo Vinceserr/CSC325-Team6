@@ -1,9 +1,6 @@
 package com.mycompany.Controller;
 
-import com.mycompany.Application.Account;
-import com.mycompany.Application.MainScheduleStage;
-import com.mycompany.Application.createStage;
-import com.mycompany.Application.signupStage;
+import com.mycompany.Application.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,6 +10,7 @@ import javafx.scene.control.TextField;
 
 import java.util.concurrent.ExecutionException;
 
+import static com.mycompany.Application.AppConfig.fileChecker;
 import static com.mycompany.Application.AppConfig.saveEmail;
 import static com.mycompany.Controller.signupController.getAccountDetails;
 
@@ -54,6 +52,7 @@ public class loginController {
             String password = account.getPassword();
             if (username.equals(emailText) &&
                     password.equals(passwordText)) {
+                fileChecker();
                 return true;
             }
         }
