@@ -1,4 +1,6 @@
 package com.mycompany.Controller;
+import com.mycompany.Application.DataChangeListener;
+import com.mycompany.Application.TaskScheduler;
 import com.mycompany.Model.Task;
 import com.mycompany.Stage.createStage;
 import com.mycompany.Stage.loginStage;
@@ -19,8 +21,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MainScheduleController{
+public class MainScheduleController implements DataChangeListener {
     @FXML private BorderPane bPane;
 
     @FXML private Button deleteTaskButton;
@@ -29,18 +32,17 @@ public class MainScheduleController{
     @FXML private TableView<Task> taskTableView;
     @FXML private TableColumn<Task, String> tableColumn;
 
-    AddTaskController addTaskController;
-    CalendarController calendarController;
-    HashMap<LocalDate, List<Task>> taskHashMap = AddTaskController.taskHashMap;
-    ObservableList<Task> taskObservableList = FXCollections.observableArrayList();
+    private AddTaskController addTaskController;
+    private CalendarController calendarController;
+    private TaskScheduler taskScheduler;
 
     public void initialize() {
 
+        taskScheduler = new TaskScheduler();
+        taskScheduler.addListener(this);
+
         //load calendar in center of pane
         loadCalendarPage();
-
-        taskObservableList.clear();
-        addTaskButton.setVisible(true);
 
         // define the date into colum list
         tableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -50,13 +52,14 @@ public class MainScheduleController{
                 (obs, oldVal, newVal) ->{
                     try {
                         showEventDetail(newVal);
-                        deleteTaskButton.setOnAction(e->deleteEvent(newVal));
+                        deleteTaskButton.setOnAction(e->taskScheduler.removeTask(newVal));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
         );
 
+        onDataChanged(null);
     }
 
     /**
@@ -67,11 +70,7 @@ public class MainScheduleController{
      */
     @FXML
     public void homeButton(ActionEvent event) {
-        // clear the event in home page, wait for select day to show daily schedule
-        taskObservableList.clear();
         loadCalendarPage();
-        addTaskButton.setVisible(true);
-
     }
 
     /**
@@ -81,18 +80,8 @@ public class MainScheduleController{
     @FXML
     public void addTaskButton(ActionEvent event) {
         loadAddTaskPage();
-        // show all event as user click
-        if (!taskHashMap.isEmpty()) {
-            taskObservableList.clear();
-            for (List<Task> tasks : taskHashMap.values()) {
-                for (Task task : tasks) {
-                    taskObservableList.addAll(task);
-                }
-                taskTableView.setItems(taskObservableList);
-            }
-            addTaskButton.setVisible(false);
-
-        }
+        // show all tasks
+        onDataChanged(null);
     }
 
     // This method is a utility method for getting the added task controller
@@ -104,7 +93,7 @@ public class MainScheduleController{
             bPane.setCenter(root);
 
             addTaskController = loader.getController();
-            addTaskController.setMainScheduleController(this);
+            addTaskController.setTaskScheduler(taskScheduler);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -120,6 +109,7 @@ public class MainScheduleController{
 
             calendarController = loader.getController();
             calendarController.setMainScheduleController(this);
+            calendarController.setTaskScheduler(taskScheduler);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -154,62 +144,34 @@ public class MainScheduleController{
 
     // show the detail of event and able to edit it
     public void showEventDetail(Task task) {
-        addTaskButton.setVisible(false);
         loadAddTaskPage();
         addTaskController.showTask(task);
     }
 
-    public void deleteEvent(Task task){
-         if(!taskHashMap.isEmpty()){
-             taskHashMap.remove(task);
-         }
-        // remove from TableView
-        if(!taskObservableList.isEmpty()){
-            taskObservableList.remove(task);
-        }
-        System.out.println("delete: "+ task.getTitle());
+
+
+    // set the taskScheduler and add listener in this class
+    public void setTaskScheduler(TaskScheduler taskScheduler){
+        this.taskScheduler = taskScheduler;
+        this.taskScheduler.addListener(this);
     }
 
-    public void addTaskToTableView(Task task){
-        taskObservableList.add(task);
-        try {
-            taskTableView.setItems(taskObservableList); // show on TableView
-        }catch (NullPointerException npe){
-            npe.printStackTrace();
-            System.out.println("taskTableView is null");
+    //shows all the tasks on table view
+    @Override
+    public void onDataChanged(LocalDate date) {
+        if(!taskScheduler.getTaskMap().isEmpty()){
+            return;
+        }
+        List<Task> tasksList;
+        //if date is null, shows all tasks
+        // else show task for this date
+        if(date == null){
+            tasksList = taskScheduler.getAllTasks();
+        }else{
+            tasksList = taskScheduler.getTasksOnDate(date);
         }
 
-    }
-
-    // showing the tasks on table view by click the date in calendar
-    public void showTasksByDate(LocalDate currentDay, DayOfWeek currentWeek) {
-        for(List<Task> tasks: taskHashMap.values()) {
-            for (Task task : tasks) {
-                if (isOnHashMap(currentDay, currentWeek)) {
-                    taskObservableList.add(task);
-                    taskTableView.setItems(taskObservableList);
-                }
-            }
-        }
-    }
-
-    // a tool class  using to check the task is meets the condition
-    public boolean isOnHashMap(LocalDate currentDay, DayOfWeek currentWeek){
-        for(List<Task> tasks: taskHashMap.values()){
-            for(Task task: tasks) {
-                // when the repeat is every week
-                if ("Every Weeks".equals(task.getRepeat())) {
-                    if (task.isActivityOnDate(currentDay) && task.isActivityOnWeek(currentWeek)) {
-                        return true;
-                    }
-                } else { // when the repeat is not repeat or every day
-                    if (task.isActivityOnDate(currentDay)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        taskTableView.getItems().setAll(tasksList);
     }
 
 }

@@ -4,6 +4,7 @@
  */
 package com.mycompany.Controller;
 
+import com.mycompany.Application.TaskScheduler;
 import com.mycompany.Model.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +19,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class AddTaskController{
+public class AddTaskController {
     @FXML private TextField titleField;
     @FXML private ComboBox<LocalTime> startTime;
     @FXML private ComboBox<LocalTime> endTime;
@@ -37,7 +38,7 @@ public class AddTaskController{
 
     @FXML private GridPane weeksPane;
 
-    MainScheduleController mainScheduleController;
+    private TaskScheduler taskScheduler;
     static HashMap<LocalDate,List<Task>> taskHashMap = new HashMap<>();
 
     public void initialize(){
@@ -94,82 +95,10 @@ public class AddTaskController{
     @FXML
     void saveButtonPress(ActionEvent event) {
         Task task = setEvent();
-        //taskArrayList.add(task); // save to Array list
-        LocalDate date = task.getStartDay();
-        while(!task.getStartDay().isAfter(task.getEndDay())){
-            taskHashMap.computeIfAbsent(date, k -> new ArrayList<>()).add(task);
-            date = date.plusDays(1);
-        }
+        taskScheduler.addTask(task); // add task on map
 
-        try{
-            mainScheduleController.addTaskToTableView(task); // show on table view
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            System.out.println("mainScheduleController is null");
-        }
         initTaskMessage();
 
-    }
-
-
-    /**
-     * Change the statue of component when user choose different repeat
-     * @param newValue get the new item from repeat's listener
-     */
-    private void handleRepeatClick(String newValue){
-        if("No repeat".equals(newValue)){
-
-            currentDay.setDisable(true); // hide
-            weeksPane.setDisable(true); // hide
-
-            // set as today's date
-            startDay.setValue(LocalDate.now());
-            endDay.setValue(LocalDate.now());
-
-        } else if("Every Day".equals(newValue)){
-
-            currentDay.setDisable(false); //show
-            weeksPane.setDisable(true); //hide
-            hideWeeksPane();
-
-        }else if ("Every Weeks".equals(newValue)) {
-
-            currentDay.setDisable(false); // show
-            weeksPane.setDisable(false); // show
-
-        }
-    }
-
-    /**
-     * Encapsulate all task information
-     * @return task to show task or add to list
-     */
-    public Task setEvent(){
-        Task task = new Task();
-        task.setTitle(titleField.getText());
-        task.setStartTime(startTime.getValue());
-        task.setEndTime(endTime.getValue());
-        task.setStartDay(startDay.getValue());
-        task.setEndDay(endDay.getValue());
-        task.setRepeat(repeat.getValue());
-        task.setWeeks(setWeeks());
-        return task;
-    }
-
-
-    // set which weeks is select
-    private ArrayList<DayOfWeek> setWeeks(){
-        ArrayList<DayOfWeek> weeks = new ArrayList<>();
-
-        if(SUN.isSelected()){weeks.add(DayOfWeek.SUNDAY);}
-        if(MON.isSelected()){weeks.add(DayOfWeek.MONDAY);}
-        if(TUE.isSelected()){weeks.add(DayOfWeek.TUESDAY);}
-        if(WED.isSelected()){weeks.add(DayOfWeek.WEDNESDAY);}
-        if(THU.isSelected()){weeks.add(DayOfWeek.THURSDAY);}
-        if(FRI.isSelected()){weeks.add(DayOfWeek.FRIDAY);}
-        if(SAT.isSelected()){weeks.add(DayOfWeek.SATURDAY);}
-
-        return weeks;
     }
 
     /**
@@ -221,6 +150,67 @@ public class AddTaskController{
     }
 
     /**
+     * Change the statue of component when user choose different repeat
+     * @param newValue get the new item from repeat's listener
+     */
+    private void handleRepeatClick(String newValue){
+        if("No repeat".equals(newValue)){
+
+            currentDay.setDisable(true); // hide
+            weeksPane.setDisable(true); // hide
+
+            // set as today's date
+            startDay.setValue(LocalDate.now());
+            endDay.setValue(LocalDate.now());
+
+        } else if("Every Day".equals(newValue)){
+
+            currentDay.setDisable(false); //show
+            weeksPane.setDisable(true); //hide
+            hideWeeksPane();
+
+        }else if ("Every Weeks".equals(newValue)) {
+
+            currentDay.setDisable(false); // show
+            weeksPane.setDisable(false); // show
+
+        }
+    }
+
+    /**
+     * Encapsulate all task information
+     * @return task to show task or add to list
+     */
+    private Task setEvent(){
+        Task task = new Task();
+        task.setTitle(titleField.getText());
+        task.setStartTime(startTime.getValue());
+        task.setEndTime(endTime.getValue());
+        task.setStartDay(startDay.getValue());
+        task.setEndDay(endDay.getValue());
+        task.setRepeat(repeat.getValue());
+        task.setWeeks(settingWeeks());
+        return task;
+    }
+
+
+    // setting which weeks is select
+    private ArrayList<DayOfWeek> settingWeeks(){
+        ArrayList<DayOfWeek> weeks = new ArrayList<>();
+
+        if(SUN.isSelected()){weeks.add(DayOfWeek.SUNDAY);}
+        if(MON.isSelected()){weeks.add(DayOfWeek.MONDAY);}
+        if(TUE.isSelected()){weeks.add(DayOfWeek.TUESDAY);}
+        if(WED.isSelected()){weeks.add(DayOfWeek.WEDNESDAY);}
+        if(THU.isSelected()){weeks.add(DayOfWeek.THURSDAY);}
+        if(FRI.isSelected()){weeks.add(DayOfWeek.FRIDAY);}
+        if(SAT.isSelected()){weeks.add(DayOfWeek.SATURDAY);}
+
+        return weeks;
+    }
+
+
+    /**
      * hide all weeks button, without let user click
      */
     private void hideWeeksPane() {
@@ -247,9 +237,11 @@ public class AddTaskController{
         hideWeeksPane();
     }
 
-    public void setMainScheduleController(MainScheduleController mainScheduleController) {
-        this.mainScheduleController = mainScheduleController;
+
+    public void setTaskScheduler(TaskScheduler taskScheduler){
+        this.taskScheduler = taskScheduler;
     }
+
 }
 
 
