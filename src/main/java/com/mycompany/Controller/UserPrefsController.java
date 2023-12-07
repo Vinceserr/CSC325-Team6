@@ -1,7 +1,5 @@
 package com.mycompany.Controller;
 
-import com.mycompany.Application.App;
-import com.mycompany.Model.UserPrefs;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -18,18 +16,18 @@ import java.time.temporal.ChronoUnit;
 
 public class UserPrefsController {
 
-    @FXML private ComboBox<Integer> genStartHours;
-    @FXML private ComboBox<Integer> genStartMinutes;
+    @FXML private ComboBox<String> genStartHours;
+    @FXML private ComboBox<String> genStartMinutes;
 
-    @FXML private ComboBox<Integer> genEndHours;
-    @FXML private ComboBox<Integer> genEndMinutes;
+    @FXML private ComboBox<String> genEndHours;
+    @FXML private ComboBox<String> genEndMinutes;
 
     @FXML private Label alarmTime;
 
     private LocalDateTime genStartTime;
     private LocalDateTime genEndTime;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public void initialize(){
         setTimeOfComboBox();
@@ -47,10 +45,10 @@ public class UserPrefsController {
     private void setTimeToNow() {
         LocalDateTime now = LocalDateTime.now();
 
-        genStartHours.setValue(now.getHour());
-        genStartMinutes.setValue(now.getMinute());
-        genEndHours.setValue(now.getHour());
-        genEndMinutes.setValue(now.getMinute());
+        genStartHours.setValue(String.valueOf(now.getHour()));
+        genStartMinutes.setValue(String.valueOf(now.getMinute()));
+        genEndHours.setValue(String.valueOf(now.getHour()));
+        genEndMinutes.setValue(String.valueOf(now.getMinute()));
     }
     private void updateLabel() {
         LocalDateTime now = LocalDateTime.now();
@@ -64,12 +62,12 @@ public class UserPrefsController {
     private void setAlarm() {
         if (genEndHours.getValue() != null && genEndMinutes.getValue() != null) {
             genEndTime = LocalDateTime.of(genStartTime.toLocalDate(),
-                    LocalTime.of(genEndHours.getValue(), genEndMinutes.getValue()));
+                    LocalTime.of(Integer.parseInt(genEndHours.getValue()), Integer.parseInt(genEndMinutes.getValue())));
         }
     }
 
     private void checkAlarm(LocalDateTime now) {
-        if (genEndTime != null && now.equals(genEndTime)) {
+        if (now.equals(genEndTime)) {
             System.out.println("Alarm! " + genEndTime.format(formatter));
         }
     }
@@ -85,14 +83,14 @@ public class UserPrefsController {
     }
 
     private void setTimeOfComboBox(){
-        ObservableList<Integer> hours = FXCollections.observableArrayList();
-        ObservableList<Integer> minutes = FXCollections.observableArrayList();
+        ObservableList<String> hours = FXCollections.observableArrayList();
+        ObservableList<String> minutes = FXCollections.observableArrayList();
 
-        for (int hour = 00; hour < 24; hour++) {
-            hours.add(hour);
+        for (int hour = 0; hour < 24; hour++) {
+            hours.add(String.format("%02d", hour));
         }
-        for (int minute = 00; minute < 60; minute++) {
-            minutes.add(minute);
+        for (int minute = 0; minute < 60; minute++) {
+            minutes.add(String.format("%02d", minute));
         }
 
         genStartHours.setItems(hours);
