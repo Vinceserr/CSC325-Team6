@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.util.StringConverter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -22,8 +21,8 @@ import java.util.*;
 
 public class AddTaskController {
     @FXML private TextField titleField;
-    @FXML private ComboBox<LocalTime> startTime;
-    @FXML private ComboBox<LocalTime> endTime;
+    @FXML private ComboBox<String> startTime;
+    @FXML private ComboBox<String> endTime;
     @FXML private DatePicker startDay;
     @FXML private DatePicker endDay;
     @FXML private ChoiceBox<String> repeat;
@@ -45,52 +44,44 @@ public class AddTaskController {
     public void initialize(){
 
         setTimeOfComboBox();
-        //set the repeat select items
-        repeat.getItems().addAll("No repeat","Every Day","Every Weeks");
-
-        // listen the state of repeat, if user choose to repeat every week,
-        // open the weeks pane what allow user to select the weeks
-        repeat.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> handleRepeatClick(newValue));
-
+        repeatHandler();
         initTaskMessage();
     }
 
     /**
      * set the time of ComboBox
      */
-    private void setTimeOfComboBox(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
-        for(int hour =0; hour<24; hour++){
-            for( int minute =0; minute < 60; minute+=10){
-                LocalTime time = LocalTime.of(hour, minute);
-                startTime.getItems().add(time);
-                endTime.getItems().add(time);
+    private void setTimeOfComboBox() {
+        for (int i = 0; i < 60; i+=15) {
+            if(i<10){
+                startTime.getItems().add("12:0" + i + " AM");
+                endTime.getItems().add("12:0" + i + " AM");
+            }
+            else {
+                startTime.getItems().add("12:" + i + " AM");
+                endTime.getItems().add("12:" + i + " AM");
             }
         }
 
-        StringConverter<LocalTime> converter = new StringConverter<LocalTime>() {
-            @Override
-            public String toString(LocalTime object) {
-                if (object != null) {
-                    return formatter.format(object);
-                } else {
-                    return "";
-                }
-            }
+        for (int i = 1; i < 12; i++) {
+            for (int j = 0; j < 60; j += 15) {
+                String hour = (i < 10) ? "0" + i : String.valueOf(i);
+                String minute = (j < 10) ? "0" + j : String.valueOf(j);
 
-            @Override
-            public LocalTime fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalTime.parse(string, formatter);
-                } else {
-                    return null;
-                }
+                startTime.getItems().add(hour + ":" + minute + " AM");
+                endTime.getItems().add(hour + ":" + minute + " AM");
             }
-        };
+        }
 
-        startTime.setConverter(converter);
-        endTime.setConverter(converter);
+        for (int i = 1; i < 12; i++) {
+            for (int j = 0; j < 60; j += 15) {
+                //adds a zero if the number is less than 10 in order to keep proper format
+                String hour = (i < 10) ? "0" + i : String.valueOf(i);
+                String minute = (j < 10) ? "0" + j : String.valueOf(j);
+                startTime.getItems().add(hour + ":" + minute + " PM");
+                endTime.getItems().add(hour + ":" + minute + " PM");
+            }
+        }
     }
 
     @FXML
@@ -154,25 +145,24 @@ public class AddTaskController {
      * @param newValue get the new item from repeat's listener
      */
     private void handleRepeatClick(String newValue){
-        if("No repeat".equals(newValue)){
+        if("Single Task".equals(newValue)){
 
-
+            currentDay.setDisable(false); // hide
             weeksPane.setDisable(true); // hide
+            endDay.setDisable(true);
 
-            // set as today's date
-            startDay.setValue(LocalDate.now());
-            endDay.setValue(LocalDate.now());
-
-        } else if("Every Day".equals(newValue)){
+        } else if("Task Repeats Every Day".equals(newValue)){
 
             currentDay.setDisable(false); //show
             weeksPane.setDisable(true); //hide
+            endDay.setDisable(false);
             hideWeeksPane();
 
-        }else if ("Every Weeks".equals(newValue)) {
+        }else if ("Task Repeats on Certain Days".equals(newValue)) {
 
             currentDay.setDisable(false); // show
             weeksPane.setDisable(false); // show
+            endDay.setDisable(false);
 
         }
     }
@@ -181,33 +171,22 @@ public class AddTaskController {
      * Encapsulate all task information
      * @return task to show task or add to list
      */
-    private Task setEvent(){
-        Task task = new Task();
-        task.setTitle(titleField.getText());
-        task.setStartTime(startTime.getValue());
-        task.setEndTime(endTime.getValue());
-        task.setStartDay(startDay.getValue());
-        task.setEndDay(endDay.getValue());
-        task.setRepeat(repeat.getValue());
-        task.setWeeks(settingWeeks());
-        return task;
+    public Task setEvent(){
+        Task e = new Task();
+        e.setTitle(titleField.getText());
+        e.setStartTime(startTime.getValue());
+        e.setEndTime(endTime.getValue());
+        e.setStartDay(startDay.getValue());
+        if(Objects.equals(repeat.getValue(), "Single Task")) {
+            e.setEndDay(startDay.getValue());
+        }
+        else
+            e.setEndDay(endDay.getValue());
+        e.setRepeat(repeat.getValue());
+        e.setWeeks(setWeeks());
+        return e;
     }
 
-
-    // setting which weeks is select
-    private ArrayList<DayOfWeek> settingWeeks(){
-        ArrayList<DayOfWeek> weeks = new ArrayList<>();
-
-        if(SUN.isSelected()){weeks.add(DayOfWeek.SUNDAY);}
-        if(MON.isSelected()){weeks.add(DayOfWeek.MONDAY);}
-        if(TUE.isSelected()){weeks.add(DayOfWeek.TUESDAY);}
-        if(WED.isSelected()){weeks.add(DayOfWeek.WEDNESDAY);}
-        if(THU.isSelected()){weeks.add(DayOfWeek.THURSDAY);}
-        if(FRI.isSelected()){weeks.add(DayOfWeek.FRIDAY);}
-        if(SAT.isSelected()){weeks.add(DayOfWeek.SATURDAY);}
-
-        return weeks;
-    }
 
 
     /**
@@ -223,6 +202,20 @@ public class AddTaskController {
         SUN.setSelected(true);
     }
 
+    private DayOfWeek[] setWeeks(){
+        DayOfWeek[] weeks = new DayOfWeek[7];
+
+        if(SUN.isSelected()){weeks[0] = DayOfWeek.SUNDAY;}
+        if(MON.isSelected()){weeks[1] = DayOfWeek.MONDAY;}
+        if(TUE.isSelected()){weeks[2] = DayOfWeek.TUESDAY;}
+        if(WED.isSelected()){weeks[3] = DayOfWeek.WEDNESDAY;}
+        if(THU.isSelected()){weeks[4] = DayOfWeek.THURSDAY;}
+        if(FRI.isSelected()){weeks[5] = DayOfWeek.FRIDAY;}
+        if(SAT.isSelected()){weeks[6] = DayOfWeek.SATURDAY;}
+
+        return weeks;
+    }
+
     /**
      * initialize state of all components
      */
@@ -232,9 +225,32 @@ public class AddTaskController {
         endTime.getSelectionModel().clearSelection();
         startDay.setValue(LocalDate.now());
         endDay.setValue(LocalDate.now());
-        repeat.setValue("No repeat");
+        repeat.setValue("Single Task");
 
         hideWeeksPane();
+    }
+
+    public static String timeToLocalTime(String time){
+        // Helper method to convert formatted time string to LocalTime
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+        return String.valueOf(LocalTime.parse(time, formatter));
+    }
+
+    public static String convertTimeToString(LocalTime localTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+        return localTime.format(formatter);
+    }
+
+    /**
+     * Handles the repeat button
+     */
+    public void repeatHandler(){
+        repeat.getItems().addAll("Single Task","Task Repeats Every Day","Task Repeats on Certain Days");
+
+        // listen the state of repeat, if user choose to repeat every week,
+        // open the weeks pane what allow user to select the weeks
+        repeat.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> handleRepeatClick(newValue));
     }
 
 

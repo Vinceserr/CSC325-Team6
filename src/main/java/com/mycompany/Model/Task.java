@@ -4,24 +4,22 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class Task {
     private String title;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String startTime;
+    private String endTime;
     private LocalDate startDay;
     private LocalDate endDay;
     private String repeat;
-    private ArrayList<DayOfWeek> weeks;
+    private DayOfWeek[] weeks;
 
     public Task() {
     }
 
-    public Task(String title, LocalTime startTime, LocalTime endTime,
+    public Task(String title, String startTime, String endTime,
                 LocalDate startDay, LocalDate endDay, String repeat,
-                ArrayList<DayOfWeek> weeks) {
+                DayOfWeek[] weeks) {
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -39,19 +37,19 @@ public class Task {
         this.title = title;
     }
 
-    public LocalTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public LocalTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -79,11 +77,11 @@ public class Task {
         this.repeat = repeat;
     }
 
-    public ArrayList<DayOfWeek> getWeeks() {
+    public DayOfWeek[] getWeeks() {
         return weeks;
     }
 
-    public void setWeeks(ArrayList<DayOfWeek> weeks) {
+    public void setWeeks(DayOfWeek[] weeks) {
         this.weeks = weeks;
     }
 
