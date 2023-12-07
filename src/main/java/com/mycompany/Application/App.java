@@ -76,7 +76,7 @@ public class App extends Application {
             ((CalendarController) controller).setTaskScheduler(taskScheduler);
 
         }else if(controller instanceof UserPrefsController){
-            ((UserPrefsController) controller).setApp(this);
+
         }
 
         return controller;

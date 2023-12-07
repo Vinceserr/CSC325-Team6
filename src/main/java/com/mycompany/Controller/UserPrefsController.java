@@ -2,92 +2,103 @@ package com.mycompany.Controller;
 
 import com.mycompany.Application.App;
 import com.mycompany.Model.UserPrefs;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import java.time.Duration;
+import javafx.scene.control.Label;
+import javafx.util.Duration;
+
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class UserPrefsController {
 
-    @FXML
-    private ComboBox<LocalTime> genStartTime;
-    @FXML
-    private ComboBox<LocalTime> genEndTime;
-    @FXML
-    private ComboBox<String> maxStudyTime;
-    @FXML
-    private Button submit;
+    @FXML private ComboBox<Integer> genStartHours;
+    @FXML private ComboBox<Integer> genStartMinutes;
 
-    private App app;
+    @FXML private ComboBox<Integer> genEndHours;
+    @FXML private ComboBox<Integer> genEndMinutes;
+
+    @FXML private Label alarmTime;
+
+    private LocalDateTime genStartTime;
+    private LocalDateTime genEndTime;
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public void initialize(){
         setTimeOfComboBox();
-        setTimeofDuration();
+        setTimeToNow();
+
+    }
+
+    @FXML
+    void onStartPress() {
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> updateLabel()),
+                new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Timeline.INDEFINITE);
+        clock.play();
+    }
+    private void setTimeToNow() {
+        LocalDateTime now = LocalDateTime.now();
+
+        genStartHours.setValue(now.getHour());
+        genStartMinutes.setValue(now.getMinute());
+        genEndHours.setValue(now.getHour());
+        genEndMinutes.setValue(now.getMinute());
+    }
+    private void updateLabel() {
+        LocalDateTime now = LocalDateTime.now();
+        genStartTime = now;
+        alarmTime.setText(formatter.format(now));
+        updateAlarmTimeLabel();
+        checkAlarm(now);
+        setAlarm();
+    }
+
+    private void setAlarm() {
+        if (genEndHours.getValue() != null && genEndMinutes.getValue() != null) {
+            genEndTime = LocalDateTime.of(genStartTime.toLocalDate(),
+                    LocalTime.of(genEndHours.getValue(), genEndMinutes.getValue()));
+        }
+    }
+
+    private void checkAlarm(LocalDateTime now) {
+        if (genEndTime != null && now.equals(genEndTime)) {
+            System.out.println("Alarm! " + genEndTime.format(formatter));
+        }
+    }
+    private void updateAlarmTimeLabel() {
+        if (genStartTime != null && genEndTime != null && genStartTime.isBefore(genEndTime)) {
+            long hours = genStartTime.until(genEndTime, ChronoUnit.HOURS);
+            long minutes = genStartTime.until(genEndTime, ChronoUnit.MINUTES) % 60;
+            long seconds = genStartTime.until(genEndTime, ChronoUnit.SECONDS) % 60;
+            alarmTime.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+        } else {
+            alarmTime.setText("00:00:00");
+        }
     }
 
     private void setTimeOfComboBox(){
-        for(int hour =0; hour<24; hour++){
-            for( int minute =0; minute < 60; minute+=10){
-                genStartTime.getItems().add(LocalTime.of(hour,minute));
-                genEndTime.getItems().add(LocalTime.of(hour,minute));
-            }
+        ObservableList<Integer> hours = FXCollections.observableArrayList();
+        ObservableList<Integer> minutes = FXCollections.observableArrayList();
+
+        for (int hour = 00; hour < 24; hour++) {
+            hours.add(hour);
         }
-    }
-    // Populating the ComboBox with formatted duration strings
-    private void setTimeofDuration() {
-        for (int hours = 0; hours < 12; hours++) {
-            for (int minutes = 0; minutes < 60; minutes += 30) {
-                Duration duration = Duration.ofMinutes((hours * 60) + minutes);
-                String formattedDuration = formatDuration(duration);
-                maxStudyTime.getItems().add(formattedDuration);
-            }
+        for (int minute = 00; minute < 60; minute++) {
+            minutes.add(minute);
         }
+
+        genStartHours.setItems(hours);
+        genStartMinutes.setItems(minutes);
+        genEndHours.setItems(hours);
+        genEndMinutes.setItems(minutes);
     }
 
-    // Formatting Duration to String
-    private String formatDuration(Duration duration) {
-        long hours = duration.toHours();
-        long minutes = duration.minusHours(hours).toMinutes();
-
-        if (hours == 0) {
-            return minutes + " minutes";
-        } else if (minutes == 0) {
-            return hours + " hour(s)";
-        } else {
-            return hours + " hour(s) " + minutes + " minutes";
-        }
-    }
-
-    // Parsing String back to Duration
-    private Duration parseDuration(String formattedDuration) {
-        // Implement the logic to parse the formatted string back to a Duration object
-        // This logic should handle the reverse of the formatting in formatDuration()
-
-        // Split the string by space and get the components
-        String[] parts = formattedDuration.split(" ");
-        if (parts.length == 3) {
-            long hours = Long.parseLong(parts[0]);
-            long minutes = Long.parseLong(parts[2]);
-            return Duration.ofHours(hours).plusMinutes(minutes);
-        } else if (parts.length == 2) {
-            if (parts[1].equals("hour(s)")) {
-                long hours = Long.parseLong(parts[0]);
-                return Duration.ofHours(hours);
-            } else {
-                long minutes = Long.parseLong(parts[0]);
-                return Duration.ofMinutes(minutes);
-            }
-        }
-        return Duration.ZERO; // Default value if parsing fails
-    }
-    @FXML
-    void onSubmitPress() {
-        UserPrefs prefs = new UserPrefs(genStartTime.getValue(), genEndTime.getValue(), parseDuration(maxStudyTime.getValue()));
-        System.out.println(prefs);
-    }
-
-    public void setApp(App app){
-        this.app = app;
-    }
 }
