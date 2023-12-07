@@ -97,6 +97,11 @@ public class AppConfig {
         }
     }
 
+    /**
+     * Used to load properties from a given key
+     * @param key the key of the property
+     * @return the data from the key
+     */
     private static String loadProperty(String key) {
         try (InputStream is = new FileInputStream(configFiles)) {
             Properties properties = new Properties();
@@ -109,6 +114,24 @@ public class AppConfig {
         } catch (IOException e) {
             System.out.println("Couldn't get property: " + key);
             return null;
+        }
+    }
+
+    /**
+     * Checks if the appConfigProperties file exists
+     * and if not will create a new file
+     */
+    public static void fileChecker() {
+        try {
+            // Check if the config file exists
+            File configFile = new File(configFiles);
+            if (!configFile.exists()) {
+                // If it doesn't exist, create a new file
+                configFile.createNewFile();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

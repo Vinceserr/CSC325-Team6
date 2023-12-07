@@ -44,16 +44,8 @@ public class AddTaskController {
     public ObservableList<Task> tasks = FXCollections.observableArrayList();
 
     public void initialize(){
-
         setTimeOfComboBox();
-        //set the repeat select items
-        repeat.getItems().addAll("Single Task","Task Repeats Every Day","Task Repeats on Certain Days");
-
-        // listen the state of repeat, if user choose to repeat every week,
-        // open the weeks pane what allow user to select the weeks
-        repeat.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> handleRepeatClick(newValue));
-
+        repeatHandler();
         initTaskMessage();
     }
     private void setTimeOfComboBox() {
@@ -127,15 +119,61 @@ public class AddTaskController {
         return e;
     }
 
+    /**
+     * On pressing the save button the program will create new tasks based on the
+     * date the user inputs
+     * @param event On pressing the save button
+     */
     @FXML
     void saveButtonPress(ActionEvent event) {
-        Task e =setEvent();
-        taskArrayList.add(e); // save to Array list
+        Task originalTask = setEvent();
 
-        tasks.add(e);
+        // For repeating tasks, create new tasks based on the repeat pattern
+        if ("Task Repeats Every Day".equals(originalTask.getRepeat())) {
+            LocalDate currentDate = originalTask.getStartDay();
+            while (!currentDate.isAfter(originalTask.getEndDay())) {
+                Task repeatedTask = new Task(
+                        originalTask.getTitle(),
+                        originalTask.getStartTime(),
+                        originalTask.getEndTime(),
+                        currentDate,
+                        currentDate,
+                        "Single Task"
+                );
+                repeatedTask.setWeeks(originalTask.getWeeks());
+                taskArrayList.add(repeatedTask);
+                tasks.add(repeatedTask);
+                currentDate = currentDate.plusDays(1);
+            }
+        } else if ("Task Repeats on Certain Days".equals(originalTask.getRepeat())) {
+            for (DayOfWeek dayOfWeek : originalTask.getWeeks()) {
+                LocalDate currentDate = originalTask.getStartDay();
+                while (!currentDate.isAfter(originalTask.getEndDay())) {
+                    if (currentDate.getDayOfWeek() == dayOfWeek) {
+                        Task repeatedTask = new Task(
+                                originalTask.getTitle(),
+                                originalTask.getStartTime(),
+                                originalTask.getEndTime(),
+                                currentDate,
+                                currentDate,
+                                "Single Task"
+                        );
+                        repeatedTask.setWeeks(originalTask.getWeeks());
+                        taskArrayList.add(repeatedTask);
+                        tasks.add(repeatedTask);
+                    }
+                    currentDate = currentDate.plusDays(1);
+                }
+            }
+        } else {
+            taskArrayList.add(originalTask);
+            tasks.add(originalTask);
+        }
+
         taskTableView.setItems(tasks); // show on TableView
         initTaskMessage();
     }
+
 
     // set which weeks is select
     private DayOfWeek[] setWeeks(){
@@ -233,6 +271,18 @@ public class AddTaskController {
     public static String convertTimeToString(LocalTime localTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
         return localTime.format(formatter);
+    }
+
+    /**
+     * Handles the repeat button
+     */
+    public void repeatHandler(){
+        repeat.getItems().addAll("Single Task","Task Repeats Every Day","Task Repeats on Certain Days");
+
+        // listen the state of repeat, if user choose to repeat every week,
+        // open the weeks pane what allow user to select the weeks
+        repeat.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> handleRepeatClick(newValue));
     }
 }
 

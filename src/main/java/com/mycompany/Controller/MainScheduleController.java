@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -38,8 +39,11 @@ public class MainScheduleController implements Initializable{
     @FXML private Button deleteTaskButton;
     @FXML private Button addTaskButton;
 
+    @FXML private TableColumn<Task, LocalDate> dateColumn;
     @FXML private TableView<Task> TaskTableView;
     @FXML private TableColumn<Task, String> TaskColumn;
+    @FXML private TableColumn<Task, LocalTime> startColumn;
+    @FXML private TableColumn<Task, LocalTime> endColumn;
     ZonedDateTime dateFocus;
     ZonedDateTime today;
     Text day;
@@ -60,7 +64,10 @@ public class MainScheduleController implements Initializable{
         addTaskButton.setVisible(true);
 
         // define the date into colum list
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("startDay"));
         TaskColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
 
         //listen the TableView for which event is select
         TaskTableView.getSelectionModel().selectedItemProperty().addListener(
@@ -174,7 +181,13 @@ public class MainScheduleController implements Initializable{
             System.out.println("Failed to load FXML!");
         }
     }
+
+    /**
+     * Will change the interface to the userPreferences Menu
+     * @param event this handles the Home Button
+     */
     public void userPrefButton(ActionEvent event) {
+        taskObservableList.clear();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/userPrefs.fxml"));
             Parent root = loader.load();
@@ -195,12 +208,11 @@ public class MainScheduleController implements Initializable{
         // clear the event in home page, wait for select day to show daily schedule
         taskObservableList.clear();
         bPane.setCenter(vBox);
-        addTaskButton.setVisible(true);
-
     }
 
     @FXML
     public void studyTopicButton(ActionEvent event) {
+        taskObservableList.clear();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/Application/studyTopics.fxml"));
             Parent root = loader.load();
