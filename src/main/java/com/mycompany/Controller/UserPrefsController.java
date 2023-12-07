@@ -53,7 +53,7 @@ public class UserPrefsController {
     private void updateLabel() {
         LocalDateTime now = LocalDateTime.now();
         genStartTime = now;
-        alarmTime.setText(formatter.format(now));
+       // alarmTime.setText(formatter.format(now));
         updateAlarmTimeLabel();
         checkAlarm(now);
         setAlarm();

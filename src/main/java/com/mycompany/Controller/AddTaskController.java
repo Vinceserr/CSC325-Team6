@@ -180,8 +180,9 @@ public class AddTaskController {
         if(Objects.equals(repeat.getValue(), "Single Task")) {
             e.setEndDay(startDay.getValue());
         }
-        else
+        else {
             e.setEndDay(endDay.getValue());
+        }
         e.setRepeat(repeat.getValue());
         e.setWeeks(setWeeks());
         return e;
@@ -230,16 +231,6 @@ public class AddTaskController {
         hideWeeksPane();
     }
 
-    public static String timeToLocalTime(String time){
-        // Helper method to convert formatted time string to LocalTime
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-        return String.valueOf(LocalTime.parse(time, formatter));
-    }
-
-    public static String convertTimeToString(LocalTime localTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-        return localTime.format(formatter);
-    }
 
     /**
      * Handles the repeat button
