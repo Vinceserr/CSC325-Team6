@@ -1,5 +1,6 @@
 package com.mycompany.Controller;
 
+import com.mycompany.Application.App;
 import com.mycompany.Model.UserPrefs;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +18,8 @@ public class UserPrefsController {
     private ComboBox<String> maxStudyTime;
     @FXML
     private Button submit;
+
+    private App app;
 
     public void initialize(){
         setTimeOfComboBox();
@@ -82,5 +85,9 @@ public class UserPrefsController {
     void onSubmitPress() {
         UserPrefs prefs = new UserPrefs(genStartTime.getValue(), genEndTime.getValue(), parseDuration(maxStudyTime.getValue()));
         System.out.println(prefs);
+    }
+
+    public void setApp(App app){
+        this.app = app;
     }
 }

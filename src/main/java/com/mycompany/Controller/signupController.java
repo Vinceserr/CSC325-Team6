@@ -11,8 +11,6 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.mycompany.Application.App;
 import com.mycompany.Model.Account;
-import com.mycompany.Stage.createStage;
-import com.mycompany.Stage.loginStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -29,14 +27,14 @@ public class signupController {
     @FXML
     private TextField passwordField;
 
+    private App app;
+
     @FXML
     void submitButtonPress(ActionEvent event) throws Exception {
         boolean result = register();
         //if is true, go back to signIn menu
         if (result) {
-            createStage.close();
-            createStage login = new loginStage();
-            login.showStage();
+            app.setRoot("login");
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Register Failed");
@@ -104,5 +102,9 @@ public class signupController {
         //if user already registered then he/she cant register again
         //and return false
         return false;
+    }
+
+    public void setApp(App app){
+        this.app = app;
     }
 }

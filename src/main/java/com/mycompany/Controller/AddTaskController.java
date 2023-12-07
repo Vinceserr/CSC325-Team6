@@ -4,6 +4,7 @@
  */
 package com.mycompany.Controller;
 
+import com.mycompany.Application.App;
 import com.mycompany.Application.TaskScheduler;
 import com.mycompany.Model.Task;
 import javafx.event.ActionEvent;
@@ -39,7 +40,7 @@ public class AddTaskController {
     @FXML private GridPane weeksPane;
 
     private TaskScheduler taskScheduler;
-    static HashMap<LocalDate,List<Task>> taskHashMap = new HashMap<>();
+    private App app;
 
     public void initialize(){
 
@@ -93,12 +94,11 @@ public class AddTaskController {
     }
 
     @FXML
-    void saveButtonPress(ActionEvent event) {
+    void saveButtonPress(ActionEvent event) throws Exception {
         Task task = setEvent();
         taskScheduler.addTask(task); // add task on map
-
+        taskScheduler.notifyListeners(null);
         initTaskMessage();
-
     }
 
     /**
@@ -156,7 +156,7 @@ public class AddTaskController {
     private void handleRepeatClick(String newValue){
         if("No repeat".equals(newValue)){
 
-            currentDay.setDisable(true); // hide
+
             weeksPane.setDisable(true); // hide
 
             // set as today's date
@@ -214,13 +214,13 @@ public class AddTaskController {
      * hide all weeks button, without let user click
      */
     private void hideWeeksPane() {
-        MON.setSelected(false);
-        TUE.setSelected(false);
-        WED.setSelected(false);
-        THU.setSelected(false);
-        FRI.setSelected(false);
-        SAT.setSelected(false);
-        SUN.setSelected(false);
+        MON.setSelected(true);
+        TUE.setSelected(true);
+        WED.setSelected(true);
+        THU.setSelected(true);
+        FRI.setSelected(true);
+        SAT.setSelected(true);
+        SUN.setSelected(true);
     }
 
     /**
@@ -240,6 +240,10 @@ public class AddTaskController {
 
     public void setTaskScheduler(TaskScheduler taskScheduler){
         this.taskScheduler = taskScheduler;
+    }
+
+    public void setApp(App app){
+        this.app = app;
     }
 
 }

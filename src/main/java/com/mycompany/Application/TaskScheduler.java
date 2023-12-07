@@ -27,43 +27,51 @@ public class TaskScheduler {
 
         notifyListeners(null);
     }
-    // remove task from map
-    public void removeTask(Task task) {
-        LocalDate date = task.getStartDay();
-        while (!date.isAfter(task.getEndDay())) {
-            List<Task> tasks = taskMap.get(date);
-            if (tasks != null) {
-                tasks.removeIf(t -> t.equals(task));
+    // remove all identical tasks or a single task on date select by user
+    public void removeTask(LocalDate date,Task task) {
+        if(date == null){
+            date = task.getStartDay();
+            while (!date.isAfter(task.getEndDay())) {
+                List<Task> tasks = taskMap.get(date);
+                if (tasks != null) {
+                    tasks.removeIf(t -> t.equals(task));
+                }
+                date = date.plusDays(1);
             }
-            date = date.plusDays(1);
+        }else {
+            List<Task> tasksOnDate = taskMap.get(date);
+            if (tasksOnDate != null) {
+                tasksOnDate.removeIf(t -> t.equals(task));
+            }
         }
 
-        notifyListeners(null);
-    }
-    // remove task from map but only the date user choose
-    public void removeTaskOnDate(LocalDate date, Task task) {
-        List<Task> tasksOnDate = taskMap.get(date);
-        if (tasksOnDate != null) {
-            tasksOnDate.removeIf(t -> t.equals(task));
-        }
 
         notifyListeners(date);
     }
 
-    // get Tasks on this date
+
+    // get Tasks list on this date
     public List<Task> getTasksOnDate(LocalDate date) {
         return taskMap.getOrDefault(date, new ArrayList<>());
     }
 
     // get all tasks
     public List<Task> getAllTasks() {
-        List<Task> allTasks = new ArrayList<>();
+        Set<Task> uniqueTasks = new HashSet<>();
         for (Map.Entry<LocalDate, List<Task>> entry : taskMap.entrySet()) {
-            for (Task task : entry.getValue()) {
-                allTasks.add(task);
+            uniqueTasks.addAll(entry.getValue());
+        }
+        List<Task> allTasks = new ArrayList<>(uniqueTasks);
+        return allTasks;
+    }
+
+    public void printMap(){
+        for (Map.Entry<LocalDate, List<Task>> entry : taskMap.entrySet()) {
+            System.out.println(entry.getKey());
+            for(Task task:entry.getValue()){
+                System.out.println(task.getStartDay()+":" + task.getTitle());
             }
         }
-        return allTasks;
     }
 
     // a tool method to check the day of weeks
@@ -77,17 +85,13 @@ public class TaskScheduler {
         return false;
     }
 
-    public Map<LocalDate, List<Task>> getTaskMap() {
-        return taskMap;
-    }
-
     // add Listener for data change
     public void addListener(DataChangeListener listener) {
         listeners.add(listener);
     }
 
     // notify change to every listener
-    private void notifyListeners(LocalDate date) {
+    public void notifyListeners(LocalDate date) {
         for (DataChangeListener listener : listeners) {
             listener.onDataChanged(date);
         }

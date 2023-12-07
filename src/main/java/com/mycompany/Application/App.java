@@ -1,15 +1,15 @@
 package com.mycompany.Application;
 
-import com.mycompany.Controller.AddTaskController;
-import com.mycompany.Controller.CalendarController;
-import com.mycompany.Controller.MainScheduleController;
-import com.mycompany.Stage.*;
+import com.mycompany.Controller.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.IOException;
 
 /**
  * JavaFX App
@@ -18,6 +18,8 @@ public class App extends Application {
     public static Firestore fstore;
     public static FirebaseAuth fauth;
     private final FirebaseInitialize contxtFirebase = new FirebaseInitialize();
+    private Stage stage;
+    private TaskScheduler taskScheduler = new TaskScheduler();
 
 
     @Override
@@ -25,31 +27,59 @@ public class App extends Application {
         fstore = contxtFirebase.firebase();
         fauth = FirebaseAuth.getInstance();
 
-        // set the taskScheuler into MainScheduleController
-        // which create a map to store task data and listen for data change
-       // TaskScheduler taskScheduler = new TaskScheduler();
-        //FXMLLoader loader = createStage.loadFXML("mainSchedule");
-       // MainScheduleController mainScheduleController = loader.getController();
-       // mainScheduleController.setTaskScheduler(taskScheduler);
+        this.stage = stage;
 
-        // there are create Stage for every window
-        createStage login = new loginStage();
-        createStage signup = new signupStage();
-        createStage mainSchedule = new MainScheduleStage();
-        createStage calendar =  new calendarStage();
-        createStage addEvent = new addTaskStage();
-        createStage UserPrefs = new UserPrefsStage();
+        //setRoot("login");
+        //setRoot("signup");
+        setRoot("mainSchedule");
+        //setRoot("calendar");
+        //setRoot("addEvent");
+        //setRoot("UserPrefs");
+        stage.show();
 
-        //show the stage for each window
-        //notices only login window should be show, other just testing
-        //login.showStage();
-        //signup.showStage();
-        mainSchedule.showStage();
-        //calendar.showStage();
-        //addEvent.showStage();
-        //UserPrefs.showStage();
+    }
 
+    public void setRoot(String fxml) throws Exception {
+        FXMLLoader loader = setLoader(fxml);
+        Parent root = loader.getRoot();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
 
+    }
+
+    public FXMLLoader setLoader(String fxml) throws Exception {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/mycompany/Application/" + fxml+".fxml"));
+        loader.load();
+        loadController(loader);
+        return loader;
+    }
+
+    public <T> T loadController(FXMLLoader loader) throws Exception {
+        T controller = loader.getController();
+
+        if(controller instanceof loginController){
+            ((loginController) controller).setApp(this);
+        }else if (controller instanceof signupController) {
+            ((signupController) controller).setApp(this);
+
+        }else if (controller instanceof MainScheduleController) {
+
+            ((MainScheduleController) controller).setApp(this);
+            ((MainScheduleController) controller).setTaskScheduler(taskScheduler);
+
+        }else if(controller instanceof AddTaskController){
+            ((AddTaskController) controller).setApp(this);
+            ((AddTaskController) controller).setTaskScheduler(taskScheduler);
+
+        }else if (controller instanceof CalendarController){
+            ((CalendarController) controller).setApp(this);
+            ((CalendarController) controller).setTaskScheduler(taskScheduler);
+
+        }else if(controller instanceof UserPrefsController){
+            ((UserPrefsController) controller).setApp(this);
+        }
+
+        return controller;
     }
 
 

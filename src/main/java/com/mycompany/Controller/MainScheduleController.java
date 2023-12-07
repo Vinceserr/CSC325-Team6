@@ -1,58 +1,44 @@
 package com.mycompany.Controller;
+import com.mycompany.Application.App;
 import com.mycompany.Application.DataChangeListener;
 import com.mycompany.Application.TaskScheduler;
 import com.mycompany.Model.Task;
-import com.mycompany.Stage.createStage;
-import com.mycompany.Stage.loginStage;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainScheduleController implements DataChangeListener {
     @FXML private BorderPane bPane;
-
-    @FXML private Button deleteTaskButton;
-    @FXML private Button addTaskButton;
-
     @FXML private TableView<Task> taskTableView;
     @FXML private TableColumn<Task, String> tableColumn;
 
     private AddTaskController addTaskController;
-    private CalendarController calendarController;
     private TaskScheduler taskScheduler;
+    private App app;
+    private LocalDate date;
 
-    public void initialize() {
+    public void initializeAll() {
 
-        taskScheduler = new TaskScheduler();
-        taskScheduler.addListener(this);
-
-        //load calendar in center of pane
-        loadCalendarPage();
+        loadPage("calendar");
 
         // define the date into colum list
         tableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        setActionColumn(tableColumn);
+
 
         //listen the TableView for which event is select
         taskTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldVal, newVal) ->{
                     try {
-                        showEventDetail(newVal);
-                        deleteTaskButton.setOnAction(e->taskScheduler.removeTask(newVal));
+
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -60,6 +46,27 @@ public class MainScheduleController implements DataChangeListener {
         );
 
         onDataChanged(null);
+    }
+
+    private <T> void loadPage(String fxml){
+        if(app == null){
+            return;
+        }
+        try {
+            FXMLLoader loader = app.setLoader(fxml);
+            Parent root = loader.getRoot();
+            bPane.setCenter(root);
+
+            T controller =  loader.getController();
+            if(controller instanceof AddTaskController){
+
+                addTaskController = (AddTaskController) controller;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Failed to load "+fxml+" FXML!");
+        }
     }
 
     /**
@@ -70,7 +77,8 @@ public class MainScheduleController implements DataChangeListener {
      */
     @FXML
     public void homeButton(ActionEvent event) {
-        loadCalendarPage();
+        taskTableView.getItems().clear();
+        loadPage("calendar");
     }
 
     /**
@@ -79,75 +87,29 @@ public class MainScheduleController implements DataChangeListener {
      */
     @FXML
     public void addTaskButton(ActionEvent event) {
-        loadAddTaskPage();
+        loadPage("addTask");
         // show all tasks
         onDataChanged(null);
     }
-
-    // This method is a utility method for getting the added task controller
-    // to be able to use its instance
-    private void loadAddTaskPage() {
-        try {
-            FXMLLoader loader = createStage.loadFXML("addTask");
-            Parent root = loader.load();
-            bPane.setCenter(root);
-
-            addTaskController = loader.getController();
-            addTaskController.setTaskScheduler(taskScheduler);
-
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Failed to load addTask FXML!");
-        }
-    }
-
-    private void loadCalendarPage(){
-        try {
-            FXMLLoader loader = createStage.loadFXML("calendar");
-            Parent root = loader.load();
-            bPane.setCenter(root);
-
-            calendarController = loader.getController();
-            calendarController.setMainScheduleController(this);
-            calendarController.setTaskScheduler(taskScheduler);
-
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Failed to load calendar FXML!");
-        }
-    }
-    private void loadUserPrefsPage(){
-        try {
-            FXMLLoader loader = createStage.loadFXML("UserPrefs");
-            Parent root = loader.load();
-            bPane.setCenter(root);
-
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Failed to load UserPrefs FXML!");
-        }
+    @FXML
+    void UserPrefsButton(ActionEvent event) {
+        taskTableView.getItems().clear();
+        loadPage("UserPrefs");
     }
 
     @FXML
     public void signOutButton(ActionEvent event)throws Exception{
-        createStage.close();
-        createStage login = new loginStage();
-        login.showStage();
-
+        app.setRoot("login");
     }
 
-    @FXML
-    void UserPrefsButton(ActionEvent event) {
-        loadUserPrefsPage();
-    }
+
 
 
     // show the detail of event and able to edit it
-    public void showEventDetail(Task task) {
-        loadAddTaskPage();
+    public void showEventDetail(Task task) throws Exception {
+        loadPage("addTask");
         addTaskController.showTask(task);
     }
-
 
 
     // set the taskScheduler and add listener in this class
@@ -156,10 +118,16 @@ public class MainScheduleController implements DataChangeListener {
         this.taskScheduler.addListener(this);
     }
 
+    public void setApp(App app){
+        this.app = app;
+        initializeAll();
+    }
+
     //shows all the tasks on table view
     @Override
     public void onDataChanged(LocalDate date) {
-        if(!taskScheduler.getTaskMap().isEmpty()){
+        this.date = date;
+        if(taskScheduler == null){
             return;
         }
         List<Task> tasksList;
@@ -172,6 +140,49 @@ public class MainScheduleController implements DataChangeListener {
         }
 
         taskTableView.getItems().setAll(tasksList);
+    }
+
+    // it set modify and delete button on tableview and set there actions
+    private void setActionColumn(TableColumn<Task, String> tableColumn){
+        tableColumn.setCellFactory(col -> {
+            TableCell<Task, String> cell = new TableCell<>() {
+                private final Button modify = new Button("+");
+                private final Button delete = new Button("-");
+                private Label title = new Label();
+                {
+
+                    modify.setOnAction(event -> {
+                        Task task = getTableView().getItems().get(getIndex());
+                        try {
+                            showEventDetail(task);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    delete.setOnAction(event -> {
+                        Task task = getTableView().getItems().get(getIndex());
+                        taskScheduler.removeTask(date,task);
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        Task task = getTableView().getItems().get(getIndex());
+                        title.setText(task.getTitle());
+                        HBox hBox = new HBox(title, modify, delete);
+                        HBox.setHgrow(title, Priority.ALWAYS);
+                        title.setMaxWidth(Double.MAX_VALUE);
+                        hBox.setSpacing(5);
+                        setGraphic(hBox);
+                    }
+                }
+            };
+            return cell;
+        });
     }
 
 }

@@ -1,27 +1,22 @@
 package com.mycompany.Controller;
 
-import com.mycompany.Application.DataChangeListener;
+import com.mycompany.Application.App;
 import com.mycompany.Application.TaskScheduler;
-import com.mycompany.Model.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class CalendarController implements Initializable {
@@ -35,8 +30,8 @@ public class CalendarController implements Initializable {
     ZonedDateTime today;
 
 
-    MainScheduleController mainScheduleController;
-    TaskScheduler taskScheduler;
+    private TaskScheduler taskScheduler;
+    private App app;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -79,7 +74,12 @@ public class CalendarController implements Initializable {
                                     Text day = (Text) node;
                                     // add event to tableView list
                                     int clickedDate = Integer.parseInt(day.getText());
-                                    handleDateClick(clickedDate);
+
+                                    try {
+                                        handleDateClick(clickedDate);
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
                         });
                     }
@@ -90,9 +90,9 @@ public class CalendarController implements Initializable {
     }
 
     // when the data is click, it will show all tasks it have;
-    private void handleDateClick(int clickedDate) {
+    private void handleDateClick(int clickedDate) throws Exception {
         LocalDate clickedLocalDate = LocalDate.from(dateFocus.withDayOfMonth(clickedDate));
-        mainScheduleController.onDataChanged(clickedLocalDate);
+        taskScheduler.notifyListeners(clickedLocalDate);
 
     }
 
@@ -140,13 +140,13 @@ public class CalendarController implements Initializable {
         schedulePane.getChildren().clear();
         drawCalendar();
     }
-
-    public void setMainScheduleController(MainScheduleController mainScheduleController) {
-        this.mainScheduleController = mainScheduleController;
+    public void setApp(App app){
+        this.app = app;
     }
 
     public void setTaskScheduler(TaskScheduler taskScheduler){
         this.taskScheduler = taskScheduler;
+        initialize(null, null);
     }
 
 

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Task {
     private String title;
@@ -86,16 +87,5 @@ public class Task {
         this.weeks = weeks;
     }
 
-    public boolean isActivityOnDate(LocalDate date) {
-        return !date.isBefore(startDay) && !date.isAfter(endDay);
-    }
-    public boolean isActivityOnWeek(DayOfWeek currentWeek){
-        for(DayOfWeek taskWeek: weeks){
-            if(currentWeek.equals(taskWeek)){
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

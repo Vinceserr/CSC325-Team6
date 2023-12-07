@@ -3,10 +3,8 @@ package com.mycompany.Controller;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import com.mycompany.Application.App;
 import com.mycompany.Model.Account;
-import com.mycompany.Stage.MainScheduleStage;
-import com.mycompany.Stage.createStage;
-import com.mycompany.Stage.signupStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -23,15 +21,15 @@ public class loginController {
     @FXML
     private TextField tf_password;
 
+    private App app;
+
     @FXML
     void signInButtonPress(ActionEvent event) throws Exception {
         // check the username and password is correct
         // if is true, go to schedule
         boolean result = login();
         if(result){
-            createStage.close();
-            createStage schedule = new MainScheduleStage();
-            schedule.showStage();
+            app.setRoot("mainSchedule");
         }else{
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Login Failed");
@@ -65,9 +63,11 @@ public class loginController {
     }
     @FXML
     void signUpButtonPress(ActionEvent event) throws Exception {
-        createStage.close();
-        createStage signup = new signupStage();
-        signup.showStage();
+        app.setRoot("signUp");
+    }
+
+    public void setApp(App app){
+        this.app = app;
     }
 
 }
