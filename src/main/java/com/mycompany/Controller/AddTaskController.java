@@ -4,6 +4,11 @@
  */
 package com.mycompany.Controller;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.WriteResult;
+import com.mycompany.Application.Account;
+import com.mycompany.Application.App;
 import com.mycompany.Application.Task;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,8 +22,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
+
+import static com.mycompany.Application.AppConfig.getEmail;
 
 public class AddTaskController {
     @FXML private TextField titleField;
@@ -130,8 +136,18 @@ public class AddTaskController {
     @FXML
     void saveButtonPress(ActionEvent event) {
         Task e =setEvent();
-        taskArrayList.add(e); // save to Array list
+        DocumentReference docRef = App.fstore.collection("Users").document(getEmail()).collection("tasks").document(e.getTitle());
+        Map<String, Object> data = new HashMap<>();
+        data.put("title" , e.getTitle());
+        data.put("startTime" , e.getStartTime().toString());
+        data.put("endTime" , e.getEndTime().toString());
+        data.put("startDay" , e.getStartDay().toString());
+        data.put("endDay",e.getEndDay().toString());
+        data.put("repeat" , e.getRepeat());
+        ApiFuture<WriteResult> result = docRef.set(data);
+        System.out.println("taskSaved");
 
+        taskArrayList.add(e); // save to Array list
         tasks.add(e);
         taskTableView.setItems(tasks); // show on TableView
         initTaskMessage();
