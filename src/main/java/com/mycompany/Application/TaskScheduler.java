@@ -75,6 +75,11 @@ public class TaskScheduler {
         return false;
     }
 
+    // clear all data from map
+    public void clearAll(){
+        taskMap.clear();
+    }
+
     // add Listener for data change
     public void addListener(DataChangeListener listener) {
         listeners.add(listener);

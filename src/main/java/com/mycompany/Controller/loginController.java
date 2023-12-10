@@ -1,11 +1,10 @@
 package com.mycompany.Controller;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import com.mycompany.Application.App;
+import com.mycompany.Application.TaskScheduler;
 import com.mycompany.Model.Account;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,14 +21,17 @@ public class loginController {
     private TextField tf_password;
 
     private App app;
+    private TaskScheduler taskScheduler;
 
     @FXML
-    void signInButtonPress(ActionEvent event) throws Exception {
+    void signInButtonPress() throws Exception {
         // check the username and password is correct
         // if is true, go to schedule
         boolean result = login();
         if(result){
+            taskScheduler.clearAll();
             app.setRoot("mainSchedule");
+
         }else{
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Login Failed");
@@ -53,16 +55,14 @@ public class loginController {
             String username = account.getEmail();
             String password = account.getPassword();
 
-            if (username.equals(emailText) &&
-                    password.equals(passwordText)) {
-                return true;
-            }
+            return username.equals(emailText) &&
+                    password.equals(passwordText);
         }
         return false;
 
     }
     @FXML
-    void signUpButtonPress(ActionEvent event) throws Exception {
+    void signUpButtonPress() throws Exception {
         app.setRoot("signUp");
     }
 
@@ -70,4 +70,7 @@ public class loginController {
         this.app = app;
     }
 
+    public void setTaskScheduler(TaskScheduler taskScheduler){
+        this.taskScheduler = taskScheduler;
+    }
 }

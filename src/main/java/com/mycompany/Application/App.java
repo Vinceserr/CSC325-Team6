@@ -57,6 +57,7 @@ public class App extends Application {
 
         if(controller instanceof loginController){
             ((loginController) controller).setApp(this);
+            ((loginController) controller).setTaskScheduler(taskScheduler);
         }else if (controller instanceof signupController) {
             ((signupController) controller).setApp(this);
 
