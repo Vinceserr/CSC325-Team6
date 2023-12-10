@@ -1,6 +1,5 @@
 package com.mycompany.Controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -11,10 +10,8 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.mycompany.Application.App;
 import com.mycompany.Model.Account;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
@@ -30,7 +27,7 @@ public class signupController {
     private App app;
 
     @FXML
-    void submitButtonPress(ActionEvent event) throws Exception {
+    void submitButtonPress() throws Exception {
         boolean result = register();
         //if is true, go back to signIn menu
         if (result) {
@@ -49,7 +46,7 @@ public class signupController {
      * getAccountDetails method:
      * This method get the specific user from the database by using the email.
      *
-     * @param email
+     * @param email get the email from user enter
      * @return the Account info
      */
     public static Account getAccountDetails(String email) throws ExecutionException, InterruptedException {
@@ -59,7 +56,7 @@ public class signupController {
         ApiFuture<DocumentSnapshot> ft = docRef.get();
         //extract the document snapShot from the APiFuture object
         DocumentSnapshot doc = ft.get();
-        Account ac = null;
+        Account ac;
         //if the document exists return the Account object
         if (doc.exists()) {
             ac = new Account(String.valueOf(doc.getData().get("email")),

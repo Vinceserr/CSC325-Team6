@@ -2,9 +2,6 @@ package com.mycompany.Model;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-
 public class Task {
     private String title;
     private String startTime;

@@ -3,10 +3,8 @@ import com.mycompany.Application.App;
 import com.mycompany.Application.DataChangeListener;
 import com.mycompany.Application.TaskScheduler;
 import com.mycompany.Model.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,18 +30,6 @@ public class MainScheduleController implements DataChangeListener {
         // define the date into colum list
         tableColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         setActionColumn(tableColumn);
-
-
-        //listen the TableView for which event is select
-        taskTableView.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) ->{
-                    try {
-
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-        );
 
         onDataChanged(null);
     }
@@ -73,32 +59,31 @@ public class MainScheduleController implements DataChangeListener {
      * HomeButton method
      * This method handles the Home Button
      *
-     * @param event on mouse click
      */
     @FXML
-    public void homeButton(ActionEvent event) {
+    public void homeButton() {
         taskTableView.getItems().clear();
         loadPage("calendar");
     }
 
     /**
      * addEventButton method
-     * @param event on mouse click
+     *
      */
     @FXML
-    public void addTaskButton(ActionEvent event) {
+    public void addTaskButton() {
         loadPage("addTask");
         // show all tasks
         onDataChanged(null);
     }
     @FXML
-    void UserPrefsButton(ActionEvent event) {
+    void UserPrefsButton() {
         taskTableView.getItems().clear();
         loadPage("UserPrefs");
     }
 
     @FXML
-    public void signOutButton(ActionEvent event)throws Exception{
+    public void signOutButton()throws Exception{
         app.setRoot("login");
     }
 
@@ -106,7 +91,7 @@ public class MainScheduleController implements DataChangeListener {
 
 
     // show the detail of event and able to edit it
-    public void showEventDetail(Task task) throws Exception {
+    public void showEventDetail(Task task) {
         loadPage("addTask");
         addTaskController.showTask(task);
     }
@@ -144,44 +129,42 @@ public class MainScheduleController implements DataChangeListener {
 
     // it set modify and delete button on tableview and set there actions
     private void setActionColumn(TableColumn<Task, String> tableColumn){
-        tableColumn.setCellFactory(col -> {
-            TableCell<Task, String> cell = new TableCell<>() {
-                private final Button modify = new Button("+");
-                private final Button delete = new Button("-");
-                private Label title = new Label();
-                {
+        tableColumn.setCellFactory(col -> new TableCell<>() {
+            private final Button modify = new Button("+");
+            private final Button delete = new Button("-");
+            private final Label title = new Label();
 
-                    modify.setOnAction(event -> {
-                        Task task = getTableView().getItems().get(getIndex());
-                        try {
-                            showEventDetail(task);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                    delete.setOnAction(event -> {
-                        Task task = getTableView().getItems().get(getIndex());
-                        taskScheduler.removeTask(date,task);
-                    });
-                }
+            {
 
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Task task = getTableView().getItems().get(getIndex());
-                        title.setText(task.getTitle());
-                        HBox hBox = new HBox(title, modify, delete);
-                        HBox.setHgrow(title, Priority.ALWAYS);
-                        title.setMaxWidth(Double.MAX_VALUE);
-                        hBox.setSpacing(5);
-                        setGraphic(hBox);
+                modify.setOnAction(event -> {
+                    Task task = getTableView().getItems().get(getIndex());
+                    try {
+                        showEventDetail(task);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
+                });
+                delete.setOnAction(event -> {
+                    Task task = getTableView().getItems().get(getIndex());
+                    taskScheduler.removeTask(date, task);
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Task task = getTableView().getItems().get(getIndex());
+                    title.setText(task.getTitle());
+                    HBox hBox = new HBox(title, modify, delete);
+                    HBox.setHgrow(title, Priority.ALWAYS);
+                    title.setMaxWidth(Double.MAX_VALUE);
+                    hBox.setSpacing(5);
+                    setGraphic(hBox);
                 }
-            };
-            return cell;
+            }
         });
     }
 

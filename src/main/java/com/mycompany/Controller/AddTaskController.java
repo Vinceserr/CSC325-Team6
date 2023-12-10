@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+
 package com.mycompany.Controller;
 
-import com.mycompany.Application.App;
 import com.mycompany.Application.TaskScheduler;
 import com.mycompany.Model.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -15,8 +10,6 @@ import javafx.scene.layout.HBox;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class AddTaskController {
@@ -39,7 +32,6 @@ public class AddTaskController {
     @FXML private GridPane weeksPane;
 
     private TaskScheduler taskScheduler;
-    private App app;
 
     public void initialize(){
 
@@ -85,7 +77,7 @@ public class AddTaskController {
     }
 
     @FXML
-    void saveButtonPress(ActionEvent event) throws Exception {
+    void saveButtonPress() {
         Task task = setEvent();
         taskScheduler.addTask(task); // add task on map
         taskScheduler.notifyListeners(null);
@@ -249,9 +241,6 @@ public class AddTaskController {
         this.taskScheduler = taskScheduler;
     }
 
-    public void setApp(App app){
-        this.app = app;
-    }
 
 }
 

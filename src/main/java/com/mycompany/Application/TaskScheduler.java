@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class TaskScheduler {
-    private Map<LocalDate, List<Task>> taskMap;
-    private Set<DataChangeListener> listeners;
+    private final Map<LocalDate, List<Task>> taskMap;
+    private final Set<DataChangeListener> listeners;
 
     public TaskScheduler() {
         taskMap = new HashMap<>();
@@ -61,17 +61,7 @@ public class TaskScheduler {
         for (Map.Entry<LocalDate, List<Task>> entry : taskMap.entrySet()) {
             uniqueTasks.addAll(entry.getValue());
         }
-        List<Task> allTasks = new ArrayList<>(uniqueTasks);
-        return allTasks;
-    }
-
-    public void printMap(){
-        for (Map.Entry<LocalDate, List<Task>> entry : taskMap.entrySet()) {
-            System.out.println(entry.getKey());
-            for(Task task:entry.getValue()){
-                System.out.println(task.getStartDay()+":" + task.getTitle());
-            }
-        }
+        return new ArrayList<>(uniqueTasks);
     }
 
     // a tool method to check the day of weeks

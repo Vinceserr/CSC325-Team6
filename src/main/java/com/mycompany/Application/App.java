@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.IOException;
-
 /**
  * JavaFX App
  */
@@ -19,7 +17,7 @@ public class App extends Application {
     public static FirebaseAuth fauth;
     private final FirebaseInitialize contxtFirebase = new FirebaseInitialize();
     private Stage stage;
-    private TaskScheduler taskScheduler = new TaskScheduler();
+    private final TaskScheduler taskScheduler = new TaskScheduler();
 
 
     @Override
@@ -29,9 +27,9 @@ public class App extends Application {
 
         this.stage = stage;
 
-        //setRoot("login");
+        setRoot("login");
         //setRoot("signup");
-        setRoot("mainSchedule");
+        //setRoot("mainSchedule");
         //setRoot("calendar");
         //setRoot("addEvent");
         //setRoot("UserPrefs");
@@ -54,7 +52,7 @@ public class App extends Application {
         return loader;
     }
 
-    public <T> T loadController(FXMLLoader loader) throws Exception {
+    public <T> void loadController(FXMLLoader loader) {
         T controller = loader.getController();
 
         if(controller instanceof loginController){
@@ -68,19 +66,13 @@ public class App extends Application {
             ((MainScheduleController) controller).setTaskScheduler(taskScheduler);
 
         }else if(controller instanceof AddTaskController){
-            ((AddTaskController) controller).setApp(this);
             ((AddTaskController) controller).setTaskScheduler(taskScheduler);
 
         }else if (controller instanceof CalendarController){
-            ((CalendarController) controller).setApp(this);
             ((CalendarController) controller).setTaskScheduler(taskScheduler);
 
         }
-        else if(controller instanceof UserPrefsController){
 
-        }
-
-        return controller;
     }
 
 

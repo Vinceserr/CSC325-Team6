@@ -1,10 +1,7 @@
 package com.mycompany.Controller;
 
-import com.mycompany.Application.App;
 import com.mycompany.Application.TaskScheduler;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
@@ -31,7 +28,6 @@ public class CalendarController implements Initializable {
 
 
     private TaskScheduler taskScheduler;
-    private App app;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -90,7 +86,7 @@ public class CalendarController implements Initializable {
     }
 
     // when the data is click, it will show all tasks it have;
-    private void handleDateClick(int clickedDate) throws Exception {
+    private void handleDateClick(int clickedDate) {
         LocalDate clickedLocalDate = LocalDate.from(dateFocus.withDayOfMonth(clickedDate));
         taskScheduler.notifyListeners(clickedLocalDate);
 
@@ -112,19 +108,15 @@ public class CalendarController implements Initializable {
 
     // check if this data has tasks
     private boolean isExist(LocalDate selectDate){
-        if(!taskScheduler.getTasksOnDate(selectDate).isEmpty()){
-            return true;
-        }
-        return false;
+        return !taskScheduler.getTasksOnDate(selectDate).isEmpty();
     }
 
     /**
      * monthBackButton:
      * This button moves one-month backwards
-     * @param event
      */
     @FXML
-    void monthBackButton(ActionEvent event){
+    void monthBackButton(){
         dateFocus = dateFocus.minusMonths(1);
         schedulePane.getChildren().clear();
         drawCalendar();
@@ -132,16 +124,12 @@ public class CalendarController implements Initializable {
     /**
      * forwardOneMonth:
      * This button moves one-month forward
-     * @param event
      */
     @FXML
-    void  forwardOneMonth(ActionEvent event){
+    void  forwardOneMonth(){
         dateFocus = dateFocus.plusMonths(1);
         schedulePane.getChildren().clear();
         drawCalendar();
-    }
-    public void setApp(App app){
-        this.app = app;
     }
 
     public void setTaskScheduler(TaskScheduler taskScheduler){
