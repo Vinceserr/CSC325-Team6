@@ -17,25 +17,20 @@
             <Font name="Arial Rounded MT Bold" size="40.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="152.0" text="Start Time:" />
-      <Label layoutX="72.0" layoutY="204.0" text="End Time:" />
-      <HBox layoutX="219.0" layoutY="147.0" spacing="10.0">
-         <children>
-            <ComboBox fx:id="genStartHours" layoutX="259.0" layoutY="147.0" prefHeight="30.0" prefWidth="75.0" promptText="00" />
-            <ComboBox fx:id="genStartMinutes" prefHeight="30.0" prefWidth="75.0" promptText="00" />
-         </children>
-      </HBox>
-      <HBox layoutX="219.0" layoutY="199.0" spacing="10.0">
-         <children>
-            <ComboBox fx:id="genEndHours" layoutX="259.0" layoutY="199.0" prefHeight="30.0" prefWidth="75.0" promptText="00" />
-            <ComboBox fx:id="genEndMinutes" prefHeight="30.0" prefWidth="75.0" promptText="00" />
-         </children>
-      </HBox>
-      <Button layoutX="192.0" layoutY="405.0" mnemonicParsing="false" onAction="#onStartPress" text="Start" />
-      <Label fx:id="alarmTime" layoutX="50.0" layoutY="244.0" prefHeight="71.0" prefWidth="376.0" text="00:00:00">
+      <Label layoutX="74.0" layoutY="157.0" text="End Time:">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <HBox layoutX="219.0" layoutY="147.0" spacing="10.0" />
+      <HBox layoutX="219.0" layoutY="199.0" spacing="10.0" />
+      <Button layoutX="66.0" layoutY="367.0" mnemonicParsing="false" onAction="#onStartPress" prefHeight="70.0" prefWidth="126.0" text="Start" />
+      <Label fx:id="alarmTime" layoutX="50.0" layoutY="215.0" prefHeight="71.0" prefWidth="376.0" text="00:00:00">
          <font>
             <Font size="91.0" />
          </font>
       </Label>
+      <Button layoutX="284.0" layoutY="367.0" mnemonicParsing="false" onAction="#onStopPress" prefHeight="70.0" prefWidth="126.0" text="Stop" />
+      <ComboBox fx:id="genEndHours" layoutX="321.0" layoutY="158.0" prefHeight="30.0" prefWidth="75.0" promptText="00" />
+      <ComboBox fx:id="genEndMinutes" layoutX="219.0" layoutY="158.0" prefHeight="30.0" prefWidth="75.0" promptText="00" />
    </children>
 </AnchorPane>

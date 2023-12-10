@@ -5,29 +5,25 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class UserPrefsController {
-
-    @FXML private ComboBox<String> genStartHours;
-    @FXML private ComboBox<String> genStartMinutes;
 
     @FXML private ComboBox<String> genEndHours;
     @FXML private ComboBox<String> genEndMinutes;
 
     @FXML private Label alarmTime;
 
-    private LocalDateTime genStartTime;
     private LocalDateTime genEndTime;
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private Timeline clock;
 
     public void initialize(){
         setTimeOfComboBox();
@@ -37,66 +33,100 @@ public class UserPrefsController {
 
     @FXML
     void onStartPress() {
-        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> updateLabel()),
+        clock = new Timeline(new KeyFrame(Duration.ZERO, e -> updateLabel()),
                 new KeyFrame(Duration.seconds(1)));
         clock.setCycleCount(Timeline.INDEFINITE);
         clock.play();
     }
+
+    @FXML
+    void onStopPress() {
+        clock.stop();
+    }
     private void setTimeToNow() {
         LocalDateTime now = LocalDateTime.now();
 
-        genStartHours.setValue(String.valueOf(now.getHour()));
-        genStartMinutes.setValue(String.valueOf(now.getMinute()));
-        genEndHours.setValue(String.valueOf(now.getHour()));
-        genEndMinutes.setValue(String.valueOf(now.getMinute()));
+        genEndHours.setValue(String.format("%02d", now.getHour()));
+        genEndMinutes.setValue(String.format("%02d", now.getMinute()));
     }
+
     private void updateLabel() {
-        LocalDateTime now = LocalDateTime.now();
-        genStartTime = now;
-       // alarmTime.setText(formatter.format(now));
         updateAlarmTimeLabel();
-        checkAlarm(now);
         setAlarm();
     }
 
     private void setAlarm() {
-        if (genEndHours.getValue() != null && genEndMinutes.getValue() != null) {
-            genEndTime = LocalDateTime.of(genStartTime.toLocalDate(),
-                    LocalTime.of(Integer.parseInt(genEndHours.getValue()), Integer.parseInt(genEndMinutes.getValue())));
+        try {
+            LocalDate today = LocalDate.now();
+            if (genEndHours.getValue() != null && genEndMinutes.getValue() != null) {
+                LocalTime newEndTime = LocalTime.of(Integer.parseInt(genEndHours.getValue()), Integer.parseInt(genEndMinutes.getValue()));
+                LocalDateTime newGenEndTime = LocalDateTime.of(today, newEndTime);
+
+                // only update when genEndTime is change
+                if (newGenEndTime.equals(genEndTime)) {
+                    return;
+                }
+
+                genEndTime = newGenEndTime;
+                updateAlarmTimeLabel(); // update alarmTime
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format in ComboBox");
         }
     }
 
-    private void checkAlarm(LocalDateTime now) {
-        if (now.equals(genEndTime)) {
-            System.out.println("Alarm! " + genEndTime.format(formatter));
+    private void checkAlarm() {
+        if (alarmTime.getText().equals("00:00:00")) {
+            clock.stop();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Time's Up!");
+            alert.setHeaderText(null);
+            alert.setContentText("The time has been reached!");
+
+            alert.show();
         }
     }
     private void updateAlarmTimeLabel() {
-        if (genStartTime != null && genEndTime != null && genStartTime.isBefore(genEndTime)) {
-            long hours = genStartTime.until(genEndTime, ChronoUnit.HOURS);
-            long minutes = genStartTime.until(genEndTime, ChronoUnit.MINUTES) % 60;
-            long seconds = genStartTime.until(genEndTime, ChronoUnit.SECONDS) % 60;
+        if (genEndTime == null) {
+            return;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime endDateTime = LocalDateTime.of(now.toLocalDate(), LocalTime.from(genEndTime));
+
+        // check current time is after than genEndTime
+        if (now.toLocalTime().isAfter(genEndTime.toLocalTime())) {
+            // if current is after genEndTime，than set genEndTime is next day
+            endDateTime = LocalDateTime.of(now.toLocalDate().plusDays(1), LocalTime.from(genEndTime));
+        } else {
+            endDateTime = LocalDateTime.of(now.toLocalDate(), LocalTime.from(genEndTime));
+        }
+        if (now.isBefore(endDateTime)) {
+            long hours = now.until(genEndTime, ChronoUnit.HOURS);
+            long minutes = now.until(genEndTime, ChronoUnit.MINUTES) % 60;
+            long seconds = now.until(genEndTime, ChronoUnit.SECONDS) % 60;
             alarmTime.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
         } else {
             alarmTime.setText("00:00:00");
+
         }
+        checkAlarm();
     }
 
     private void setTimeOfComboBox(){
-        ObservableList<String> hours = FXCollections.observableArrayList();
-        ObservableList<String> minutes = FXCollections.observableArrayList();
+        ObservableList<String> hours = generateTimeList(24);
+        ObservableList<String> minutes = generateTimeList(60);
 
-        for (int hour = 0; hour < 24; hour++) {
-            hours.add(String.format("%02d", hour));
-        }
-        for (int minute = 0; minute < 60; minute++) {
-            minutes.add(String.format("%02d", minute));
-        }
-
-        genStartHours.setItems(hours);
-        genStartMinutes.setItems(minutes);
         genEndHours.setItems(hours);
         genEndMinutes.setItems(minutes);
+    }
+    // used to set the hours and minutes
+    private ObservableList<String> generateTimeList(int max) {
+        ObservableList<String> timeList = FXCollections.observableArrayList();
+        for (int i = 0; i < max; i++) {
+            timeList.add(String.format("%02d", i));
+        }
+        return timeList;
     }
 
 }
