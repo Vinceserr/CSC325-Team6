@@ -69,6 +69,12 @@ public class AddTaskController {
                 endTime.getItems().add(hour + ":" + minute + " AM");
             }
         }
+        for(int i = 0; i< 60; i+= 15) {
+            String minute = (i < 10) ? "0" + i : String.valueOf(i);
+
+            startTime.getItems().add("12:" + minute + " PM");
+            endTime.getItems().add("12:" + minute + " PM");
+        }
 
         for (int i = 1; i < 12; i++) {
             for (int j = 0; j < 60; j += 15) {

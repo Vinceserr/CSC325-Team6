@@ -99,8 +99,6 @@ public class signupController {
             data.put("name", usernameTF);
             data.put("password", passwordTF);
             ApiFuture<WriteResult> result = docRef.set(data);
-            //print statement to see if user was added to the database
-            System.out.println("UserAdded");
             return true;
         }
         //if user already registered then he/she cant register again

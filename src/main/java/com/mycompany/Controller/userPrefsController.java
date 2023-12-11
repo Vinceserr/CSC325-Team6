@@ -108,7 +108,6 @@ public class userPrefsController {
         userPrefs prefs = new userPrefs(timeToLocalTime(genStartTime.getValue()), timeToLocalTime(genEndTime.getValue()), parseDurationString(maxStudyTime.getValue()));
         saveUserPrefs(prefs.toString());
         //Used to test the save and load methods
-        System.out.println(getEmail());
         System.out.println(getUserPrefs());
     }
     // Helper method to convert formatted time string to LocalTime

@@ -156,7 +156,6 @@ public class studyTopicsController {
         // the appConfigProperties file and prints the studyTopics and email
         saveStudyTopics(topics.toString());
         System.out.println(getStudyTopics());
-        System.out.println(getEmail());
     }
 
     /**

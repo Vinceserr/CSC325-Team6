@@ -55,7 +55,6 @@ public class MainScheduleController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Testing (Will print the current email)
-        System.out.println(getEmail());
         dateFocus = ZonedDateTime.now();
         today = ZonedDateTime.now();
         drawCalendar();
@@ -74,9 +73,6 @@ public class MainScheduleController implements Initializable{
                 (obs, oldVal, newVal) ->{
                     try {
                         showEventDetail(newVal);
-                        if(newVal == null){
-                            System.out.println("newVal is null");
-                        }
                         deleteTaskButton.setOnAction(e->deleteEvent(newVal));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -300,7 +296,6 @@ public class MainScheduleController implements Initializable{
         if(!taskObservableList.isEmpty()){
             taskObservableList.remove(task);
         }
-        System.out.println("delete: "+ task.getTitle());
     }
 
 }
